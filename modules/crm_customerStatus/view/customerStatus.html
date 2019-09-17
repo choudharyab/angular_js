@@ -1,0 +1,158 @@
+<style>
+    .ui-corner-all,
+    .ui-corner-bottom,
+    .ui-corner-right,
+    .ui-corner-br {
+        z-index: 999 !important;
+    }
+</style>
+<style>
+	.approve_color{
+		color:#A7270C
+	}
+</style>
+<!--http://alasql.org/console/alasql.min.js-->
+<!--http://alasql.org/console/xlsx.core.min.js-->
+<section class="page-content">
+    <div class="page-content-inner">
+
+
+
+        <!-- Dashboard -->
+        <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="panel panel-with-borders m-b-0">
+                        <div class="panel-body">
+                            <div class="nav-tabs-horizontal margin-bottom-2">
+
+                                <div align="right">
+                                   <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 text-x">
+                                        <img class="headsectionimages" src="assets/headerimages/customer sevice bill.png">Customer Status
+                                    
+                                    </div>
+                                    
+                                </div>
+                                <div class="right serchlist margin-left-40 col-lg-4 col-md-4 col-sm-4 col-xs-12" align="right">
+                                        <div class="search-block">
+                                            <div class="form-input-icon form-input-icon-right">
+                                                <i class="icmn-search"></i>
+                                                        <input class="form-control form-control-sm form-control-rounded" capitalize placeholder="Search..." type="text" ng-model="filter_customer_list">
+                                                            <button class="search-block-submit " type="submit"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="table_dis sb-container container-example1 hei1 topupmm">
+                                <!--sb-container container-example1 hei-->
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr class="colorhead">
+                                            <th>Sr No</th>
+                                            <th>Customer Name</th>
+                                            <th>Ticket ID</th>
+                                            <th>Mobile No.</th>
+                                            <th>Vehicle No.</th>
+                                            <th>Vehicle Make</th>
+                                            <th>Service Provided</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                   
+                                    <tbody>
+                                        <tr ng-repeat="data in customer_list | filter: filter_customer_list">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.case_customer.customer_name}}</td>
+                                            <td>{{data.ticket_no}}</td>
+                                            <td>{{data.case_customer.mobile_no}}</td>
+                                            <td>{{data.case_customer.vehicle_reg_no}}</td>
+                                            <td>{{data.case_customer.vehicle_make}}</td>
+                                            <td>{{data.service[0].service_name}}</td>
+                                            <td><a ng-show="current_module_rights[0].status" ng-click="block_customer(data.id,data.case_customer.customer_status)">
+                                                <i class="fa fa-ban font_six" title="Block" aria-hidden="true" ng-class="{approve_color:data.case_customer.customer_status=='block'}"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <center>
+
+                            </center>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <br/>
+
+
+        <!-- End Dashboard -->
+
+    </div>
+
+</section>
+
+
+<!-- modal start -->
+
+
+
+
+<!-- modal start -->
+
+<script>
+    $('#datetimepicker1').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040',
+        // defaultDate: '2015-01-01',
+        dateFormat:'dd/mm/yy'
+
+    });
+    $('#datetimepicker2').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040',
+        // defaultDate: '2015-01-01',
+        dateFormat:'dd/mm/yy'
+
+    });
+    $("#tblExport").click(function () {
+
+        $("#table2excel").table2excel({
+            // exclude CSS class
+            //exclude: ".noExl",
+            name: "Worksheet Name",
+            //fileext: ".xlsx",
+            filename: "Scrutiny_sheet" //do not include extension
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#table2excel").tableHeadFixer();
+    });
+</script>
+
+<div class="modal fade" id="approve_msg" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">{{heading_msg}}</h4>
+			</div>
+			<div class="modal-body">
+				<div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div>
+				<br/>
+				<center>
+					<button type="button" ng-click="block()" ng-show="approve_btn" class="btn btn-primary-outline margin-inline">Yes</button></center>
+			</div>
+		</div>
+	</div>
+</div>

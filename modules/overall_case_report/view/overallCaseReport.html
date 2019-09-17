@@ -1,0 +1,199 @@
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{    z-index: 999 !important;}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/masters.png">Overall Case Report</div>
+						<div class="right  margin-left-40 col-lg-2 col-md-2 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input ng-model="filter_case_data" class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+					<button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline" type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+						<div class="col-lg-3 col-md-1 col-sm-3 col-xs-12 ">&nbsp;</div>
+						<div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' >
+                                <input type='text' class="form-control border_none" id='datetimepicker1' ng-model="from_date" placeholder="From"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date'>
+                                <input type='text' class="form-control border_none"  id='datetimepicker2' ng-model="to_date" placeholder="To"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text_d1">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                        <b>Location :</b>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                            <select class="form-control border_none color_f" name="client_location" ng-model="company_id" ng-change="getOverallCaseData()">
+                                                    <option value="" ng-selected="selected">Select Location</option>
+                                                    <option ng-repeat="data in company_list" value="{{data.id}}">{{data.city}},{{data.state_name}}</option>
+                                                    
+                                                </select>
+                                    </div>
+                        </div>
+					<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                         <button ng-click="getOverallCaseData()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                       </div>
+                       
+				<!-- 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 repor_p"><b>Total Amount :</b> <i class="fa fa-inr"></i> &nbsp;54111.0</div> -->
+						</div>
+				
+                        </div>
+                        </div>
+                        <div class="clearfix"></div><br/>
+                        <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                            <b>
+                            <div class=" col-lg-3 col-md-4 col-sm-4 col-xs-3">
+                                <span style="color:chocolate">Total Cases Punched :</span>
+                                <span>{{count_data.case_count}}</span>
+                            </div>
+                            <div class=" col-lg-3 col-md-4 col-sm-4 col-xs-3">
+                                <span style="color:blue">Case Activated :</span>
+                                <span>{{count_data.activatedsheet}}</span>
+                            </div>
+                            <div class=" col-lg-3 col-md-4 col-sm-4 col-xs-3">
+                                <span style="color:red">ETA Crossed :</span>
+                                <span>{{count_data.ETAsheet}}</span>
+                            </div>  
+                            <div class=" col-lg-3 col-md-4 col-sm-4 col-xs-3">
+                                <span style="color:green">Case Closed :</span>
+                                <span>{{closed_cases}}</span>
+                            </div>
+                            </b>
+                        </div>
+                        <div class="clearfix"></div><br/>
+                    <div class="table_dis sb-container container-example1 hei1"><!--sb-container container-example1 hei-->
+                        <table class="table table-hover table-bordered" id="table2excel">
+                            <thead>
+                                    <tr class="colorhead">
+                                        <th>Sr. No.</th>
+                                            <th>Case No.</th>
+                                            <th>Case Date</th>
+                                            <th>Ticket ID</th>
+                                            <th>Client Name</th>
+                                            <th>Service Type</th>
+                                            <th>Customer Name</th>
+                                             <th>Vehicle No.</th>
+                                             <th>Vehicle Name</th>
+                                             <th>Fleet Allotted</th>
+                                             <th>Driver Name</th>
+                                            </tr>
+                            </thead>
+                            
+                            <tbody>
+                                 <tr ng-repeat='data in case_data | filter: filter_case_data'>
+                                     <td>{{$index+1}}</td>
+                                        <td>{{data.case_no}}</td>
+                                        <td>{{data.case_date}}</td>
+                                         <td>{{data.ticket_no }}</td>
+                                         <td>{{data.client_name }}</td>
+                                         <td>{{data.service[0].service_name}}</td>
+                                         <td>{{data.case_customer.customer_name }}</td>
+                                         <td>{{data.case_customer.vehicle_reg_no }}</td>
+                                         <td>{{data.case_customer.vehicle_make }}</td>
+                                         <td>{{data.fleet.fleet_code}}-{{data.fleet.make}}</td>
+                                         <td>{{data.driver_name }}</td>
+                                </tr>
+                           
+                          
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+               <center>
+			  <!-- <button class="btn btn-rounded btn-primary-outline margin-inline" type="button">
+<i class="fa fa-print" aria-hidden="true"></i>
+
+Print
+</button>-->
+			   </center>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+
+
+<!-- modal start -->
+	<script>
+    $('#datetimepicker1').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat:'dd/mm/yy'
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat:'dd/mm/yy'
+     // defaultDate: '2015-01-01',
+
+});
+$("#tblExport").click(function(){
+
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    //exclude: ".noExl",
+    name: "Worksheet Name",
+    //fileext: ".xlsx",
+    filename: "overall_case_report" //do not include extension
+  }); 
+});
+</script>
+<script>
+            $(document).ready(function() {
+                $("#table2excel").tableHeadFixer(); 
+            });
+        </script>

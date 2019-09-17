@@ -1,0 +1,159 @@
+<style>
+ .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+ .textcolor{color:#514d6a;}
+ @media(min-width: 1367px) and (max-width: 1920px){
+ .hei { max-height: 467px !important;}
+} 
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-x">
+                              <!-- <img class="headsectionimages" src="assets/headerimages/balancesheet.png">  Ledger <br> -->
+                              <img class="headsectionimages" src="assets/headerimages/balancesheet.png">  Ledger <br>
+                              <div class="clearfix"></div>
+                              <div id="ledger_add_success" style="color: green;font-size: 15px;" class="formessage_display">{{led_success}}</div>
+                              <div id="ledger_delete_success" style="color: red;font-size: 15px;" class="formessage_display">{{led_del_success}}</div>
+                           </div>
+                           <!-- <div class="right hidden-md-down margin-left-40 col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_ledger">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div> -->
+            <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                <div class="search-block">
+                  <div class="form-input-icon form-input-icon-right">
+                    <i class="icmn-search"></i>
+                        <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_ledger">
+                          <button class="search-block-submit " type="submit"></button>
+                  </div>
+                </div>
+            </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example4" type="button" ng-click="clear_sub_ledger_modal_data()"><i class="fa fa-plus" aria-hidden="true"></i> Add Ledger</button>
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     
+                     <div class="sb-container container-example1 hei1">
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th>Sr No.</th>
+                                            <!-- <th>Date</th> -->
+                                            <th>Ledger Name</th>
+                                            <th>Ledger Type</th>
+                                            <th>Opening Balance</th>
+                                            <th>Amount Mode</th>
+                                           
+                      <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="sub_ledger_list in sub_ledger_lists | filter:filter_ledger" >
+                                            <td class="ng-binding">{{$index+1}}</td>
+                                            <!-- <td class="ng-binding"></td> -->
+                                            <td class="ng-binding">{{sub_ledger_list.ledger_name}}</td>
+                                            <td class="ng-binding">{{sub_ledger_list.subgroup_name}}</td>
+                                            <td class="ng-binding">{{sub_ledger_list.opening_balance}}</td>
+                                            <td class="ng-binding">{{sub_ledger_list.amount_mode}}</td>
+                                            <td><a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#example4" ng-click="edit_sub_ledger_details($index)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i>|</a>
+                                           <a ng-show="current_module_rights[2].status" ng-click="delete_sub_ledger_details(sub_ledger_list.id)"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a>
+                                           </td>
+                                         </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <!-- End Dashboard -->
+   </div>
+</section>
+
+<div class="modal fade modal-size-large"  id="example4" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header bgcolor">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+           <h4 class="modal-title" id="myModalLabel">Add Ledger</h4>
+           <span id="add_sub_ledger_detail_success" style="color: green;font-size: 15px;" class="formessage_display">{{add_sub_ledger_detail_success}}</span>
+        </div>
+        <div class="modal-body">
+           <div class="nav-tabs-horizontal">
+              <div class="tab-content padding-vertical-20">
+                 <div class="tab-pane active" id="home1" role="tabpanel">
+                  <form  ng-keyup="$event.keyCode == 13 ? enterPressedForGroup() : null">
+                    <div   class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                      <div  ng-class="{label_display : active_lable}" class=" label_none">Sub Group Type</div> 
+                                      <select class="form-control border_none color_f" ng-change="select_ledger_type()" ng-model="ledger_id" ng-check="check_what_selected()">
+                                          <option value="">Select Sub Group Type</option>
+                                          <option value="{{led_list.id}}" ng-repeat="led_list in  ledgerList">{{led_list.subgroup_name}}</option>
+                                      </select>
+                        </div>
+              
+                        <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div  ng-class="{label_display : active_lable}" class=" label_none">Ledger Name</div>
+                            <!-- add for edit button click class 'label_display' -->
+                            <input  class="form-control border_none" placeholder="Ledger Name" type="text" ng-model="sub_ledger_name" uppercased>
+                          </div>
+
+                          <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div  ng-class="{label_display : active_lable}" class=" label_none">Opening Balance</div>
+                            <!-- add for edit button click class 'label_display' -->
+                            <input  class="form-control border_none" placeholder="Opening Balance" type="text" ng-model="opening_balance" uppercased>
+                          </div>
+                          <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+                            <div  ng-class="{label_display : active_lable}" class=" label_none">Amount Mode</div>
+                             <!-- add for edit button click class 'label_display' -->
+                             <select class="form-control border_none color_f" ng-model="amount_mode">
+                                <option value="">Select Amount Mode</option>
+                                <option ng-selected="amount_mode=='Credit'" value="Credit">Credit</option>
+                                <option ng-selected="amount_mode=='Debit'" value="Debit">Debit</option>
+                             </select>
+                          </div>
+         
+                      
+                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <center>
+                             <button class="btn btn-success-outline margin-inline" type="button" ng-click="save_sub_ledger_details()" ng-show="show_save_sub_ledger">
+                             <span class="top_p"><i class="icmn-share2"></i></span> Save
+                             </button>
+                             <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_sub_ledger_details()" ng-show="show_edit_sub_ledger">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                 </button>
+                          </center>
+                       </div>
+                     </form>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="clearfix"></div>
+        <!--   <div class="modal-footer bgcolor">
+           <button type="button" class="btn" data-dismiss="modal">Close</button>
+           
+           </div>-->
+     </div>
+  </div>
+  </div>

@@ -1,0 +1,188 @@
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{    z-index: 999 !important;}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/masters.png">AWP Toll Report</div>
+						<div class="right  margin-left-40 col-lg-2 col-md-2 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input ng-model="filter_cash_client_data" class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+					<button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline" type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+						
+						<div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' >
+                                <input type='text' class="form-control border_none" id='datetimepicker1' ng-model="from_date" placeholder="From"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date'>
+                                <input type='text' class="form-control border_none"  id='datetimepicker2' ng-model="to_date" placeholder="To"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+					<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                         <button ng-click="awp_toll_report_data()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                       </div>
+
+          <div class="col-lg-3 col-md-5 col-sm-3 col-xs-12 text_d1">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                          <b>Client Location :</b>
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                          <select class="form-control border_none color_f " ng-model="location_id" ng-change="awp_toll_report_data()">
+                              <option value="">--Select Location--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                              <option ng-repeat="data in location_details" value="{{data.id}}">{{data.city}},{{data.state_name}}</option><!-- end ngRepeat: a in ledgerTypeList -->
+                          </select>
+                      </div>
+           </div>
+          
+          <div class="col-lg-3 col-md-5 col-sm-3 col-xs-12 text_d1">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                        <b>Service Type :</b>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                        <select class="form-control border_none color_f " ng-model="service_id" ng-change="awp_toll_report_data()">
+                                            <option value="">--Select Service--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                            <option ng-repeat="service_list in service_details" value="{{service_list.id}}">{{service_list.service_name}}</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                        </select>
+                                    </div>
+                        </div>
+
+
+				<!-- 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 repor_p"><b>Total Amount :</b> <i class="fa fa-inr"></i> &nbsp;54111.0</div> -->
+						</div>
+				
+                        </div>
+                        </div>
+                        
+                      
+                        <div class="clearfix"></div><br/>
+                    <div class="table_dis sb-container container-example1 hei1"><!--sb-container container-example1 hei-->
+                        <table class="table table-hover table-bordered" id="table2excel">
+                            <thead>
+                               <tr class="colorhead">
+                                <th>Sr. No.</th>
+                                    <th>Case Activation Date</th>
+                                    <th>Case No</th>
+                                    <th>Ticket No.</th>
+                                    <th>Customer Name</th>
+                                    <th>Breakdown Location</th>
+                                    <th>Client Location</th>
+                                     <th>Toll Tax</th>
+                                     <th>IGST</th>
+                                     <th>Grand Total <span class="c_g1" style="font-weight:normal; text-align:center">{{total_amount}}</span> </th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                 <tr ng-repeat='listing in awp_toll_data | filter: filter_cash_client_data' ng-if="listing.toll_amount > 0 && listing.toll_amount !=null">
+                                     <td>{{$index+1}}</td>
+                                        <td>{{listing.case_activation_time}}</td>
+                                        <td>{{listing.case_no}}</td>
+                                         <td>{{listing.ticket_no }}</td>
+                                         <td>{{listing.customer_name}}</td>
+                                         <td>{{listing.breakdown_location}}</td>
+                                         <td>{{listing.client_address}}</td>
+                                         <td>{{listing.toll_amount }}</td>
+                                         <td>{{listing.toll_tax_amount}}</td>
+                                         <td>{{listing.total_toll_amount}}</td>
+                                </tr>
+							
+                            </tbody>
+                        </table>
+                    </div>
+               <center>
+			  <!-- <button class="btn btn-rounded btn-primary-outline margin-inline" type="button">
+<i class="fa fa-print" aria-hidden="true"></i>
+
+Print
+</button>-->
+			   </center>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+
+
+<!-- modal start -->
+	<script>
+    $('#datetimepicker1').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat:'dd/mm/yy'
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat:'dd/mm/yy'
+     // defaultDate: '2015-01-01',
+
+});
+$("#tblExport").click(function(){
+
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    //exclude: ".noExl",
+    name: "Worksheet Name",
+    //fileext: ".xlsx",
+    filename: "awp_toll_report" //do not include extension
+  }); 
+});
+</script>
+<script>
+            $(document).ready(function() {
+                $("#table2excel").tableHeadFixer(); 
+            });
+        </script>

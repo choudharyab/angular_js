@@ -1,0 +1,809 @@
+<style>
+	.approve_color{
+		color:#0088ff
+	}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+<!-- <div style="display:none" class="loading">Loading&#8230;</div> -->
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/enquiry.png"> Lead Management
+								<div id="delete_lead" style="color: red;font-size: 15px" class="formessage_display">{{delete_lead_msg}}</div>
+                            	<div id="leadSuccess" style="color: green;font-size: 15px" class="formessage_display">{{lead_success}}</div>
+						</div>
+						<div class="right  margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_lead_list">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				<button ng-show="current_module_rights[0].status" ng-click="OpenPop()" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add Lead</button>
+                        </div>
+                        </div>
+				
+				<div class="sb-container container-example1 hei1 topupmm">
+						<div class="table_dis" id="fixedheader">
+                        	<table class="table table-hover table-bordered">
+                            	<thead>
+                                	<tr class="colorhead">
+                                			<th>Lead No</th>
+											<th>Data Created</th>
+											<th>Lead From</th>
+											<th>Company Name</th>
+											<th>Contact Person</th>
+											<th>Contact No.</th>
+											<th>Email</th>
+											<th>Address</th>
+											<th>Interested</th>
+											<th>Comments</th>
+											<th class="rport_www">Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="data in leadData | filter: filter_lead_list">
+											<td>{{data.lead_number}}</td>
+											<td><a href="" style="color:#000;" ng-click="view_follow_up_record(data.lead_followup_details)">{{data.date_created}}</a></td>
+											<td><a href="" style="color:#000;" ng-click="view_follow_up_record(data.lead_followup_details)">{{data.lead_from}}</a></td>
+											<td><a href="" style="color:#000;" ng-click="view_follow_up_record(data.lead_followup_details)">{{data.company_name}}</a></td>
+											<td>{{data.contact_person}}</td>
+											<td>{{data.contact_no}}</td>
+											<td>{{data.email_id}}</td>
+											<td>{{data.address}}</td>
+											<td>{{data.interested}}</td>
+											<td>{{data.comments}}</td>
+											<td>
+												<!-- <a href="" ng-click="lead_permission_popup(data.id,data.comment_status,'edit')" > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a>-->
+												<a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#example2" ng-click="get_data_by_id(data.id)" > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a>  
+												|
+												<!-- <a href="" ng-click="lead_permission_popup(data.id,data.delete_status,'delete')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a>  -->
+												<a ng-show="current_module_rights[2].status" ng-bootbox-confirm="Are you sure to delete this lead details?"
+												ng-bootbox-confirm-action="delete_lead_data(data.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a>												|
+												<!-- <a href=""> <i class="fa fa-thumbs-up font_six" aria-hidden="true"  title="Deal Done" aria-hidden="true"></i>|</a> -->
+												<a ng-show="current_module_rights[3].status"> <i class="fa fa-file-text font_six" aria-hidden="true"  title="Add Follow Up" aria-hidden="true" ng-click="get_lead_data_by_id(data.id,data.followup_deal_status)" ng-class="{approve_color:data.followup_deal_status=='true'}"></i></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<!--<h5 style="cursor:pointer" class="load-more" ng-show="showLoadmore" ng-click='listLeadManagement()'>{{ buttonText }}</h5>
+								<input type="hidden" id="row" ng-model='row'>-->
+						  </div>
+               			</div>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<br/>
+<style>
+	.load-more {
+		color: darkslategrey;
+		text-align: center
+	}
+</style>
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!--add lead modal start -->
+	<div class="modal fade modal-size-large" id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Add Lead</h4>
+				<span id="leadError">{{lead_error}}</span>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="leadManagementA">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Company Name</div>
+											<input class="form-control border_none" placeholder="Company Name" name="company_name" ng-model="add_lead.company_name"  type="text" ng-required="true" capitalize>
+
+											<div ng-messages="leadManagementA.company_name.$error" ng-show="leadManagementA.company_name.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead From</div>
+											<input class="form-control border_none" placeholder="Lead From"  name="lead_from" ng-model="add_lead.lead_from"  type="text" ng-required="true" capitalize>
+
+											<div ng-messages="leadManagementA.lead_from.$error" ng-show="leadManagementA.lead_from.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+
+										</div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Type</div>
+												<select class="form-control border_none select" name="company_type" ng-model="add_lead.company_type"  type="text" ng-required="true">
+											  	 <option value="">Select Type</option>
+											  	 <option value="new">New</option>
+											  	 <option value="new">Old</option>
+												</select>
+
+											<div ng-messages="leadManagementA.company_type.$error" ng-show="leadManagementA.company_type.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contact Person</div>
+											<input class="form-control border_none" placeholder="Contact Person" name="contact_person" ng-model="add_lead.contact_person"  type="text" ng-required="true" capitalize>
+
+											<div ng-messages="leadManagementA.contact_person.$error" ng-show="leadManagementA.contact_person.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contact Number</div>
+											<input class="form-control border_none" placeholder="Contact Number" name="contact_no" ng-model="add_lead.contact_no"  type="text" ng-required="true">
+											
+											<div ng-messages="leadManagementA.contact_no.$error" ng-show="leadManagementA.contact_no.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Email </div>
+											<input class="form-control border_none homelower" placeholder="Email" type="Email" name="email_id" ng-model="add_lead.email_id"  ng-required="true">
+
+											<div ng-messages="leadManagementA.email_id.$error" ng-show="leadManagementA.email_id.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead Added By </div>
+											<input class="form-control border_none homelower" id="auto_lead_id1" placeholder="Lead Added By" type="text" name="lead_by" ng-model="add_lead.lead_by"  ng-required="true" ng-keyup="get_lead_by1()">
+
+											<div ng-messages="leadManagement.lead_by.$error" ng-show="leadManagement.lead_by.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+													
+										</div>
+										<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Address</div>
+										<textarea  placeholder="Address" rows="3" class="form-control" name="address" ng-model="add_lead.address"  ng-required="true" capitalize></textarea>
+
+										<div ng-messages="leadManagementA.address.$error" ng-show="leadManagementA.address.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+									</div>
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none" style="margin-top: 6px;">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none">Date Created </div>
+													<input type="text" placeholder="Date Created" class="form-control border_none " name="date_created" ng-model="add_lead.date_created"  id="datetimepicker1">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+												<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none" style="margin-top: 6px;">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none">Date Modified </div>
+													<input type="text" placeholder="Date Modified" class="form-control border_none" name="date_modified" ng-model="add_lead.date_modified" id="datetimepicker2">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div class="top_t1 col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										<b>Interested</b>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+										<div class="form-group">
+										<div class="radio">
+											<label>
+											<input name="example1" type="radio" name="interested" ng-model="add_lead.interested" value="yes">
+											Yes
+											</label>
+										</div>
+										</div>
+									</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+											<div class="form-group">
+											<div class="radio">
+											<label>
+											<input name="example1" type="radio" name="interested" ng-model="add_lead.interested" value="no">
+											No
+											</label>
+											</div>
+											</div>
+								</div>
+									
+								</div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+										<div  ng-class="{label_display : active_lable}" class="label_none">Comments</div>
+										<textarea  placeholder="Comments" rows="3" class="form-control" name="comments" ng-model="add_lead.comments"  ng-required="true" capitalize></textarea>
+
+										<div ng-messages="leadManagementA.comments.$error" ng-show="leadManagementA.comments.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+									</div>
+								
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<center>
+									<button class="btn btn-success-outline margin-inline" type="button" ng-click="addLead()" ng-disabled="leadManagementA.$invalid">
+									<span class="top_p"><i class="icmn-share2"></i></span> Save
+									</button>
+								</center>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--<div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+</div>
+<!-- add lead modal end -->
+
+<!--update lead modal start -->
+	<div class="modal fade modal-size-large" id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Update Lead</h4>
+				<span id="leadError">{{lead_error}}</span>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="leadManagement">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<input type="hidden" ng-model="update_lead.id">
+									 	<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Company Name</div>
+											<input class="form-control border_none" placeholder="Company Name" name="company_name" ng-model="update_lead.company_name"  type="text" ng-required="true" capitalize>
+
+											<div ng-messages="leadManagement.company_name.$error" ng-show="leadManagement.company_name.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead From</div>
+											<input class="form-control border_none" placeholder="Lead From"  name="lead_from" ng-model="update_lead.lead_from"  type="text" ng-required="true" capitalize>
+
+											<div ng-messages="leadManagement.lead_from.$error" ng-show="leadManagement.lead_from.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+									
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Type</div>
+												<select class="form-control border_none select" name="company_type" ng-model="update_lead.company_type"  type="text" ng-required="true">
+											  	 <option value="">Select Type</option>
+											  	 <option value="New">New</option>
+											  	 <option value="Old">Old</option>
+												</select>
+
+											<div ng-messages="leadManagement.company_type.$error" ng-show="leadManagement.company_type.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contact Person</div>
+											<input class="form-control border_none" placeholder="Contact Person" name="contact_person" ng-model="update_lead.contact_person"  type="text" ng-required="true" capitalize>
+
+											<div ng-messages="leadManagement.contact_person.$error" ng-show="leadManagement.contact_person.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contact Number</div>
+											<input class="form-control border_none" placeholder="Contact Number" name="contact_no" ng-model="update_lead.contact_no"  type="text" ng-required="true" capitalize>
+											
+											<div ng-messages="leadManagement.contact_no.$error" ng-show="leadManagement.contact_no.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Email </div>
+											<input class="form-control border_none homelower" placeholder="Email" type="Email" name="email_id" ng-model="update_lead.email_id"  ng-required="true">
+
+											<div ng-messages="leadManagement.email_id.$error" ng-show="leadManagement.email_id.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead Added By </div>
+											<input class="form-control border_none homelower" id="auto_lead_id2" placeholder="Lead Added By" type="text" name="lead_by" ng-model="update_lead.lead_by"  ng-required="true" ng-keyup="get_lead_by2()">
+
+											<div ng-messages="leadManagement.lead_by.$error" ng-show="leadManagement.lead_by.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+										</div>
+													
+										</div>
+										<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Address</div>
+										<textarea  placeholder="Address" rows="3" class="form-control" name="address" ng-model="update_lead.address"  ng-required="true" capitalize></textarea>
+
+										<div ng-messages="leadManagement.address.$error" ng-show="leadManagement.address.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+									</div>
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none" style="margin-top: 6px;">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none">Data Created </div>
+													<input type="text" placeholder="Data Created" class="form-control border_none " name="date_created" ng-model="update_lead.date_created"  id="datetimepicker3">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+												<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none" style="margin-top: 6px;">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none">Data Modified </div>
+													<input type="text" placeholder="Data Modified" class="form-control border_none" name="date_modified" ng-model="update_lead.date_modified" id="datetimepicker4">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div class="top_t1 col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										<b>Interested</b>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+										<div class="form-group">
+										<div class="radio">
+											<label>
+											<input name="example1" type="radio" name="interested" ng-model="update_lead.interested" value="Yes">
+											Yes
+											</label>
+										</div>
+										</div>
+									</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+											<div class="form-group">
+											<div class="radio">
+											<label>
+											<input name="example1" type="radio" name="interested" ng-model="update_lead.interested" value="No">
+											No
+											</label>
+											</div>
+											</div>
+								</div>
+									
+								</div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+											<div  ng-class="{label_display : active_lable}" class="label_none">Comments</div>
+									
+										<textarea  placeholder="Comments" rows="3" class="form-control" name="comments" ng-model="update_lead.comments"  ng-required="true" capitalize></textarea>
+
+										<div ng-messages="leadManagement.comments.$error" ng-show="leadManagement.comments.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  	</div>
+									</div>
+								
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<center>
+										<button class="btn btn-success-outline margin-inline" type="button" ng-click="editLead()" ng-disabled="leadManagement.$invalid">
+										<span class="top_p"><i class="icmn-share2"></i></span> Update
+										</button>
+									</center>
+								</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		
+		</div>
+	</div>
+</div>
+</div>
+<!-- update lead modal end -->
+
+
+
+<style>
+    #datetimepicker1{
+        z-index:99999;
+    }
+	#datetimepicker11{
+        z-index:99999;
+    }
+	#datetimepicker2{
+        z-index:99999;
+    }
+     #datetimepicker21{
+        z-index:99999;
+    }
+     #datetimepicker3{
+        z-index:99999;
+    }
+     #datetimepicker4{
+        z-index:99999;
+    } 
+</style>
+<style>
+	.ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+	</style>
+
+<!-- header fixed -->
+<script>
+	$(document).ready(function() {
+		$("#fixedheader").tableHeadFixer(); 
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$("#fixedheader1").tableHeadFixer(); 
+	});
+</script>
+
+<script type="text/javascript">
+ $.datepicker.setDefaults({
+          dateFormat: 'yy-mm-dd',
+ });
+  
+$('#datetimepicker1').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker11').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker21').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+});
+
+$('#datetimepicker3').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker4').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+
+</script>
+
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLbel">{{title_text}}</h4>
+			</div>
+			<div class="modal-body">
+				<!--<form name="form-validation" ng-submit="generateOTP ? generate_password_function() : verify_otp()">-->
+				<form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+					<div class="form-group" ng-hide="gen_pass_div">
+						<label class="form-label">Comments</label>
+						<input class="form-control border_none"
+							   placeholder="Comment"
+							   type="text"
+							   ng-model="comment.comment" name="comments" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true">
+							   <div ng-messages="formvalidation.comments.$error" ng-show="formvalidation.comments.$dirty">
+												
+												<p ng-message="pattern" class="color_font" class="color_font">Enter Alphabet only.</p>
+								</div>
+					</div>
+					<div class="form-group" ng-show="otp_div">
+						<label class="form-label ">Enter OTP</label>
+						<input class="form-control border_none"
+							   placeholder="OTP"
+							   type="text"
+							   ng-model="otp_object.otp">
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+							<div class="col-md-6">
+								<!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+								<button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+								<button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('textarea').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+
+<div class="modal fade modal-size-large" id="add_follow_up" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Add Detail</h4>
+				<!--<span id="leadError">{{lead_error}}</span>-->
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="padding-left: 0px; ">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index: 999999;">Date </div>
+													<input type="text" placeholder="Date" class="form-control border_none " name="date_created"  id="datetimepicker11" ng-model="date">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+									<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="padding-right: 0px;">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Time</div>
+												<input class="form-control border_none" type="text" placeholder="Time" id="timepickerc" ng-model="time_of_issue">
+
+											
+
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead Number</div>
+											<input class="form-control border_none" placeholder="Search Lead Number"  name="Lead Number"  type="text" ng-model="auto_lead_code" id="auto_lead_id" ng-keyup="searchLead()">
+
+										</div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Company Name</div>
+											<input class="form-control border_none" placeholder="Company Name"  name="Comapny Name"  type="text" ng-model="company_name" capitalize>
+
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Follow Up By</div>
+											<input class="form-control border_none" id="auto_emp_code_id" placeholder="Follow Up By" type="text" ng-model="follow_up_by" ng-keyup="get_emp()" capitalize>
+
+										</div>
+
+										</div>
+										<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contacted To</div>
+											<input class="form-control border_none" placeholder="Contacted To" type="text" ng-model="contacted_to" capitalize>
+											
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index: 999999;">Next Schedule Date</div>
+													<input type="text" placeholder="Next Schedule Date" class="form-control border_none" id="datetimepicker21" ng-model="next_schedule">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												<input name="example6" type="checkbox" class="top_v" ng-model="followup_deal_status" ng-click="check_status()"> <b>Deal Done</b>
+											</div>
+
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Interaction Detail</div>
+										<textarea  placeholder="Interaction Detail" rows="3" class="form-control" name="Interaction Detail" ng-model="interaction_details" capitalize></textarea>
+
+									</div>
+										
+										
+							
+								
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+									<center>
+										<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_follow_up_sheet()" >
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+									</center>
+								</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--<div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+<div class="modal fade modal-size-large" id="follow_up_details" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Follow Up List</h4>
+				<!--<span id="leadError">{{lead_error}}</span>-->
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+											
+				<div class="sb-container container-example1 hei">
+						<div class="table_dis" id="fixedheader1">
+                        	<table class="table table-hover table-bordered">
+                            	<thead>
+                                	<tr class="colorhead">
+                                			<th>Date</th>
+											<th>Time</th>
+											<th>Follow Up By</th>
+											<th>Contacted To</th>
+											<th>Interaction Details</th>
+											<th>Next Scheduled Date</th>
+											<!-- <th>Status</th> -->
+											
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="d in follow_up_data">
+											<td>{{d.date}}</td>
+											<td>{{d.time}}</td>
+											<td>{{d.follow_up_by}}</td>
+											<td>{{d.contact_to}}</td>
+											<td>{{d.interation_details}}</td>
+											<td>{{d.next_scheduled_date}}</td>
+											<!-- <td>{{d.}}</td> -->
+
+										</tr>
+									</tbody>
+								</table>
+								
+						  </div>
+               			</div>
+							
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--<div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="modal fade" id="approve_msg" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Follow Up</h4>
+			</div>
+			<div class="modal-body">
+				<div><span id="add_edit_success" style="font-size: 15px;">The deal have already been done...Thank you..!!</span></div>
+				<br/>
+				<center>
+					<button type="button" class="btn btn-primary-outline margin-inline" data-dismiss="modal">Ok</button></center>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,480 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+       <div class="loading"></div>
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/warehouse.png">Company List
+                              <div id="wh_delete" style="color: red;font-size: 15px"  class="formessage_display">{{delete_warehouse_msg}}</div>
+                              <div id="warehouseSuccess" style="color: green;font-size: 15px"  class="formessage_display">{{warehouse_success}}</div>
+                           </div>
+                           <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_warehouseDetails">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button" ng-click="add_warehouse_buttton()" ng-show="current_module_rights[0].status"><i class="fa fa-plus" aria-hidden="true"></i> Add Company</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1 topupmm">
+                      
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th class="width_ad">Sr No.</th>
+                                    <th>Company Name</th>
+                                    <th>Address</th>
+                                    <th>Phone No.</th>
+                                    <th>City</th>
+                                    <th>Email Id</th>
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 <tr ng-repeat="details in warehouseDetails | filter:filter_warehouseDetails">
+                                    <td>{{$index+1}}</td>
+                                    <td class="tblhover">
+                                       {{details.company_name}}
+                                    </td>
+                                    <td class="tblhover">	{{details.company_address}}
+                                    </td>
+                                    <td>{{details.phone_no}}</td>
+                                    <td>{{details.city}}</td>
+                                    <td>{{details.email}}</td>
+                                    <td>
+                                        <!-- <a data-toggle="modal" data-target="#example2" ng-click="get_warehouse_details($index,details.id)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> -->
+                                       <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password">
+                                          <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="warehouse_permission_popup(details.id,details.comment_status,'edit')"></i></a> |
+                                       <!--<a ng-bootbox-confirm="Are you sure to delete this warehouse?"
+                                          ng-bootbox-confirm-action="deleteWarehouse(details.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" aria-hidden="true"></i></a>-->
+                                       <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="warehouse_permission_popup(details.id,details.delete_status,'delete')"></i></a>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- hover Details  -->
+<div class="tblcontentnew">
+   <div class="stylenew">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_bb" >
+            <b>Details :</b>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Company :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.company_name}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Phone No. :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.phone_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Alternate No. :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.alternate_phone_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <!--	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none">
+            <b>State :</b>
+            </div>	
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+            {{details.state.state_name}} {{details.state.state_code}}
+            </div>	
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+            	
+            </div>-->
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>City :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.city}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Pincode :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.pincode}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Pan No. :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.pan_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>GST No. :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.gst_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Email :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.email}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Website :</b>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none fontsize12">
+               {{details.website}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>
+<style type="text/css">
+   .stylenew{width: 53em;background-color: #fff;border:2px solid #BEB9B5 !important;padding: 10px;}
+   .tblhover{cursor: pointer;}
+   .fontsize12{font-size: 12px !important;}
+</style>
+<!-- hower details js -->
+<script type="text/javascript">
+   $.widget("ui.tooltip", $.ui.tooltip, {
+       options: {
+           content: function () {
+               return $(this).prop('title');
+           }
+       }
+   });
+   
+   $(function () {
+       $('.tblhover').attr('title', $('.tblcontentnew').remove('').html())
+       $(document).tooltip();
+   });
+</script>
+<script>
+   $(document).ready(function(){
+   //alert("hii")
+   
+   setTimeout(function(){
+     $(".tblhover").removeAttr('style');
+   },1000);
+   })
+</script>
+<!-- hower details js end-->
+<!-- hover Details -->
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-my-modal id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{warehouse_title}}</h4>
+            <span id="warehouseError">{{warehouse_error}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="formWarehouse">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Company Name</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Company Name" type="text" name="warehouse" ng-model="warehouse_details.company_name" ng-required="true" capitalize>
+                                 <div ng-messages="formWarehouse.warehouse.$error" ng-show="formWarehouse.warehouse.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none "> Company Address</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Company Address" name="address" type="text" ng-model="warehouse_details.company_address" ng-required="true" capitalize>
+                                 <div ng-messages="formWarehouse.address.$error" ng-show="formWarehouse.address.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">City</div>
+                                 <input class="form-control border_none uppercase" placeholder="City" type="text" ng-model="warehouse_details.city" name="city" ng-required="true" capitalize>
+                                 <div ng-messages="formWarehouse.city.$error" ng-show="formWarehouse.city.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">State </div>
+                                 <select class="form-control border_none color_f" data-ng-model="state_id" name="state"  >
+                                    <option value="">Select State</option>
+                                    <option ng-repeat="data in state_list" value="{{data.id}}" ng-selected="state_id.id==data.id">{{data.state_with_code}}</option>
+                                 </select>
+                                 <div class="error-container" ng-show="formWarehouse.state.$dirty && formWarehouse.state.$invalid" ng-messages="formWarehouse.state.$error">ng-required="true"
+                                    <div class="error color_font" ng-message="required">This field is required.</div>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Country </div>
+                                 <input class="form-control border_none uppercase" placeholder="Country" type="text"  name="country" id="country_id" ng-model="auto_country" ng-keyup="searchCountry()" ng-mouseleave="searchCountry()" ng-required="true" capitalize>
+                                 <div ng-messages="formWarehouse.country.$error" ng-show="formWarehouse.country.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <div class="star">*</div>
+                            
+                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div  ng-class="{label_display : active_lable}" class="label_none">Phone No.</div>
+                                    <input class="form-control border_none" placeholder="Phone No." type="text" name="number"  ng-model="warehouse_details.phone_no"   ng-required="true" onkeypress="return isNumber(event)">
+                                    <!-- <div ng-messages="formWarehouse.number.$error" ng-show="formWarehouse.number.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                       	<p ng-message="minlength" class="color_font" class="color_font">Required Minimum 10 digit.</p>
+                                       <p ng-message="maxlength" class="color_font" class="color_font">Required 10 digit only.</p>
+                                       
+                                       </div>	 -->
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 
+                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div  ng-class="{label_display : active_lable}" class="label_none">Alternate No.</div>	
+                                    <input class="form-control border_none" placeholder="Alternate No." type="text" maxlength="11"  ng-model="warehouse_details.alternate_phone_no" onkeypress="return isNumber(event)">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Pin Code</div>
+                                 <input class="form-control border_none" placeholder="Pin Code" type="text" ng-model="warehouse_details.pincode" name="pincode" maxlength="6"   ng-required="true" onkeypress="return isNumber(event)">
+                                 <div ng-messages="formWarehouse.pincode.$error" ng-show="formWarehouse.pincode.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    <p ng-message="maxlength" class="color_font" class="color_font">Required 6 digit only.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Pan No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase" placeholder="Pan No." type="text" name="panno" ng-model="warehouse_details.pan_no" capitalize>
+                                 <!--<div ng-messages="formWarehouse.panno.$error" ng-show="formWarehouse.panno.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    <p ng-message="minlength" class="color_font" class="color_font">Required 10 digit.</p>
+                                    <p ng-message="maxlength" class="color_font" class="color_font">Required 10 digit only.</p>
+                                    <p ng-message="pattern" class="color_font" class="color_font">Must be Alphanumeric.</p>
+                                    </div>-->
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">GST No.</div>
+                                 <input class="form-control border_none uppercase" placeholder="GST No." type="text" ng-model="warehouse_details.gst_no" name="gst"    ng-required="true" capitalize>
+                                 <div ng-messages="formWarehouse.gst.$error" ng-show="formWarehouse.gst.$dirty">
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    <p ng-message="minlength" class="color_font" class="color_font">Required 15 digit.</p>
+                                    <p ng-message="maxlength" class="color_font" class="color_font">Required 15 digit only.</p>
+                                    <p ng-message="pattern" class="color_font" class="color_font">Must be Alphanumeric.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">License No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase" placeholder="License No." type="text" ng-model="warehouse_details.dl_no" name="DL No." capitalize><!--ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/"-->
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Email</div>
+                                 <input class="form-control border_none homelower" placeholder="Email" type="email" ng-model="warehouse_details.email" name="email" ng-required="true" autocomplete="off">
+                                 <div ng-messages="formWarehouse.email.$error" ng-show="formWarehouse.email.$dirty">
+                                    <p ng-message="required" class="color_font">This field is required.</p>
+                                    <p ng-message="email" class="color_font">Please enter a valid email address.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_display">Website</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none homelower" placeholder="Website" type="text" value="+" ng-model="warehouse_details.website">
+                              </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_save">
+                              <center>
+                                 <button ng-click="save_warehouse()" class="btn btn-success-outline margin-inline" type="submit" data-dismiss="modal" ng-disabled="formWarehouse.$invalid">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>
+                              </center>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+                              <center>
+                                 <button ng-click="edit_warehouse()" class="btn btn-success-outline margin-inline" type="button">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                 </button>
+                              </center>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+<!-- modal start -->
+<div class="modal fade" id="generate_password" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+         </div>
+         <div class="modal-body">
+            <!--<form name="form-validation">-->
+            <form name="formvalidation" novalidate>
+               <div class="form-group" ng-hide="gen_pass_div">
+                  <label class="form-label">Comments</label>
+                  <input class="form-control border_none uppercase"
+                     placeholder="Comment"
+                     type="text"
+                     ng-model="comment.comment" name="comments"  ng-required="true" capitalize>
+               </div>
+               <div class="form-group" ng-show="otp_div">
+                  <label class="form-label">Enter OTP</label>
+                  <input class="form-control border_none"
+                     placeholder="Enter OTP"
+                     type="text"
+                     ng-model="otp_object.otp">
+               </div>
+               <div class="modal-footer">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <h5>{{pending_msg}}</h5>
+                     </div>
+                     <div class="col-md-6">
+                        <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                        <button type="submit" ng-hide="gen_pass_btn" ng-click="generate_password_function()"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                        <button type="submit" ng-show="verify_otp_btn"  ng-click="verify_otp()" class="btn btn-primary" data-dismiss="modal">Verify OTP</button>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this ).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>

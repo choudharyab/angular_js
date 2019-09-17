@@ -1,0 +1,265 @@
+ <style>
+ .minclassheight{height: 268px;overflow: hidden;overflow-y: auto;margin-bottom: 53px;padding:0px;}
+ 
+ </style>
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/user management.png">User List <span style="color: green;font-size: 15px;" id="permissionSuccess">{{permission_success_msg}}</span></div>
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text_d1">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d tpp">
+											<b>User :</b>
+										</div>
+										<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none tpp">
+											<!--<select class="form-control border_none color_f" data-ng-model="selected_user">
+												<option value="0">1</option>
+												<option value="1">2</option>
+											</select>-->
+
+											<select class="form-control border_none color_f" data-ng-model="add_user_management.user_id" data-ng-change="get_user_permission_all()">
+												<option value="" ng-selected="selected">Select User</option>
+
+												<option ng-repeat="user in get_all_users" value="{{user.id}}">{{user.emp_details.employee_id}} - {{user.uname}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+										<div class="search-block">
+											<div class="form-input-icon form-input-icon-right">
+												<i class="icmn-search"></i>
+												<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+											</div>
+										</div>
+									</div>
+								
+									<button class="btn btn-rounded btn-primary-outline margin-inline "  type="button"><i class="fa fa-retweet" aria-hidden="true"></i> Refresh</button>
+								</div>
+							</div>
+							
+							 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+							 
+	<div class="col-lg-4 col-md-6 col-sm-4 col-xs-4 container-example1 minclassheight" ng-repeat="menu in get_modules_data track by $index">
+	
+	<div class="table_dis" id="fixedheader">
+	<table class="table table-hover table-bordered">
+		<thead>
+				<tr class="colorhead">
+				<!-- <th ng-if=" ! sr.sub_sub_modules.length"><input type="checkbox" id="wholemodule_option_{{sr.id}}"  ng-click="wholeModule(sr.id)"></th>
+
+				<th ng-if="sr.sub_sub_modules.length"> <input type="checkbox" ng-if="sr.sub_sub_modules.length>1" id="wholemodule_option_{{sr.id}}{{sr.module_id}}"  ng-click="reportWholeModule(sr.id,sr.module_id)"> </th> -->
+				<th><input type="checkbox" id="selectAllModules_{{menu.id}}" ng-click="checkAllModules(menu)" ng-true-value="true" ng-false-value="false"></th>
+
+				<th>{{menu.modules_name}}</th>
+
+				<th>Action</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr ng-repeat="sub_menu in menu.sub_modules">
+
+				<!-- <td ng-if="sr.modules_name!='Purchase Reports' && sr.modules_name!='Inventory Reports' && sr.modules_name!='Sale Reports' && sr.modules_name!='Daily Report Reports'">&nbsp<input type="checkbox"  id="submodule_option_{{sb_sr.id}}"  ng-click="submodule_permission_function(sb_sr.module_id,sb_sr.id,sb_sr.sub_module_name,sb_sr.sub_sub_module_id)">
+				</td>
+
+				<td ng-if="sr.modules_name=='Purchase Reports' || sr.modules_name=='Inventory Reports' || sr.modules_name=='Sale Reports' || sr.modules_name=='Daily Report Reports'">&nbsp<input type="checkbox"  id="submodule_option_{{sb_sr.id}}{{sb_sr.sub_sub_module_id}}"  ng-click="submodule_permission_function(sb_sr.module_id,sb_sr.id,sb_sr.sub_module_name,sb_sr.sub_sub_module_id)">
+				</td> -->
+
+				<td>&nbsp<input type="checkbox" id="selectedAll_{{sub_menu.id}}" ng-click="checkAll(menu.sub_modules)" ng-true-value="true" ng-false-value="false">
+				</td>
+
+				<td>
+					{{sub_menu.sub_module_name}}
+				</td>
+				<td>
+
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name!='Stock List' && sb_sr.sub_module_name!='Stock Entry' && sb_sr.sub_module_name!='Stock Exit' && sb_sr.sub_module_name!='Credit Note' && sb_sr.sub_module_name!='Debit Note' && sb_sr.sub_module_name!='Balance Sheet' && sb_sr.sub_module_name!='Profit & Loss' && sb_sr.sub_module_name!='Bank Account' && sb_sr.sub_module_name!='Payroll' && sb_sr.sub_module_name!='Attendance' && sb_sr.sub_module_name!='OTP List' && sb_sr.sub_module_name!='Log Files' && sb_sr.sub_module_name!='Backup Database' && (sb_sr.sub_module_name!='Purchase' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Inventory' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Sale' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Daily Report' && sr.modules_name!='Reports') && sb_sr.sub_module_name!='Printable Format' && sb_sr.sub_module_name!='Bank Accounts' && sr.modules_name!='Purchase Reports' && sr.modules_name!='Inventory Reports' && sr.modules_name!='Sale Reports' && sr.modules_name!='Daily Report Reports'">
+					&nbsp;
+						<input type="checkbox"  id="add_option_{{sb_sr.id}}" ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'add_option')">&nbsp;<a><i class="fa fa-plus-square font_six" title="Add" aria-hidden="true"></i>&nbsp;&nbsp;</a>
+					|</span>
+
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name!='Balance Sheet' && sb_sr.sub_module_name!='Profit & Loss' && sb_sr.sub_module_name!='Bank Account' && sb_sr.sub_module_name!='Payroll' && sb_sr.sub_module_name!='Attendance' && sb_sr.sub_module_name!='OTP List' && sb_sr.sub_module_name!='Log Files' && sb_sr.sub_module_name!='Backup Database' && (sb_sr.sub_module_name!='Purchase' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Inventory' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Sale' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Daily Report' && sr.modules_name!='Reports') && sb_sr.sub_module_name!='Printable Format' && sb_sr.sub_module_name!='Bank Accounts' && sr.modules_name!='Purchase Reports' && sr.modules_name!='Inventory Reports' && sr.modules_name!='Sale Reports' && sr.modules_name!='Daily Report Reports'">
+						&nbsp;
+						<input type="checkbox"  id="view_option_{{sb_sr.id}}" ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'view_option')">&nbsp;<a><i class="fa fa-eye font_six" title="Add" aria-hidden="true"></i>&nbsp;&nbsp;</a>
+					|</span>
+
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name!='Stock Entry' && sb_sr.sub_module_name!='Stock Exit' && sb_sr.sub_module_name!='Credit Note' && sb_sr.sub_module_name!='Debit Note' && sb_sr.sub_module_name!='Balance Sheet' && sb_sr.sub_module_name!='Profit & Loss' && sb_sr.sub_module_name!='Bank Account' && sb_sr.sub_module_name!='Payroll' && sb_sr.sub_module_name!='Attendance' && sb_sr.sub_module_name!='OTP List' && sb_sr.sub_module_name!='Log Files' && sb_sr.sub_module_name!='Backup Database' && (sb_sr.sub_module_name!='Purchase' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Inventory' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Sale' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Daily Report' && sr.modules_name!='Reports') && sb_sr.sub_module_name!='Printable Format' && sb_sr.sub_module_name!='Bank Accounts' && sr.modules_name!='Purchase Reports' && sr.modules_name!='Inventory Reports' && sr.modules_name!='Sale Reports' && sr.modules_name!='Daily Report Reports'">
+					&nbsp;<input  type="checkbox"  id="edit_option_{{sb_sr.id}}" ng-true-value="yes" ng-false-value="no" ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'edit_option')">&nbsp;<a><i class="fa fa-edit font_six" aria-hidden="true" title="Edit"></i> &nbsp;</a>
+					|</span>
+				
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name!='Stock Entry' && sb_sr.sub_module_name!='Stock Exit' && sb_sr.sub_module_name!='Balance Sheet' && sb_sr.sub_module_name!='Profit & Loss' && sb_sr.sub_module_name!='Bank Account' && sb_sr.sub_module_name!='Payroll' && sb_sr.sub_module_name!='Attendance' && sb_sr.sub_module_name!='OTP List' && sb_sr.sub_module_name!='Log Files' && sb_sr.sub_module_name!='Backup Database' && (sb_sr.sub_module_name!='Purchase' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Inventory' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Sale' && sr.modules_name!='Reports') && (sb_sr.sub_module_name!='Daily Report' && sr.modules_name!='Reports') && sb_sr.sub_module_name!='Printable Format' && sb_sr.sub_module_name!='Bank Accounts' && sr.modules_name!='Purchase Reports' && sr.modules_name!='Inventory Reports' && sr.modules_name!='Sale Reports' && sr.modules_name!='Daily Report Reports'">
+
+					&nbsp;<input  type="checkbox" id="delete_option_{{sb_sr.id}}"  ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'delete_option')">&nbsp;<a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i>&nbsp;</a>
+
+					|</span>
+
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name=='Stock Entry'">
+					&nbsp;<input  type="checkbox" id="received_stock_{{sb_sr.id}}"  ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'received_stock')">&nbsp;<a><i class="fa fa-download font_six approve_color" title="Received" ></i>&nbsp;&nbsp;</a>
+					|</span>
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name=='Stock Exit'">
+					&nbsp;<input  type="checkbox" id="dispatch_stock_{{sb_sr.id}}"  ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'dispatch_stock')">&nbsp;<a><i class="fa fa-truck" aria-hidden="true" title="Dispatch" ></i> &nbsp;</a>
+					|</span>
+
+					<span style="position: relative; top: 2px;" ng-if="sb_sr.sub_module_name=='Purchase Order' || sb_sr.sub_module_name=='Invoice' || sb_sr.sub_module_name=='Sale Purchase Order'">
+					&nbsp;<input  type="checkbox" id="received_option_{{sb_sr.id}}"  ng-click="add_permission_function(sb_sr.module_id,sb_sr.id,'received_option')">&nbsp;<a><i class="fa fa-thumbs-up font_six approve_color" title="Received" ></i>&nbsp;&nbsp;</a>
+					</span>
+
+
+					<!--<span ng-if="sr.modules_name=='Reports'">-->
+
+						<!--<table>-->
+							<!--<tr ng-repeat="smm in sb_sr.sub_sub_modules"><td>-->
+								<!--<input  type="checkbox" id="report_option_{{smm.id}}"  ng-click="sub_sub_module_permission(smm.module_id,smm.sub_module_id,'report_option',smm.id)">{{smm.sub_sub_module_name}}-->
+							<!--</td></tr>-->
+						<!--</table>-->
+
+					<!--</span>-->
+
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+</div>
+</div>
+							
+
+							
+							<div class="clearfix"></div>
+							<div ng-hide="show_save_btn">
+								<center>
+									<button type="submit" class="btn btn-success-outline margin-inline" ng-click="save_user_management()" ng-hide="current_module_rights.add_option=='no'">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+								</center>
+							
+							</div>
+
+								 <div ng-show="show_update_btn">
+									 <center>
+										 <button type="submit" class="btn btn-success-outline margin-inline" ng-click="update_user_management()" ng-hide="current_module_rights.edit_option=='no'">
+											 <span class="top_p"><i class="icmn-share2"></i></span> Update
+										 </button>
+									 </center>
+
+								 </div>
+
+							</div>
+							
+						
+							
+								
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<!-- End Dashboard -->
+	</div>
+</section>
+<!-- modal start -->
+
+<script>
+	$(function() {
+	    $('.summernote').summernote({
+	        height: 350
+	    });
+	});
+	
+</script>	
+<script>
+	$(document).ready(function(){
+	//alert("hii")
+	setTimeout(function(){
+		  $(".note-editable").removeAttr('style');
+	 },1000);
+		})
+</script>
+<!-- modal start -->
+
+
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        height: 100,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code'
+        ],
+        toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css']
+    });
+</script>
+
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+
+
+
+	<!-- header fixed -->
+	<!--	<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader2").tableHeadFixer(); 
+			});
+
+
+
+		</script>-->L
+		<!-- header fixed End-->

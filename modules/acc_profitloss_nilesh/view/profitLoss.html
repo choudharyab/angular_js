@@ -1,0 +1,706 @@
+<style>
+   .bgcolor{background-color:#F2F4F8;}
+   .padd_left{padding-left:21px !important;}
+   .padd_left a{color:#514d6a !important;}
+   .padd_left1{padding-left:30px !important;}
+   .padd_left1 a{color:#514d6a !important;}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+				  <div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/profit loss.png"> Profit & Loss Account</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+									<span class="font_nw">{{selected_warehouse_name}} </span><br/>
+									<span class="font_1"><b>CIN :</b>&nbsp;{{selected_warehouse_cin_no}} </span><br/>
+									<span class="font_1"><b>Period </b>{{from_date | date :  "dd-MM-yyyy"}} To {{to_date | date :  "dd-MM-yyyy"}}</span>
+									</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<b>Financial Year :</b> {{finance_year}}-{{finance_year+1}}
+									</div>
+								</div>
+							</div>
+                    
+                     <div class="clearfix"></div>
+                     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+					<!-- <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+                              <div class="col-lg-4 col-md-5 col-sm-4 col-xs-12 padd_none text_d">
+                                 <b>Division :</b>
+                              </div>
+                              <div class="col-lg-8 col-md-7 col-sm-8 col-xs-12 padd_none">
+                                 <select class="form-control border_none select" data-ng-model="warehouse_id" data-ng-change="get_wh()">
+                                    <option value="" ng-selected="selected">Select Division</option>
+                                    <option ng-repeat="warehouse in warehouse_list" value="{{warehouse.id}}">{{warehouse.warehouse_name}}</option>
+                                 </select>
+                              </div>
+                           </div>-->
+                           <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                              <div class="form-group top_wa">
+                                 <!--<div class="input-group date">
+                                    <input ng-model="from_date" id="datetimepicker1" type="text" class="form-control border_none" placeholder="From">
+                                    <span class="input-group-addon">
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                    </div>-->
+                                 <div class='input-group'>
+                                    <input class="form-control border_none"  type='text'  placeholder="From Date" ng-model="from_date" id="from_date"/>
+                                    <label class="input-group-addon" for="from_date">
+                                    <i class="icmn-calendar"></i>
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                              <div class="form-group top_wa">
+                                 <!--<div class="input-group date">
+                                    <input ng-model="to_date" id="datetimepicker2" type="text" class="form-control border_none" placeholder="To">
+                                    <span class="input-group-addon">
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                    </div>-->
+                                 <div class='input-group'>
+                                    <input class="form-control border_none"  type='text'  placeholder="To Date" ng-model="to_date" id="to_date"/>
+                                    <label class="input-group-addon" for="to_date">
+                                    <i class="icmn-calendar"></i>
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+                              <button class="btn btn-success" ng-click="allProfitLossList()"><i class="fa fa-search"></i></button>
+                           </div>
+                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1 pull-right" style="margin-bottom:15px;">
+							 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+								<b>View :</b>
+							 </div>
+							 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none">
+								<select class="form-control border_none select" ng-change="change_view_type()" ng-model="view_type">
+								   <option value="">Select View</option>
+								   <option value="Compacted">Compact View</option>
+								    <option value="Detailed">Details View</option>
+								</select>
+							 </div>
+						</div>
+                        <div class="table_dis  container-example1 ">
+						<div class="divclass">
+                           <!--add after record  sb-container container-example1 hei  -->
+                           <table class="table table-hover">
+                              <tr>
+                                 <!--left-->
+                                 <td class="h_n_w">
+                                    <div class="table_dis  container-example1 ">
+                                       <!--add after record  sb-container container-example1 hei  -->
+									   
+									   
+										<table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                          
+										  <tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_open_stock()" class="first_row">
+                                                      <td class="size_font width_1">Opening Stock</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{openingstockdata.total_opening_stock_amount | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showopenstockdetails" style="cursor:pointer;" class="second_row show1">
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr>
+                                                               <td class="width_1 cur padd_left">Trading</td>
+                                                               <td class="width_2 right_a">{{openingstockdata.total_opening_stock_amount | INR}}</td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                            <!--<tr>
+                                                               <td colspan="3" class="padd_none">
+                                                                  <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                     <tr>
+                                                                        <td class="wiii cur padd_left1"><a>1</a></td>
+                                                                        <td class="wiii">1</td>
+                                                                        <td class="wiii">&nbsp;</td>
+                                                                     </tr>
+                                                                  </table>
+                                                               </td>
+                                                            </tr>-->
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                            </tr>
+											
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_purchase_account()" class="first_row">
+                                                      <td class="size_font width_1">Purchase Account</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{purchase_acc_total | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showpurchaseaccountdetails" style="cursor:pointer;" class="second_row show2" ng-repeat="p_acc in purchase_acc_list" ng-click="purchaseView(p_acc.tax_id,p_acc.tax_type)">
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr>
+                                                               <td class="width_1 cur padd_left">{{p_acc.tax_name}} @ {{p_acc.tax_rate}}%</td>
+                                                               <td class="width_2 right_a">{{p_acc.closing_balance | INR }}</td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                            <!--<tr>
+                                                               <td colspan="3" class="padd_none">
+                                                                  <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                     <tr>
+                                                                        <td class="wiii cur padd_left1"><a>1</a></td>
+                                                                        <td class="wiii">1</td>
+                                                                        <td class="wiii">&nbsp;</td>
+                                                                     </tr>
+                                                                  </table>
+                                                               </td>
+                                                            </tr>-->
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                            </tr>
+											
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_direct_expenses()" class="first_row">
+                                                      <td class="size_font width_1">Direct Expenses</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{direct_expenses_total_amount | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showdirectexpensesdetails" style="cursor:pointer;" class="second_row show3" ng-repeat="dir_exp in direct_expense_arry" >
+                                                      <td colspan="3" class="padd_none" ng-init="objectIndex = $index">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr ng-click="show_inward_monthwise(dir_exp.ledger_id,dir_exp.ledger_type,dir_exp.ledger_id,objectIndex)" >
+                                                               <td class="width_1 cur padd_left">{{dir_exp.ledger_name}}</td>
+                                                               <td class="width_2 right_a">{{dir_exp.closing_balance | INR}}</td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                                <tr>
+                                                          <td colspan="3" class="padd_none">
+                                                             <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                <tr ng-show="showDirectExpenseSubLedger" ng-repeat="sub_ledger_list in dir_exp.ledger_data" ng-click="getDirectExpenseMonth(sub_ledger_list.ledger_id,sub_ledger_list.ledger_type)">
+                                                                   <td class="width_1 cur padd_left1"><a >{{sub_ledger_list.ledger_name}}</a></td>
+                                                                   <td class="width_2" style="text-align: right;">{{sub_ledger_list.closing_balance | INR}}</td>
+                                                                   <td class="width_2">&nbsp;</td>
+                                                                </tr>
+                                                             </table>
+                                                          </td>
+                                                       </tr>
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                            </tr>
+											
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="first_row">
+                                                      <td class="size_font width_1">
+													 <span ng-if="show_gross_profit_co > '0'"> Gross Profit C/O </span>
+													  </td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a"> 
+											 <span ng-if="show_gross_profit_co > '0'">{{show_gross_profit_co | INR}}</span>
+													  </td>
+                                                   </tr>
+                                                 <!--  <tr >
+                                                      <td class="size_font width_1">Total</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{gross_profit_blank_field | INR}}</td>
+                                                   </tr>-->
+                                                </table>
+                                             </td>
+                                             </tr>                                        
+                                              <tr>
+												<td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   
+                                                   <tr >
+                                                      <td class="size_font width_1">Total</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{gross_profit_blank_field | INR}}</td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+											 
+                                            </tr>
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="first_row">
+                                                      <td class="size_font width_1"></td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a"></td>
+                                                   </tr>
+                                                  
+                                                </table>
+                                             </td>
+											 
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                      <tr class="first_row">
+                                                         <td class="size_font width_1">
+														 
+														<span ng-if="show_gross_profit_co < '0'"> Gross Loss B/F </span>
+														 
+														 </td>
+                                                         <td class="size_font width_2">&nbsp;</td>
+                                                         <td class="size_font width_2 right_a">
+											<span ng-if="show_gross_profit_co < '0'">{{show_gross_loss_co | INR}}</span>	 
+														 </td>
+                                                      </tr>
+                                                     
+                                                   </table>
+                                                </td>
+                                                
+                                               </tr>
+
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_indirect_expenses()" class="first_row">
+                                                      <td class="size_font width_1">Indirect Expenses</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{indirectExpensesTotal | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showindirectexpensesdetails" style="cursor:pointer;" class="second_row show4" ng-repeat="exp in indirect_expense_arry"  ng-init="objectIndex = $index" >
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr ng-click="check_indirect_exp(exp.ledger_type,exp.ledger_id,exp.ledger_name,exp.charge_id,objectIndex)" >
+                                                               <td class="width_1 cur padd_left">{{exp.ledger_name}}</td>
+                                                               <td class="width_2 right_a">{{exp.total_amt | INR}} </td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                         <tr>
+                                                          <td colspan="3" class="padd_none">
+                                                             <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                <tr ng-show="showInDirectExpenseSubLedger" ng-repeat="sub_ledger_list in exp.ledger_data" ng-click="getInDirectExpenseMonth(sub_ledger_list.ledger_id,sub_ledger_list.ledger_type)">
+                                                                   <td class="width_1 cur padd_left1"><a >{{sub_ledger_list.ledger_name}}</a></td>
+                                                                   <td class="width_2" style="text-align: right;">{{sub_ledger_list.total_amt | INR}}</td>
+                                                                   <td class="width_2">&nbsp;</td>
+                                                                </tr>
+                                                             </table>
+                                                          </td>
+                                                       </tr>
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                            </tr>
+											<!--<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="first_row">
+                                                      <td class="size_font width_1"></td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a"></td>
+                                                   </tr>
+                                                  
+                                                </table>
+                                             </td>
+											 
+                                            </tr>-->
+										</table>
+									   
+                                       
+                                    </div>
+                                 </td>
+                                 <!--left-->
+                                 <!--right-->
+                                 <td class="h_n_w">
+                                    <div class="table_dis  container-example1 ">
+                                       <!--add after record  sb-container container-example1 hei  -->
+										<table class="table table-hover table-bordered" style="margin-bottom:0px;">
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_sales_account()" class="first_row">
+                                                      <td class="size_font width_1">Sales Account</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{sale_acc_total | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showsaleaccountdetails" style="cursor:pointer;" class="second_row show5" ng-repeat="s_acc in sale_account_list track by $index" ng-click="salesmonth(s_acc.tax_id,s_acc.tax_type)">
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr>
+                                                               <td class="width_1 cur padd_left">{{s_acc.ledger_name}} </td>
+                                                               <td class="width_2 right_a">{{s_acc.total_amt | INR}}</td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                            <!--<tr>
+                                                               <td colspan="3" class="padd_none">
+                                                                  <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                     <tr>
+                                                                        <td class="wiii cur padd_left1"><a>1</a></td>
+                                                                        <td class="wiii">1</td>
+                                                                        <td class="wiii">&nbsp;</td>
+                                                                     </tr>
+                                                                  </table>
+                                                               </td>
+                                                            </tr>-->
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                            </tr>
+											
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_direct_income()" class="first_row">
+                                                      <td class="size_font width_1">Direct Incomes</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{directIncomeTotal | INR }}</td>
+                                                   </tr>
+                                                   <tr ng-show="showdirectincomedetails" style="cursor:pointer;" class="second_row show15" ng-repeat="item in direct_incomes_arry"  ng-init="objectIndex = $index">
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr ng-click="purchaseViewDirect(item.ledger_id,item.ledger_type,item.income_type,objectIndex)" >
+                                                               <td class="width_1 cur padd_left">{{item.ledger_name}}</td>
+                                                               <td class="width_2 right_a">{{item.total_amt | INR}}</td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                            
+														<tr >
+                                                          <td colspan="3" class="padd_none">
+                                                             <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                <tr ng-show="showDirectIncomesSubLedger" ng-repeat="sub_ledger_list in item.ledger_data" ng-click="getDirectIncomesMonth(sub_ledger_list.ledger_id,sub_ledger_list.ledger_type,sub_ledger_list.income_type)">
+                                                                   <td class="width_1 cur padd_left1"><a >{{sub_ledger_list.ledger_name}}</a></td>
+                                                                   <td class="width_2" style="text-align: right;">{{sub_ledger_list.total_amt | INR}}</td>
+                                                                   <td class="width_2">&nbsp;</td>
+                                                                </tr>
+                                                             </table>
+                                                          </td>
+                                                       </tr>
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                    
+                                                </table>
+                                             </td>
+                                            </tr>
+											
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr ng-click="show_closing_stock()" class="first_row">
+                                                      <td class="size_font width_1">Closing Stock</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{closingstockdata.total_stock_amount | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showclosingstockdetails" style="cursor:pointer;" class="second_row show7" >
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                           
+                                                         </table>
+                                                      </td>
+                                                   </tr> 
+                                                </table>
+                                             </td>
+                                            </tr>
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="first_row">
+                                                      <td class="size_font width_1">
+													  
+													<span ng-if="show_gross_profit_co < '0'">  Gross Loss C/O</span>
+													  
+													  </td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">
+													 <span ng-if="show_gross_profit_co < '0'"> {{show_gross_loss_co | INR }}
+													  </span>
+													  </td>
+                                                   </tr>
+                                                 
+                                                </table>
+                                             </td>
+											 
+                                            </tr>
+                                          <tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                 <tr class="first_row">
+                                                      <td class="size_font width_1">Total</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{gross_profit_blank_field | INR}}</td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+											 
+                                            </tr>
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="first_row">
+                                                      <td class="size_font width_1"></td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a"></td>
+                                                   </tr>
+                                                  
+                                                </table>
+                                             </td>
+											 
+                                            </tr>
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="">
+                                                      <td class="size_font width_1">Gross Profit B/F</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{show_gross_profit_co | INR}}</td>
+                                                   </tr>
+                                                  
+                                                </table>
+                                             </td>
+											 
+                                            </tr>
+											<tr>
+                                             <td colspan="3" class="padd_none">
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr  ng-click="show_indirect_incomes()" class="first_row">
+                                                      <td class="size_font width_1">Indirect Incomes</td>
+                                                      <td class="size_font width_2">&nbsp;</td>
+                                                      <td class="size_font width_2 right_a">{{indirectIncomeTotal | INR}}</td>
+                                                   </tr>
+                                                   <tr ng-show="showindirectincomedetails" style="cursor:pointer;" class="second_row show8" ng-repeat="item in indirectIncomeList" ng-click="checkIndirectIncomeType(item.ledger_type,item.ledger_id,item.charge_id)" ng-init="objectIndex = $index">
+                                                      <td colspan="3" class="padd_none">
+                                                         <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                            <tr ng-click="purchaseViewInDirect(item.ledger_id,item.ledger_type,item.income_type,objectIndex)" >
+                                                               <td class="width_1 cur padd_left">{{item.ledger_name}}</td>
+                                                               <td class="width_2 right_a">{{item.total_amt | INR}}</td>
+                                                               <td class="width_2">&nbsp;</td>
+                                                            </tr>
+                                                          <tr>
+                                                          <td colspan="3" class="padd_none">
+                                                             <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                                <tr ng-show="showInDirectIncomesSubLedger" ng-repeat="sub_ledger_list in item.ledger_data" ng-click="getInDirectIncomesMonth(sub_ledger_list.ledger_id,sub_ledger_list.ledger_type,sub_ledger_list.income_type)">
+                                                                   <td class="width_1 cur padd_left1"><a >{{sub_ledger_list.ledger_name}}</a></td>
+                                                                   <td class="width_2" style="text-align: right;">{{sub_ledger_list.total_amt | INR}}</td>
+                                                                   <td class="width_2">&nbsp;</td>
+                                                                </tr>
+                                                             </table>
+                                                          </td>
+                                                       </tr>
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                            </tr>
+										</table>
+                                       <!--
+                                          <tr>
+											  <td class="size_font wiii">Sales Account</td>
+											  <td class="size_font wiii">&nbsp;</td>
+											  <td class="size_font wiii">{{sale_acc_total}}</td>
+											  
+                                          </tr>
+										 
+										 <tr style="cursor:pointer;" ng-repeat="s_acc in sale_account_list track by $index" ng-click="salesmonth(s_acc.tax_id,s_acc.tax_type)">
+											  <td class="wiii cur">{{s_acc.tax_name}} @ {{s_acc.tax_rate}}%</td>
+											  <td class="wiii">{{s_acc.total_sale_amt}}</td>
+											  <td class="wiii">&nbsp;</td>
+                                       </tr>
+									   
+									   <tr>
+                                         <td class="size_font wiii">Direct Incomes</td>
+                                          <td class="size_font wiii">&nbsp;</td>
+                                         <td class="size_font wiii">{{directIncomeTotal}}</td>
+                                       </tr>
+                                        
+										<tr style="cursor:pointer;" ng-repeat="item in directIncomeList" ng-click="purchaseViewDirect(item.ledger_id,item.ledger_type,item.charge_id)">
+                                          <td class="wiii">{{item.ledger_name}}</td>
+                                          <td class="wiii">{{item.total_amt}}</td>
+                                          <td class="wiii">&nbsp;</td>
+                                       </tr>
+									  
+									  <tr>
+                                           <td class="size_font wiii">Closing Stock</td>
+                                           <td class="size_font wiii">&nbsp;</td>
+                                           <td class="size_font wiii">{{closingstockdata.total_stock_amount}}</td>
+                                       </tr>
+                                    
+                                       <tr>
+                                          <td class="wiii">Trading</td>
+                                         <td class="wiii">{{closingstockdata.total_stock_amount}}</td>
+                                          <td class="wiii">&nbsp;</td>
+                                       </tr>
+                                       
+									   <tr>
+                                          <td class="wiii">Gross Profit b/f</td>
+                                          <td class="wiii">{{gross_profitCO}}</td>
+                                          <td>&nbsp;</td>
+                                       </tr>
+                                      
+									  <tr>
+                                          <td class="wiii"></td>
+                                          <td class="wiii"></td>
+                                          <td class="wiii">{{gross_profit_blank_field}}</td>
+                                       </tr>
+									   
+									   <tr>
+                                          <td class="size_font wiii">Indirect Incomes</td>
+                                          <td class="size_font wiii">&nbsp;</td>
+                                          <td class="size_font wiii">{{indirectIncomeTotal}}</td>
+                                       </tr>
+                                    
+                                       <tr style="cursor:pointer;" ng-repeat="item in indirectIncomeList" ng-click="checkIndirectIncomeType(item.ledger_type,item.ledger_id,item.charge_id)">
+                                           <td class="wiii">{{item.ledger_name}}</td>
+                                           <td class="wiii">{{item.total_amt}}</td>
+                                           <td class="wiii">&nbsp;</td>
+                                       </tr>
+                                       -->
+                                    </div>
+                                 </td>
+                                 <!--right-->
+                              </tr>
+
+                              <tr>
+								<td class="h_n_w">
+								  <div class="table_dis  container-example1 ">
+                                       <!--add after record  sb-container container-example1 hei  -->
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+											   <tr>
+												  <td class="size_font width_1">
+												  <span ng-if="netProfit > '0'">Net Profit </span>
+												  
+												  </td>
+												  <td class="size_font width_2">&nbsp;&nbsp;&nbsp;</td>
+												  <td class="size_font width_2 right_a">
+												 <span ng-if="netProfit >'0'">  {{netProfit | INR}}</span>
+												  </td>
+											</tr>
+										</table>
+									</div>	
+								</td>
+							  <td class="h_n_w">
+								  <div class="table_dis  container-example1 ">
+                                       <!--add after record  sb-container container-example1 hei  -->
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+											   <tr>
+												  <td class="size_font width_1">
+												  <span ng-if="netProfit < '0'"> Net Loss </span>
+												  </td>
+												  <td class="size_font width_2">&nbsp;&nbsp;&nbsp;</td>
+												  <td class="size_font width_2 right_a">&nbsp;
+												  <span ng-if="netProfit < '0'">{{ netLoss | INR}} </span>
+												  </td>
+                                            </tr>
+                                            
+										</table>
+									</div>	
+								</td>
+							  
+							  </tr>
+
+							  <tr>
+								<td class="h_n_w">
+								  <div class="table_dis  container-example1 ">
+                                       <!--add after record  sb-container container-example1 hei  -->
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+											   <tr>
+												  <td class="size_font width_1">Total</td>
+												  <td class="size_font width_2">&nbsp;&nbsp;&nbsp;</td>
+												  <td class="size_font width_2 right_a">{{final_total | INR}}</td>
+											</tr>
+										</table>
+									</div>	
+								</td>
+							  <td class="h_n_w">
+								  <div class="table_dis  container-example1 ">
+                                       <!--add after record  sb-container container-example1 hei  -->
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+											   <tr>
+												  <td class="size_font width_1">Total</td>
+												  <td class="size_font width_2">&nbsp;&nbsp;&nbsp;</td>
+												  <td class="size_font width_2 right_a">&nbsp;{{final_total | INR}}</td>
+											</tr>
+										</table>
+									</div>	
+								</td>
+							  
+							  </tr>
+                           </table>
+                        </div>
+                        </div>
+                        
+                        
+                     </div>
+                   
+                   
+                     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+					 
+                        <center>
+						<button  id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-file-pdf-o " aria-hidden="true" style="color:#01a8fe;"></i> Export To PDF</button>
+                        </center>
+                     </div>
+                     <div class="clearfix"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <br/>
+         <!-- End Dashboard -->
+      </div>
+   </div>
+</section>
+<script type="text/javascript">
+   $(function () {
+   		$('#datetimepicker1').datetimepicker({
+   			icons: {
+   				time: "fa fa-clock-o",
+   				date: "fa fa-calendar",
+   				up: "fa fa-arrow-up",
+   				down: "fa fa-arrow-down"
+   			}
+   		});
+   	});
+</script>
+<script>
+   $('#from_date').datepicker({
+       changeMonth: true,
+       changeYear: true,
+       yearRange: '2015:2040'
+       // defaultDate: '2015-01-01',
+   
+   });
+   $('#to_date').datepicker({
+       changeMonth: true,
+       changeYear: true,
+       yearRange: '2015:2040'
+       // defaultDate: '2015-01-01',
+   
+   });
+   $.datepicker.setDefaults({
+       dateFormat: 'yy-mm-dd'
+   });
+    $("#tblExport").click(function(e) {
+  let file = new Blob([$('.divclass').html()], {type:"application/vnd.ms-excel"});
+ let url = URL.createObjectURL(file);
+let a = $("<a />", {
+  href: url,
+  download: "profit_loss.xls"}).appendTo("body").get(0).click();
+  e.preventDefault();
+});
+</script>
+

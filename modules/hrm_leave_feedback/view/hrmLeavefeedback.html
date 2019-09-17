@@ -1,0 +1,357 @@
+ 
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/masters.png">  Leave & Feedback
+									<span id="leavefeedbackSuccess" style="font-size: 15px;color: green">{{leave_feedback_success}}</span>
+                                    <span id="leavefeedbackError" style="font-size: 15px;color: green">{{leave_feedback_error}}</span>
+									</div>
+									<br/>
+									
+								</div>
+							</div>
+							<br/>
+							<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12">
+							<!--<h4>
+							<b>Leave</b>
+							</h4>-->
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Leave Type</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_leave_type()">
+											<input class="form-control border_none uppercase" placeholder="Leave Type" type="text" ng-model="leave_type" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_leave_type()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Leave Type</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <tr ng-repeat = "hrm_leave_type_list in hrm_leave_type_lists">
+                                <td>{{$index+1}}</td>
+                                <td>{{hrm_leave_type_list.leave_type}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_leave_master(hrm_leave_type_lists,$index,'leave_type')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+               
+			   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+							<!--<h4>
+							<b>Designation</b>
+							</h4>-->
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Leave Status</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_leave_status()">
+											<input class="form-control border_none uppercase" placeholder="Leave Status" type="text" ng-model="leave_status" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_leave_status()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader1">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Leave Status</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat = "hrm_leave_status_list in hrm_leave_status_lists">
+                                <td>{{$index+1}}</td>
+                                <td>{{hrm_leave_status_list.leave_status}}</td>
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_leave_master(hrm_leave_status_lists,$index,'leave_status')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					
+					 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+							<!--<h4>
+							<b>Category</b>
+							</h4>-->
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Employee Feedback</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_leave_feedback()">
+											<input class="form-control border_none uppercase" placeholder="Employee Feedback" type="text" ng-model="leave_feedback" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_leave_feedback()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader2">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Feedback For</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat = "hrm_leave_feedback_list in hrm_leave_feedback_lists">
+                                <td>{{$index+1}}</td>
+                                <td>{{hrm_leave_feedback_list.feedback}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_leave_master(hrm_leave_feedback_lists,$index,'leave_feedback')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+              
+                    	 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+							<br/>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">CRM Feedback</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_leave_crm_feedback()">
+											<input class="form-control border_none uppercase" placeholder="CRM Feedback" type="text" ng-model="leave_crm_feedback" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_leave_crm_feedback()">
+										
+										Save
+										</button>
+									</div>	
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader3">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>CRM Feedback For</th>                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                 <tr ng-repeat = "hrm_leave_crm_feedback_list in hrm_leave_crm_feedback_lists">
+                                <td>{{$index+1}}</td>
+                                <td>{{hrm_leave_crm_feedback_list.crm_feedback}}</td>
+                                <td>								
+									<a href="" ng-click="delete_hrm_leave_master(hrm_leave_crm_feedback_lists,$index,'crm_feedback')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					 
+					 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-x">Leave Configuration</div>
+					 	<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" align="right">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_leave_configuration()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>
+					 
+				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 top_fff" ng-repeat="component in  add_leave_conf_component.components">
+				<br/>
+				<button class="btn btn-rounded btn-primary-outline margin-inline flt_d pull-right" type="button" ng-click="remove_component($index)" ng-if="$index>0">
+				<i class="fa fa-minus" aria-hidden="true"></i></button>
+
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+						<span class="feedback_text"><b>Leaves Allocated To :</b></span>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+					<select class="form-control border_none select" ng-model="add_leave_conf_component.components[$index].leave_type_id">
+									   <option value="" ng-selected="selected">Select Leave Type</option>
+									   <option ng-repeat="leave_type_list in hrm_leave_type_lists" value="{{leave_type_list.id}}">{{leave_type_list.leave_type}}</option>
+					</select>
+					</div>
+					<!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+					<select class="form-control border_none select" ng-model="add_leave_conf_component.components[$index].category">
+									   <option value="" ng-selected="selected">Select Category</option>									  
+									    <option ng-repeat="category_list in hrm_general_category_lists" value="{{category_list}}" value="">{{category_list.category}}</option>
+					</select>
+					</div> -->
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+					<select class="form-control border_none select" ng-model="add_leave_conf_component.components[$index].emp_type">
+									   <option value="" ng-selected="selected">Select Employee Type</option>
+									   <option value="fresher">Fresher</option>
+									   <option value="experienced">Experienced</option>
+					</select>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+					<select class="form-control border_none select" ng-model="add_leave_conf_component.components[$index].designation_id">
+									   <option value="" ng-selected="selected">Select Designation</option>
+									   <option value="all">All</option>
+									    <option ng-repeat="designation_list in hrm_general_designation_lists" value="{{designation_list.id}}">{{designation_list.designation}}</option>
+					</select>
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 top_fedback">
+						=
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+					<input class="form-control border_none" placeholder="Days" type="text" ng-model="add_leave_conf_component.components[$index].days">
+					</div>
+				
+				</div>
+				
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " align="right">
+							<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="add_more_component()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										<i class="fa fa-plus" aria-hidden="true"></i>
+ Add
+										</button>
+						</div>
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+											
+
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader2").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader3").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

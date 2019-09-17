@@ -1,0 +1,814 @@
+<section class="page-content">
+    <div class="page-content-inner">
+
+        <!-- Dashboard -->
+        <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="panel panel-with-borders m-b-0">
+                        <div class="panel-body">
+                            <div class="nav-tabs-horizontal margin-bottom-5">
+
+                                <div align="right">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/purchase order.png">  Purchase Expense
+                                        <div id="delete_exp" style="color: red;font-size: 15px" class="formessage_display">{{delete_msg}}</div>
+                                        <div id="expSuccess" style="color: green;font-size: 15px" class="formessage_display">{{exp_success}}</div>
+                                    </div>
+
+                                    <div class="right serchlist margin-left-50 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                                        <div class="search-block">
+                                            <div class="form-input-icon form-input-icon-right">
+                                                <i class="icmn-search"></i>
+                                                <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_product_list">
+                                                <button class="search-block-submit " type="submit"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- data-toggle="modal" data-target="#example3" -->
+                                    <button class="btn btn-rounded btn-primary-outline margin-inline"  type="button" ng-click="add_btn_clicked()"><i class="fa fa-plus" aria-hidden="true"></i> Add Expense</button>
+
+                                    <!--<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button" ng-click="click_group()"><i class="fa fa-plus" aria-hidden="true"></i> Add Group</button>-->
+
+                                    <!--<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#exampleuom" type="button" ng-click="click_group()"><i class="fa fa-plus" aria-hidden="true"></i> Add UOM</button>-->
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <div class="sb-container container-example1 hei1 topupmm">
+                                <div class="table_dis" id="fixedheader">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                        <tr class="colorhead">
+                                            <th>Sr. No.</th>
+                                            <th>Supplier Name</th>
+                                            <th>Contact Person</th>
+                                            <th>Product</th>
+                                            <th>Amount</th>
+                                            <th>Tax</th>
+                                            <th>Tax Amount</th>
+                                            <th>Total Amount</th>
+                                            <th>Payment Mode</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr ng-repeat="data in expense_data">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{data.supplier}}</td>
+                                                <td>{{data.contact_person}}</td>
+                                                <td>{{data.product}}</td>
+                                                <td>{{data.amount}}</td>
+                                                <td>{{data.tax_type}}</td>
+                                                <td>{{data.tax_amount}}</td>
+                                                <td>{{data.total_amount}}</td>
+                                                <td>{{data.payment_mode}}</td>
+                                                <td>
+                                                    <!-- <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="expo_permission_popup(supp.id,supp.comment_status,'edit')"></i></a>|
+
+                                                    <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" title="Edit" aria-hidden="true" ng-click="expo_permission_popup(supp.id,supp.delete_status,'delete')"></i></a>|
+                                                <a ng-click="open_file(data.file_name)"> <i class="fa fa-file font_six" title="File" aria-hidden="true"></i></a> -->
+
+                                                    <a data-toggle="modal" data-target="#example3"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="get_expense_data_by_id(data.id)"></i></a>|
+
+                                                    <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" title="Edit" aria-hidden="true" ng-click="expo_permission_popup(supp.id,supp.delete_status,'delete')"></i></a>|
+                                                    <a ng-click="open_file(data.filename)"> <i class="fa fa-file font_six" title="File" aria-hidden="true"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <!-- <tbody>
+                                              <tr ng-repeat="product in product_list ">
+                                             <td>{{product.product_code}}</td>
+                                               <td>{{product.productgroup.group_name}}</td>
+                                             <td>
+                                                 {{product.product_name}}
+
+                                                     </div>
+                                                 </span>
+                                             </td>
+                                             <td>{{product.grade}}</td>
+                                             <td>{{product.measurement.measurement_name}}</td>
+                                             <td>{{product.tax_rate.tax_rate}} %</td>
+                                             <td>
+                                                 <a data-toggle="modal" data-target="#generate_password" ng-hide="current_module_rights.edit_option=='no'"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="product_permission_popup(product.id,product.comment_status,'edit','product')"></i></a> |
+                                                 <a data-toggle="modal" data-target="#generate_password" ng-hide="current_module_rights.delete_option=='no'"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="product_permission_popup(product.id,product.delete_status,'delete','product')"></i></a>
+                                             </td>
+
+                                         </tr>
+                                       </tbody>-->
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div></div>
+</section>
+
+
+<!---------------------------------------------------Add supplier------------------------------------------------>
+
+
+<div class="modal fade modal-size-large" close-modal-three id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Purchase Expense</h4>
+                <!--<span id="productSuccess">{{product_success}}</span>-->
+                <span id="productError">{{product_error}}</span>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <form name="productList">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+                                        <!--<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Ledger</div>
+                                            <select class="form-control border_none color_f" ng-model="ledger_id" ng-change="get_ledger_info(ledger_id)"  name="state" ng-required="true" >
+                                                <option value="" ng-selected="selected">Select Ledger</option>
+                                                <option ng-repeat="led in ledgerList" value="{{led}}" ng-selected="led.id==edit_ledger_id">{{led.ledger_name}}</option>
+
+                                            </select>
+                                        </div>-->
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <!-- add for edit button click class 'label_display' -->
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Supplier </div>
+
+
+                                            <input class="form-control border_none uppercase" placeholder="Supplier" type="text" capitalize ng-model="purchase_expense.supplier_name" id="auto_supp_code_id" name="suppliercode" ng-required="true" ng-keyup="search_supplier_name()" list="supplier_name_datalist" autocomplete="off"/>
+
+                                            <datalist id="supplier_name_datalist">
+                                                
+                                                    <option ng-repeat="d in all_supplier_name">{{d.value}}</option>
+                                                
+                                            </datalist>
+
+
+                                            <div ng-messages="productList.suppliercode.$error" ng-show="productList.suppliercode.$dirty">
+                                                <p ng-message="required" class="color_font">This field is required.</p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- <div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-1 padd_none">
+                                            <button class="btn btn-rounded btn-primary-outline margin-inline" type="button" ng-click="add_new_supp()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        </div> -->
+
+                                        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Product</div>
+
+                                                <select class="form-control border_none color_f" ng-model="purchase_expense.expense_product_id"  ng-required="true">
+                                                    <option value="" ng-selected="selected">Select Product</option>
+                                                    <option ng-repeat="ep in allExpSuppProducts" value="{{ep.id}}" ng-selected="ep.id==exp_product">{{ep.value}}</option>
+                                                </select>
+
+                                            </div>
+                                        </div>-->
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Select State</div>
+    
+                                                <select class="form-control border_none color_f" ng-model="purchase_expense.state_id" name="state" ng-required="true" ng-change="get_tax_type()" >
+                                                    <option value="" ng-selected="selected">Select State</option>
+                                                    <option ng-repeat="data in state_list" value="{{data.id}}" ng-selected="data.id==state_id">{{data.state_with_code}}</option>
+    
+                                                </select>
+                                            </div>
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Product </div>
+
+
+                                            <input class="form-control border_none uppercase" placeholder="Product" type="text" capitalize ng-model="purchase_expense.product_name" id="auto_pro_code_id" name="productcode" ng-required="true" list="product_name_datalist" ng-keyup="search_product_name()" autocomplete="off">
+
+                                            <datalist id="product_name_datalist">
+                                                <select>
+                                                    <option ng-repeat="d in all_product_name">{{d.value}}</option>
+                                                </select>
+                                            </datalist>
+
+                                            <div ng-messages="productList.productcode.$error" ng-show="productList.productcode.$dirty">
+                                                <p ng-message="required" class="color_font">This field is required.</p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- <div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-1 padd_none">
+                                            <button class="btn btn-rounded btn-primary-outline margin-inline" type="button" ng-click="add_new_pro()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                        </div> -->
+
+
+                                    </div>
+
+
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                        <div  ng-class="{label_display : active_lable}" class="label_none">Contact Person</div><!-- add for edit button click class 'label_display' -->
+        
+                                            <input class="form-control border_none" placeholder="Contact Person" type="text" ng-model="purchase_expense.contact_person" capitalize>
+        
+                                    </div>
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Amount</div><!-- add for edit button click class 'label_display' -->
+
+                                            <input class="form-control border_none" placeholder="Amount" type="text" ng-model="purchase_expense.amount" ng-change="calculate_exp()">
+
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Product Description</div><!-- add for edit button click class 'label_display' -->
+
+                                                <input class="form-control border_none" placeholder="Product Description" type="text" ng-model="purchase_expense.product_description" capitalize>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-6 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Select Tax Rate</div>
+
+                                            <select class="form-control border_none color_f" ng-model="selected_tax" ng-change="calculate_exp()" name="state" ng-required="true" >
+                                                <option value="" ng-selected="selected">Select Tax Rate</option>
+                                                <option ng-repeat="tax in tax_list" value="{{tax}}" ng-selected="tax.id==edit_tax_id">{{tax.tax_rate}}%</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-6 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_display">Tax Type</div><!-- add for edit button click class 'label_display' -->
+    
+                                                <input class="form-control border_none" placeholder="Tax Type" type="text" ng-model="purchase_expense.tax_type" disabled>
+    
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div  ng-class="{label_display : active_lable}" class="label_display">Total Amount</div><!-- add for edit button click class 'label_display' -->
+    
+                                                <input class="form-control border_none" placeholder="Total Amount" type="text" ng-model="purchase_expense.total_amount" disabled>
+                                            </div>
+
+                                        <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-6 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount</div><!-- add for edit button click class 'label_display' -->
+
+                                            <input class="form-control border_none" placeholder="Tax Amount" type="text" ng-model="purchase_expense.tax_amount" disabled>
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Payment Mode</div>
+                                            <select class="form-control border_none color_f" ng-model="purchase_expense.payment_mode" name="state" ng-required="true">
+
+                                                <option value="" ng-selected="selected">Select Payment Mode</option>
+                                                <option value="Cheque">Cheque</option>
+                                                <option value="NEFT/RTGS">NEFT/RTGS</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Net Banking">Net Banking</option>
+                                                <option value="Other">Other</option>
+
+                                            </select>
+                                        </div>
+
+                                    </div> -->
+
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                    <div  ng-class="{label_display : active_lable}" class="label_none">Payment Mode</div>
+                                                    <select class="form-control border_none color_f" ng-model="purchase_expense.payment_mode" name="state" ng-required="true">
+        
+                                                        <option value="" ng-selected="selected">Select Payment Mode</option>
+                                                        <option value="Cheque">Cheque</option>
+                                                        <option value="NEFT/RTGS">NEFT/RTGS</option>
+                                                        <option value="Cash">Cash</option>
+                                                        <option value="Net Banking">Net Banking</option>
+                                                        <option value="Other">Other</option>
+        
+                                                    </select>
+                                                </div>
+                                                </div>
+                                        
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Paid Amount</div>
+
+                                                <input class="form-control border_none" placeholder="Paid Amount" type="text" ng-model="purchase_expense.paid_amount" ng-keyup="calculate_exp()">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_display">Balance Amount</div>
+
+                                                <input class="form-control border_none" placeholder="Balance Amount" type="text" ng-model="purchase_expense.balance_amount" disabled>
+
+                                            </div>
+                                        </div> -->
+
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Bill Number</div>
+
+                                                <input class="form-control border_none" placeholder="Bill Number" type="text" ng-model="purchase_expense.bill_number" capitalize>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                        <!--<div   class="label_none">Narrations</div>-->
+                                        <h5> Narration</h5>
+
+                                        <textarea class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 " ng-model="purchase_expense.narration" capitalize></textarea>
+
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <input  id="fileInput" type="file" upload-my-file>
+                                        <br />
+                                        <small>Attach Invoice</small>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <center>
+                                            <button class="btn btn-success-outline margin-inline" type="submit" ng-click="save_purchase_expense_data()" ng-hide="show_save">
+                                                <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                            </button>
+                                        </center>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_edit">
+                                        <center>
+                                            <button ng-click="update_purchase_expense_data()" class="btn btn-success-outline margin-inline" type="button" >
+                                                <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                            </button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <!-- <div class="modal-footer bgcolor">
+                 <button type="button" class="btn" data-dismiss="modal">Close</button>
+             </div>-->
+        </div>
+    </div>
+</div>
+<!-- modal start -->
+
+<div class="modal fade modal-size-large" id="succ_error_popup" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{popup_title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <ul>
+                                    <li ng-repeat="error in product_error_array">
+                                        <div>{{$index+1}} ) </div>
+                                        <div>{{error}}</div>
+                                        <br>
+                                    </li>
+                                </ul>
+                                <div>{{product_success}}</div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <center>
+                                        <button class="btn btn-success-outline margin-inline" type="button" data-dismiss="modal">    OK
+                                        </button>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="generate_password" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form name="form-validation" ng-submit="generateOTP ? product_generate_password() : product_verify_otp()">-->
+                <form name="formvalidation" ng-submit="generateOTP ? exp_generate_password() : exp_verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+                        <label class="form-label">Comments</label>
+                        <input class="form-control border_none"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment" name="comments" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true">
+                        <div ng-messages="formvalidation.comments.$error" ng-show="formvalidation.comments.$dirty">
+
+                            <p ng-message="pattern" class="color_font" class="color_font">Enter Alphabet only.</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+                        <label class="form-label ">Enter OTP</label>
+                        <input class="form-control border_none"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+                                <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                                <button type="submit" ng-hide="gen_pass_btn" class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-------------------------------- Add new expense supplier ------------------------->
+
+
+<div class="modal fade modal-size-large" no-of-packets-popup id="add_supp" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" ng-click="reopen_expense()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Add Expense Supplier</h4>
+                <!--<span id="productSuccess">{{product_success}}</span>-->
+                <span id="productError">{{product_error}}</span>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <form name="expenseSupplier">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_display">Supplier Code</div><!-- add for edit button click class 'label_display' -->
+                                            <input class="form-control border_none" placeholder="Supplier Code" type="text" ng-model="add_supplier.supplier_code" disabled>
+
+                                        </div>
+
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <!-- add for edit button click class 'label_display' -->
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Supplier Name</div>
+
+                                            <input class="form-control border_none uppercase" placeholder="Supplier Name" type="text" ng-model="add_supplier.supplier_name" name="suppliername" ng-required="true" capitalize>
+
+                                            <div ng-messages="expenseSupplier.suppliername.$error" ng-show="expenseSupplier.suppliername.$dirty">
+                                                <p ng-message="required" class="color_font">This field is required.</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">GST No.</div><!-- add for edit button click class 'label_display' -->
+
+                                            <!--<input class="form-control border_none" placeholder="GST No" type="text" ng-model="add_supplier.gst_no" capitalize>-->
+
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">GST No.</div><!-- add for edit button click class 'label_display' -->
+
+                                            <input class="form-control border_none" placeholder="GST No" type="text" ng-model="add_supplier.gst_no" ng-minlength="15" maxlength="15" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/"  ng-required="true" name="gst" capitalize>
+
+                                            <div ng-messages="expenseSupplier.gst.$error" ng-show="expenseSupplier.gst.$dirty">
+                                                <p ng-message="required" class="color_font">This field is required.</p>
+                                                <p ng-message="minlength" class="color_font">Required 15 digit.</p>
+                                                <p ng-message="maxlength" class="color_font">Required 15 digit only.</p>
+                                                <p ng-message="pattern" class="color_font">Must be Alphanumeric.</p>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Mobile No.</div><!-- add for edit button click class 'label_display' -->
+
+                                            <!--<input class="form-control border_none" placeholder="Mobile No" type="text" ng-model="add_supplier.mobile_number" capitalize>-->
+
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Mobile No.</div><!-- add for edit button click class 'label_display' -->
+
+                                            <input class="form-control border_none" placeholder="Mobile No" type="text" ng-model="add_supplier.mobile_number" ng-minlength="10" maxlength="10"  ng-required="true" onkeypress="return isNumber(event)" name="number">
+
+                                            <div ng-messages="expenseSupplier.number.$error" ng-show="expenseSupplier.number.$dirty">
+                                                <p ng-message="required" class="color_font">This field is required.</p>
+                                                <p ng-message="minlength" class="color_font">Required 10 digit.</p>
+                                                <p ng-message="maxlength" class="color_font">Required 10 digit only.</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div>
+                                            <button class="btn btn-rounded btn-primary-outline margin-inline pull-right" type="button" ng-click="add_more_product()"><i class="fa fa-plus" aria-hidden="true"></i>Add Product</button>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                        <div class="sb-container container-example1 hei">
+                                            <div class="table_dis" id="fixedheader1">
+                                                <table class="table table-hover table-bordered">
+                                                    <thead>
+                                                    <tr class="colorhead">
+                                                        <th>Product Code</th>
+                                                        <th>Product Name</th>
+                                                        <th>Unit Of Measure</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+                                                    <tr ng-repeat="products in selected_product_array">
+
+                                                        <td><input class="form-control border_none" type="text" placeholder="Product Code" id="{{'product_code'+$index}}" ng-model="selected_product_array[$index].product_code" ng-keyup="get_product_text($index)"></td>
+
+                                                        <td>{{products.product_name}}</td>
+                                                        <td>{{products.measurement.measurement_name}}</td>
+                                                        <td>
+                                                            <a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="removeProduct($index)"></i></a>
+                                                        </td>
+
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <center>
+                                            <button class="btn btn-success-outline margin-inline" type="submit" ng-click="save_exp_supplier()"  ng-disabled="expenseSupplier.$invalid">
+                                                <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                            </button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <!-- <div class="modal-footer bgcolor">
+                 <button type="button" class="btn" data-dismiss="modal">Close</button>
+             </div>-->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade modal-size-large" id="add_pro" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#example3">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Expense Product</h4>
+                <!--<span id="productSuccess">{{product_success}}</span>-->
+                <span id="productError" style="font-size: 15px;color:red">{{product_error}}</span>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active"  role="tabpanel">
+                            <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <form name="prod">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <!-- add for edit button click class 'label_display' -->
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Product Name</div>
+                                            <input class="form-control border_none uppercase" placeholder="Product Name" type="text" ng-model="add_product.product_name" name="productname" ng-required="true" capitalize>
+                                            <div ng-messages="prod.productname.$error" ng-show="prod.productname.$dirty">
+                                                <p ng-message="required" class="color_font" >This field is required.</p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <!-- add for edit button click class 'label_display' -->
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Tax Rate</div>
+                                            <select class="form-control border_none select" ng-model="add_product.tax_rate_id"  name="taxrate" ng-required="true">
+                                                <option value="" ng-selected="selected">Tax Rate</option>
+                                                <option ng-repeat="tax in tax_rate_list" value="{{tax.id}}">{{tax.tax_rate}} %</option>
+                                            </select>
+                                            <div class="error-container" ng-show="prod.taxrate.$dirty && prod.taxrate.$invalid" ng-messages="prod.taxrate.$error">
+                                                <div class="error color_font" ng-message="required">This field is required.</div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">Unit Of Measure</div>
+                                            <select class="form-control border_none select" ng-model="add_product.measurement_id" name="uom" ng-required="true">
+                                                <option value="" ng-selected="selected">Unit Of Measure</option>
+                                                <option ng-repeat="measure in measuement_list" value="{{measure.id}}">{{measure.measurement_name}}</option>
+                                            </select>
+                                            <div class="error-container" ng-show="prod.uom.$dirty && prod.uom.$invalid" ng-messages="prod.uom.$error">
+                                                <div class="error color_font" ng-message="required">This field is required.</div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <center>
+                                            <button class="btn btn-success-outline margin-inline" type="submit" ng-click="save_product()" ng-hide="show_save" ng-disabled="prod.$invalid">
+                                                <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                            </button>
+                                        </center>
+                                    </div>
+
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+                                        <center>
+                                            <button ng-click="edit_product()" class="btn btn-success-outline margin-inline" type="button" ng-disabled="prod.$invalid">
+                                                <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                            </button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<style>
+    .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+
+<script>
+    $(".uppercase").bind('keyup', function (e) {
+        $(this).val(($(this).val()).toUpperCase());
+    });
+</script>
+<script>
+
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+            //alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!-- header fixed -->
+<script>
+    $(document).ready(function() {
+        $("#fixedheader").tableHeadFixer();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#fixedheader1").tableHeadFixer();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#fixedheader2").tableHeadFixer();
+    });
+</script>
+<!-- header fixed End-->
+
+<script type="text/javascript">
+    $('input').on('blur', function(){
+        $(this).prev('div').removeClass('label_none').addClass('label_display');
+    }).on('focus', function(){
+        $(this).prev('div').removeClass('label_none').addClass('label_display');
+    });
+
+</script>
+<script type="text/javascript">
+    $('select').on('blur', function(){
+        $(this).prev('div').removeClass('label_none').addClass('label_display');
+    }).on('focus', function(){
+        $(this).prev('div').removeClass('label_none').addClass('label_display');
+    });
+
+</script>

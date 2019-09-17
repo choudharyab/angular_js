@@ -1,0 +1,486 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+
+<section class="page-content">
+<div class="page-content-inner">
+   <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+       <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/supplier_t.png">Services | Rules
+							<span id="serviceSuccess" style="color: green;font-size: 15px">{{service_success}}</span>
+						
+						</div>
+
+						<br/>
+                        </div>
+                        </div>
+
+						<br/>
+
+						<br/>
+
+						<div class=" col-lg-6 col-md-12 col-sm-6 col-xs-12 width_100" style="padding-left: 0px;padding-right: 0px;">
+
+                    <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12"  style="position: relative;top: 7px;"><h4><b>Services</b></h4></div>
+                    <div class="search-block col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                            <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_service_details">
+                                                <button class="search-block-submit " type="submit"></button>
+                                </div>
+                            </div>
+                           <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#add_services" type="button" ng-click="add_service_btn_clicked()">
+									<i class="fa fa-plus" aria-hidden="true"></i> Add Services
+								</button>
+
+                           </div>   
+
+					 <div class="sb-container container-example1 hei1"><!--add after record  sb-container container-example1 hei  -->
+						<!--<div id="warehouseError">{{warehouse_error}}</div>-->
+						<div class="table_dis" id="fixedheader1">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Services Type</th>
+                                
+                              
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="data in service_details | filter: filter_service_details">
+                                <td>{{$index+1}}</td>
+                                 <td>{{data.service_name}}</td>
+                                <td>
+
+							     <!-- <a data-toggle="modal" data-target="#add_services"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="edit_services(data.id)"></i></a> -->
+								 <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password">
+									 <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="service_permission_popup(data.id,data.comment_status,'edit')"></i>|
+								 </a>
+									
+								<a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password">
+									<i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="service_permission_popup(data.id,data.delete_status,'delete')"></i>
+								</a>
+
+								</td>
+                            </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                     </div>
+                     </div>
+
+                        <div class=" col-lg-6 col-md-12 col-sm-6 col-xs-12 width_100" style="padding-right: 0px;"> 
+                    <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12"  style="position: relative;top: 7px;"><h4><b>Rules</b></h4></div>
+                    <div class="search-block col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                            <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_service_rule_details">
+                                                <button class="search-block-submit " type="submit"></button>
+                                </div>
+                            </div>
+                           <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#add_services_rules" type="button" ng-click="add_rule_btn_clicked()"><i class="fa fa-plus" aria-hidden="true"></i> Add Rule</button>
+
+                           </div>   
+
+					 <div class="sb-container container-example1 hei1"><!--add after record  sb-container container-example1 hei  -->
+						<!--<div id="warehouseError">{{warehouse_error}}</div>-->
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+								<th>Client Name</th>
+								<th>Location</th>
+                                <th>Service Type</th>
+                                <th>Initial KM</th>
+                                <th>Charges<br>Initial KM</th>
+                                <th>Charges<br>Above Initial KM</th>
+                                
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="data in service_rule_details | filter:filter_service_rule_details">
+                                <td>{{$index+1}}</td>
+								 <td>{{data.client_name}}</td>
+								 <td>{{data.location}}</td>
+								 <td>{{data.service.service_name}}</td>
+								 <td>{{data.initials_km}}</td>
+								 <td>{{data.charges_initials_km}}</td>
+								 <td>{{data.charges_above_initials_km}}</td>
+                                <td>
+
+							     <!-- <a data-toggle="modal" data-target="#add_services_rules"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="edit_service_rule(data.id)" ></i></a> -->
+									<a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password">
+										<i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="service_rule_permission_popup(data.id,data.comment_status,'edit')"></i>|
+									</a>
+
+
+									<a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password">
+										<i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="service_rule_permission_popup(data.id,data.delete_status,'delete')"></i>
+									</a>
+
+								</td>
+                            </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                     </div>
+                     </div>
+
+                     	 
+                     <div class="clearfix"></div>
+                    </div>
+                   </div>
+                </div>
+                </div>
+            </div>
+        </div>
+	</div>
+<br/>
+    <!-- End Dashboard -->
+</div>
+</section>
+
+<!-- modal start -->
+
+  <div class="modal fade modal-size-large" close-modal-one id="add_services_rules" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Rule Configuration</h4>
+								
+                            </div>
+                            <div class="modal-body">
+                             <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="formRule">
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12">
+											<div  ng-class="{label_display : active_lable}" class=" label_none">Client</div><!-- add for edit button click class 'label_display' -->
+											
+										<select class="form-control border_none color_f" name="client" ng-model="client" ng-change="get_client_wise_rules(client)" ng-required="true">
+											<option value="" ng-selected="selected" >Select Client</option>
+											<option value="cash" ng-selected="rule.client_id=='cash'">Cash Client</option>
+											<option ng-repeat="data in client_details" value="{{data}}" ng-selected="rule.client_id==data.id">{{data.client_name}}</option>
+											
+										</select>
+										<div ng-messages="formRule.client.$error" ng-show="formRule.client.$dirty">
+												<p ng-message="required" class="color_font">This field is required.</p>
+												<p ng-message="client" class="color_font">Please select client.</p>
+										</div>
+											</div>
+
+											<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12">
+											<div  ng-class="{label_display : active_lable}" class=" label_none">Client</div><!-- add for edit button click class 'label_display' -->
+											
+										<select class="form-control border_none color_f" name="client_location" ng-model="client_location" ng-change="set_location_id(client_location)">
+											<option value="" ng-selected="selected" >Client Location</option>
+											<option ng-repeat="data in client_location_details" value="{{data}}" ng-selected="rule.client_location_id==data.id">{{data.city}},{{data.state_name}}</option>
+											
+										</select>
+											</div>
+
+											<!-- </div> -->
+
+											<!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+											<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12">
+												<div  ng-class="{label_display : active_lable}" class=" label_none">Service</div><!-- add for edit button click class 'label_display' -->
+												
+											<select class="form-control border_none color_f" name="service" ng-model="rule.service_id" ng-required="true">
+												<option value="" ng-selected="selected" >Select Service</option>
+												<option ng-repeat="data in service_details" value="{{data.id}}" ng-selected="rule.service_id==data.id">{{data.service_name}}</option>
+												
+											</select>
+											<div ng-messages="formRule.service.$error" ng-show="formRule.service.$dirty">
+													<p ng-message="required" class="color_font">This field is required.</p>
+													<p ng-message="service" class="color_font">Please select service.</p>
+											</div>
+												</div>
+												</div>
+											<div class="clearfix"></div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+										<div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 newinfo" style="width:18%;position: relative;top: 12px;">
+										<b>Charge For Initial :</b>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" name="initials_km" ng-model="rule.initials_km" capitalize ng-keyup="find_above_initial()" ng-required="true">
+										<div ng-messages="formRule.initials_km.$error" ng-show="formRule.initials_km.$dirty">
+												<p ng-message="required" class="color_font">This field is required.</p>
+												<p ng-message="initials_km" class="color_font">Please enter initial KMs.</p>
+										</div>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="position: relative;top: 12px;">
+											
+										KM
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="position: relative;top: 12px;">
+											
+										=
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" name="charges_initials_km" ng-model="rule.charges_initials_km" capitalize ng-required="true">
+										<div ng-messages="formRule.charges_initials_km.$error" ng-show="formRule.charges_initials_km.$dirty">
+												<p ng-message="required" class="color_font">This field is required.</p>
+												<p ng-message="charges_initials_km" class="color_font">Please enter initial KMs charges.</p>
+										</div>
+										</div>
+										</div>
+											
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+										<div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 newinfo" style="width:18%;position: relative;top: 12px;">
+										<b>Charge Above Initial :</b>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" ng-model="rule.initials_km" capitalize ng-required="true">
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="position: relative;top: 12px;">
+											
+										KM
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="position: relative;top: 12px;">
+											
+										=
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" name="charges_above_initials_km" ng-model="rule.charges_above_initials_km" capitalize ng-required="true">
+										<div ng-messages="formRule.charges_above_initials_km.$error" ng-show="formRule.charges_above_initials_km.$dirty">
+												<p ng-message="required" class="color_font">This field is required.</p>
+												<p ng-message="charges_above_initials_km" class="color_font">Please enter charges above initial KMs.</p>
+										</div>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 padd_none newinfo" style="position: relative;top: 12px;">
+											
+										/ KM
+										</div>
+										</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save_1">
+											<center>
+											<button ng-click="save_service_rules('rule')" class="btn btn-success-outline margin-inline" type="submit" data-dismiss="modal" ng-disabled="formRule.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+											</center>
+									</div>
+									   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit_1">
+										   <center>
+											   <button ng-click="update_service_rule()" class="btn btn-success-outline margin-inline" type="button">
+												   <span class="top_p"><i class="icmn-share2"></i></span> Update
+											   </button>
+										   </center>
+									   </div>
+									  </form> 
+	                               </div>
+                                </div>
+
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+
+
+  <div class="modal fade modal-size-middle" close-my-modal id="add_services" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static" onLoad="focusFieldOne();">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Services Type</h4>
+								<span id="serviceError">{{service_error}}</span>
+								
+                            </div>
+                            <div class="modal-body">
+                             <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="formService">
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+											<div  ng-class="{label_display : active_lable}" class=" label_none">Services Type</div><!-- add for edit button click class 'label_display' -->
+										
+											<input class="form-control border_none uppercase " id="s_id" placeholder="Services Type" type="text" name="service_name" ng-model="service_name" capitalize ng-required="true" autofocus>
+											<div ng-messages="formService.service_name.$error" ng-show="formService.service_name.$dirty">
+													<p ng-message="required" class="color_font">This field is required.</p>
+													<p ng-message="service_name" class="color_font">Please enter service name.</p>
+											</div>
+											</div>
+											<div class="clearfix"></div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+											<center>
+											<button ng-click="save_service('service')" class="btn btn-success-outline margin-inline" type="submit" data-dismiss="modal" ng-disabled="formService.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+											</center>
+									</div>
+									   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit">
+										   <center>
+											   <button ng-click="update_service()" class="btn btn-success-outline margin-inline" type="button" ng-disabled="formService.$invalid">
+												   <span class="top_p"><i class="icmn-share2"></i></span> Update
+											   </button>
+										   </center>
+									   </div>
+									  </form> 
+	                               </div>
+                                </div>
+
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+<!-- modal start -->
+
+
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLbel">{{title_text}}</h4>
+			</div>
+			<div class="modal-body">
+				<!--<form name="form-validation" ng-submit="generateOTP ? generate_password_function() : verify_otp()">-->
+				<form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+					<div class="form-group" ng-hide="gen_pass_div">
+						<label class="form-label ">Comments</label>
+						<input class="form-control border_none"
+							   placeholder="Comment"
+							   type="text"
+							   ng-model="comment.comment" name="comments"  ng-required="true" capitalize>
+
+					</div>
+					<div class="form-group" ng-show="otp_div">
+						<label class="form-label ">Enter OTP</label>
+						<input class="form-control border_none"
+							   placeholder="OTP"
+							   type="text"
+							   ng-model="otp_object.otp">
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+							<div class="col-md-6">
+								<!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+								<button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+								<button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this ).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+
+<script type="text/javascript">
+function focusFieldOne() {
+document.formService.service_name.focus();
+}
+</script>

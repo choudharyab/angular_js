@@ -1,0 +1,372 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/stockexit1.png"> Fleet Maintenance
+                              <div id="fleetMaintenanceSuccess" style="color: green;font-size: 15px" class="formessage_display">{{fleet_maintenance_success}}</div>
+                           </div>
+                           <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_maintenance_details">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" type="button" ng-click="add_btn_clicked()">
+                              <i class="fa fa-plus" aria-hidden="true"></i> Add Details</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1 topupmm">
+                        <!--add after record  sb-container container-example1 hei  -->
+                        <!--<div id="warehouseError">{{warehouse_error}}</div>-->
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                     <th>Sr. No.</th>
+                                    <th>Date</th>
+                                    <th>Fleet Code</th>
+                                    <th>Fleet Reg. No.</th>
+                                    
+                                    <th>Location</th>
+                                    <th>Maintenance Type</th>
+                                    <!--<th>Bills</th>-->
+                                    <th>Amount Spent</th>
+                                    
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                                 <tr ng-repeat="data in maintenance_details |filter:filter_maintenance_details">
+                                     <td>{{$index+1}}</td>
+                                    <td>{{data.maintenancedate}}</td>
+                                    <td>{{data.fleet_code}}</td>
+                                    <td>{{data.fleet_reg_no}}</td>
+                                    <td>{{data.company_address}},{{data.city}}</td>
+                                    <td>{{data.maintenance_type}}</td>
+                                    <!--<td><a ng-click="open_pdf_file(data.bill_name)">{{data.bill_name}}</a></td>-->
+                                    <td>{{data.amount_spent}}</td>
+
+                                    <td>
+                                        <!-- <a data-toggle="modal" data-target="#add_fleet_maintenance">
+                                           <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="get_maintenance_data_by_id(data.id)"></i></a> |
+                                        <a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a> -->
+
+                                        <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="fleet_maintenance_permission_popup(data.id,data.comment_status,'edit')"></i>|</a>
+                                                
+                                         <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="fleet_maintenance_permission_popup(data.id,data.delete_status,'delete')"></i>|</a>
+                                          <a ng-show="current_module_rights[3].status" ng-click="open_pdf_file(data.bill_name)"> <i class="fa fa-file font_six" title="File" aria-hidden="true"></i></a>
+                                             </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-my-modal id="add_fleet_maintenance" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Add Details</h4>
+            <span id="fleetMaintenanceError">{{fleet_maintenance_error}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="formWarehouse">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      
+                                       <div  ng-class="{label_display : active_lable}" class="label_display" >Date</div>
+                                       <input class="form-control border_none" type="text" name="Date" placeholder="Date" id="datetimepicker3" ng-model="fleet_maintenance.date" >
+                                       
+                                       
+                                    </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Fleet Code</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fleet Code" type="text" name="Fleet Code" id="vehicle_code_id" ng-model="fleet_code" capitalize ng-keyup="search_vehicle_code()" list="fleet_code_datalist" autocomplete="off">
+                                 <datalist id="fleet_code_datalist" >
+                                        <select >
+                                            <option ng-repeat="d in all_fleet_code">{{d.value}}</option>
+                                        </select>
+                                    </datalist>
+                              </div>
+
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Fleet Reg. No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fleet Reg. No." type="text" name="Fleet Reg. No." ng-model="fleet_maintenance.fleet_reg_no" capitalize disabled>
+                                 
+                              </div>
+
+
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Make</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Make" type="text" name="Make" ng-model="fleet_maintenance.make" capitalize disabled>
+                                 
+                              </div>
+
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                
+                                 
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Location</div>
+                                <select class="form-control border_none color_f" ng-model="fleet_maintenance.company_id" disabled>
+                                   <option value="">Select Location</option>
+                                    <option ng-repeat="data in location_details" value="{{data.id}}">{{data.company_address}},{{data.city}}</option>
+                               </select>
+                                 
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display" >Maintenance Type</div>
+                                   <select class="form-control border_none color_f" ng-model="fleet_maintenance.maintenance_type">
+                                          <option value="">Select Maintenance Type</option>
+                                          <option value="servicing">Servicing</option>
+                                          <option value="breakdown">Breakdown</option>
+                                          <option value="other">Other</option>
+                                    </select>
+                                 </div>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display" >Tax Type</div>
+                                   <select class="form-control border_none color_f" ng-model="fleet_maintenance.tax_type">
+                                          <option value="">Select Tax Type</option>
+                                          <option value="gst">GST</option>
+                                          <option value="igst">IGST</option>
+                                    </select>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                        <div  ng-class="{label_display : active_lable}" class=" label_display">Tax Amount</div>
+                                        <!-- add for edit button click class 'label_display' -->
+                                        <input class="form-control border_none uppercase " placeholder="Tax Amount" type="text" name="Tax" ng-model="fleet_maintenance.tax_amount" capitalize>
+                                        
+                                     </div>
+                                      <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                              <input class="" id="fileInput" type="file" multiple upload-my-file>
+                                              <div class="clearfix"></div>
+                                              <small style="float: left;">Attach Bill</small>
+                                              <!--<button ng-click="uploadFile()">upload me</button>-->
+                                    </div>
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                      <a href="" 
+                                      ng-src="" ng-click="open_file()">{{filename}}
+                                    </a>                               
+                                      
+                                   </div>
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      
+                                       <div  ng-class="{label_display : active_lable}" class="label_display" >Amount Spent</div>
+                                       <input class="form-control border_none" type="text" name="amount" placeholder="Amount Spent" ng-model="fleet_maintenance.amount_spent">
+                                       
+                                       
+                                    </div>
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                      <div ng-class="{label_display : active_lable}" class="label_display">Comments</div>
+                                    
+                                      <textarea placeholder="Comments"  class="form-control" capitalize ng-model="fleet_maintenance.comment"></textarea>
+                                    </div>
+                             
+                           
+                                  
+                            
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+                              <center>
+                                 <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="save_fleet_maintenance()">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>
+                              </center>
+                           </div>
+
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit">
+                              <center>
+                                 <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="update_fleet_maintenance_details()">
+                                    <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                 </button>
+                              </center>
+                           </div>
+                           
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+          </div>
+          <div class="modal-body">
+
+              <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+                  <div class="form-group" ng-hide="gen_pass_div">
+
+                      <input class="form-control border_none"
+                             placeholder="Comment"
+                             type="text"
+                             ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+
+
+                  </div>
+                  <div class="form-group" ng-show="otp_div">
+
+                      <input class="form-control border_none"
+                             placeholder="OTP"
+                             type="text"
+                             ng-model="otp_object.otp">
+                  </div>
+                  <div class="modal-footer">
+                      <div class="row">
+                          <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                          <div class="col-md-6">
+
+                              <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                              <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                          </div>
+                      </div>
+
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- modal start -->
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this ).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('#datetimepicker1').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker2').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker3').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker4').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker5').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+  $('#datetimepicker6').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+   </script>

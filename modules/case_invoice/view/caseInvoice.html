@@ -1,0 +1,514 @@
+<style>
+    .ui-corner-all,
+    .ui-corner-bottom,
+    .ui-corner-right,
+    .ui-corner-br {
+        z-index: 999 !important;
+    }
+</style>
+<section class="page-content">
+    <div class="page-content-inner">
+<div class="loading"></div>
+
+
+        <!-- Dashboard -->
+        <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="panel panel-with-borders m-b-0">
+                        <div class="panel-body">
+                            <div class="nav-tabs-horizontal margin-bottom-2">
+
+                               
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 text-x">
+                                        <img class="headsectionimages" src="assets/headerimages/PO invoice.png"> Invoice
+                                    
+                                    </div>
+              
+                            <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                <div class="search-block">
+                    <div class="form-input-icon form-input-icon-right">
+                        <i class="icmn-search"></i>
+                                <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_bill_data">
+                                    <button class="search-block-submit " type="submit"></button>
+                    </div>
+                </div>
+            </div>  
+
+                            <div class="pull-right">
+                        <button ng-show="current_module_rights[0].status" ng-click="generate_bill_click()" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#add_bill">
+                        <i class="fa fa-share-square" aria-hidden="true"></i>
+                                Generate Bill
+                        </button>
+                                
+                                    </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="table_dis sb-container container-example1 hei1">
+                                <table class="table table-hover table-bordered" id="table2excel">
+                                    <thead>
+                                        <tr class="colorhead">
+                                            <th>Sr No</th>
+                                            <th>Invoice Date</th>
+                                            <th>Invoice No.</th>
+                                            <th>Client Name</th>
+                                            <th>Tax Amount</th>
+                                            <th>Total Amount</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr ng-repeat="data in invoice_data | filter: filter_bill_data">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.billdate}}</td>
+                                            <td>{{data.invoice_no}}</td>
+                                            <td>{{data.client.client_name}}</td>
+                                            <td>{{data.tax_amount}}</td>
+                                            <td>{{data.grand_total}}</td>
+                                            <td>  
+                                                    <!-- <a data-toggle="modal" data-target="#view_case" ng-click="get_invoice_data_by_id(data.id)"> <i class="fa fa-eye font_six" title="View" aria-hidden="true"></i></a>| -->
+                                                
+                                                
+                                                <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="invoice_permission_popup(data.id,data.comment_status,'edit')"></i>|</a>
+                                                
+                                                <a ng-show="current_module_rights[3].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="invoice_permission_popup(data.id,data.delete_status,'delete')"></i>|</a>
+                                                
+                                                <a ng-show="current_module_rights[1].status"><i class="fa fa-file-pdf-o  font_six" title="Generate Bill" aria-hidden="true" ng-click="generate_invoice_pdf(data.id)"></i>|</a>
+
+                                                <a ng-show="current_module_rights[4].status" ng-click="open_pdf_file(data.bill_name)"> <i class="fa fa-file font_six" title="File" aria-hidden="true"></i></a>
+
+                                                
+                                            </td>
+
+
+
+                                        </tr>
+
+                                          
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <center>
+                                <!-- <button class="btn btn-rounded btn-primary-outline margin-inline" type="button">
+<i class="fa fa-print" aria-hidden="true"></i>
+
+Print
+</button>-->
+                            </center>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <br/>
+
+
+        <!-- End Dashboard -->
+
+    </div>
+
+</section>
+
+
+<!-- modal start -->
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+
+                        <input class="form-control border_none"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+
+
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+
+                        <input class="form-control border_none"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+
+                                <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal start -->
+
+
+
+<div class="modal fade modal-size-small" close-my-modal id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Remark</h4>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+
+                                <div class="form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="already_added">
+                                    <div class="label_none">Remark</div>
+                                    <textarea class="form-control" rows="3" id="l15" placeholder="Remark" ng-model="approved_remark"></textarea>
+
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="already_added">
+                                <center>
+
+                                    <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_approved_remark(id)">
+                                        <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                    </button>
+
+                                </center>
+                            </div>
+                            <span ng-show="show_msg">{{added_msg}}</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+
+<!-- modal start -->
+
+<!-- modal start -->
+
+<div class="modal fade modal-size-large" id="add_bill" close-modal-three tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Generate Bill 
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<!-- <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+		<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form name="details">
+               <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12" > 
+             
+          <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+              <div class="input-group date">
+                  <div  ng-class="{label_display : active_lable}" class="label_none" style="z-index: 999999;">Date</div>
+                      <input id="datetimepicker3" type="text" placeholder="Date" class="form-control border_none" ng-model="invoice.invoice_date">
+                      <span class="input-group-addon">
+                      <i class="icmn-calendar"></i>
+                      </span>
+                  </div>
+             </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <!-- <div class="star">*</div> -->
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Invoice Type</div>
+                     <input class="form-control border_none" type="text" placeholder="Invoice Type" name="invoice_type" ng-model="invoice.invoice_type" ng-required="true" capitalize>
+                     <!-- <div ng-messages="details.agentname.$error" ng-show="details.agentname.$dirty" >
+                        <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                     </div> -->
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class=" label_display ">Company</div>
+                     <select class="form-control border_none color_f" name="company" data-ng-model="company" ng-required="true" ng-change="get_tax_type(company)">
+                 <option value="">Select Company</option>
+                 <option ng-repeat="data in location_details" value="{{data}}" ng-selected="invoice.company_id == data.id">{{data.company_address}},{{data.city}}</option>
+               </select>
+            </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Total Service Amount</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Total Service Amount" ng-model="invoice.total_service_amount" capitalize ng-keyup="calculate_total()">
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Subtotal</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Subtotal" ng-model="invoice.subtotal" capitalize>
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Tax Amount" ng-model="invoice.tax_amount" capitalize>
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 10px;">
+                    <div class="col-lg-4 col-md-12 col-sm-4 col-xs-12">
+                       <b> Reverse Charge Applicable:</b>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                       <div class="form-group" style="margin-bottom: 0px;">
+                          <div class="radio">
+                             <label>
+                             <input name="example1"  type="radio" value="yes" ng-model="invoice.reverse_charge_applicable">
+                             Yes
+                             </label>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                       <div class="form-group" style="margin-bottom: 0px;">
+                          <div class="radio">
+                             <label>
+                             <input name="example1" type="radio"  value="no" ng-model="invoice.reverse_charge_applicable">
+                             No
+                             </label>
+                          </div>
+                       </div>
+                    </div>
+                 </div> 
+                  
+               </div>
+               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+                <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Select Client</div>
+                     <select class="form-control border_none color_f " ng-model="client" ng-change="get_client_state(client)">
+                        <option value="" >--Select Client--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                        <option ng-repeat="client_list in client_listing_details" value="{{client_list}}" ng-selected="client_list.id == client_id">{{client_list.client_name}}</option>
+                    </select>
+                </div>
+
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Invoice No.</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Invoice No." ng-model="invoice.invoice_no" capitalize>
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Tax Type</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Tax Type" ng-model="invoice.tax_name" capitalize disabled>
+                  </div>
+
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Additional Service Amount</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Additional Service Amount" ng-model="invoice.additional_service_amount" capitalize ng-keyup="calculate_total()">
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div>
+                    <select class="form-control border_none" name="tax_rate" type="text" ng-model="tax" ng-required="true" disabled>
+                        <option value="" >-Select Tax-</option>
+                        <option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="data.id == 31">{{data.tax_rate}}%</option>
+                    </select>
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">TDS Amount</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="TDS Amount" ng-model="invoice.tds_amount">
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                     <div  ng-class="{label_display : active_lable}" class="label_display">Grand Total</div>
+                     <!-- add for edit button click class 'label_display' -->
+                     <input class="form-control border_none" type="text" placeholder="Grand Total" ng-model="invoice.grand_total" capitalize>
+                  </div>
+                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                    <input class="" id="fileInput" type="file" upload-my-file>
+                    <div class="clearfix"></div>
+                    <small style="float: left;">Attach File</small>
+                    </div>                              
+               </div>
+               <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div ng-class="{label_display : active_lable}" class="label_display">Description</div>
+            
+                <textarea placeholder="Description"  class="form-control" capitalize ng-model="invoice.description"></textarea>
+            </div>
+            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div ng-class="{label_display : active_lable}" class="label_display">Note</div>
+            
+                <textarea placeholder="Note"  class="form-control" capitalize ng-model="invoice.note"></textarea>
+            </div>
+              
+            </form>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <center ng-hide="hide_save">
+                    <button class="btn btn-primary-outline margin-inline" type="button" ng-click="save_bill()">
+                        Save
+                        <span class="top_p"></span></button>
+                </center>
+                <center ng-hide="hide_update">
+                    <button class="btn btn-primary-outline margin-inline" type="button" ng-click="update_bill_data()">
+                        Update
+                        <span class="top_p"></span></button>
+                </center>
+            </div>
+	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!-- <div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="alert_box" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <div><span id="add_edit_success" style="font-size: 15px;">{{check_alert_msg}}</span></div>
+                    <br/>
+                    <center>
+                        <button type="button" class="btn btn-primary-outline margin-inline" data-dismiss="modal">Ok</button></center>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal fade modal-size-large" id="view_case" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal_size" role="document">
+            <div class="modal-content">
+                <div class="modal-header bgcolor">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Case Details
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="nav-tabs-horizontal">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home1" role="tabpanel">
+                                
+                                    <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                
+                                 <div class="sb-container container-example1 hei">
+                            <div class="table_dis" id="fixedheader2">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                   <tr class="colorhead">
+                                                    <th class="width_t_sr">Sr No.</th>
+                                                    <th>Case No.</th>
+                                                    <th>Towing Charges</th>
+                                                    <th ng-repeat="c in case_column_array track by $index">{{c}}</th>
+                                                    <th>Tax Type</th>
+                                                    <th>Tax Amount</th>
+                                                    <th>Subtotal</th>
+                                                    <th>Grand Total</th>
+                                                    
+                                                </tr>
+                                            </thead>
+    
+                                            <tbody>
+                                                <tr ng-repeat="data in case_array">
+                                                    <td>{{$index+1}}</td>
+                                                    <td>{{data.case_no}}</td>
+                                                    <td>{{data.towing_charges}}</td>
+                                                    <td ng-repeat="d in data.charge_data">{{d.charge_amount}}</td>
+                                                    <td>{{data.tax_name}}</td>
+                                                    <td>{{data.tax_amount}}</td>
+                                                    <td>{{data.subtotal}}</td>
+                                                    <td>{{data.total}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div> -->
+
+<script>
+    $('#datetimepicker3').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '2000:2040',
+    dateFormat:'dd/mm/yy'
+
+});
+    $("#tblExport").click(function () {
+
+        $("#table2excel").table2excel({
+            // exclude CSS class
+            //exclude: ".noExl",
+            name: "Worksheet Name",
+            //fileext: ".xlsx",
+            filename: "Customer_report" //do not include extension
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#table2excel").tableHeadFixer();
+    });
+</script>
+
+   <div class="modal fade" id="approve_msg" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{heading_msg}}</h4>
+            </div>
+            <div class="modal-body">
+                <div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div>
+                <br/>
+                <center >
+                    <button type="button" data-dismiss="modal" class="btn btn-primary-outline margin-inline">Ok</button>
+                </center>
+                
+            </div>
+        </div>
+    </div>
+</div>

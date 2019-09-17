@@ -1,0 +1,119 @@
+
+<section class="page-content">
+<div class="page-content-inner single-page-login-alpha" style="/*background-image: url(assets/common/img/temp/login/5.jpg)*/ background-color:#ffffff;">
+
+    <!-- Login Alpha Page -->
+   <!-- <div class="single-page-block-header">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="logo">
+                    <a href="javascript: history.back();">
+                        <img src="assets/common/img/logo-inverse.png" alt="Clean UI Admin Template" />
+                    </a>
+                </div>
+            </div>
+           
+        </div>
+    </div>-->
+    <div class="single-page-block">
+        
+		<div class="row">
+            <div class="col-xl-12">
+                <div class="promo-text" style="padding:0 0 35px;">
+                    
+                   
+                </div>
+                <div class="single-page-block-inner">
+                    <div class="single-page-block-form">
+                        <div class="text-center">
+							<img src="assets/images/Tecture - Logo.png" alt="logo" class="logo_tect"/>
+                        </div>
+                     <!-- <div  style="color:red"><center>{{message}}</center></div>-->
+                        <form id="form-validation" name="login_form">
+                            <div class="form-group for_m col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+							  <label class="form-label top_marg">Username :</label>
+							  </div>
+							<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <input class="form-control border_none" placeholder="Email or Username" type="text" ng-model="email"  pattern="[a-z0-9._%+-]+@[a-z.-]+\.[a-z]{2,3}$" required/>
+								
+								<span  style="color:red;" ng-show="login_form.email.$dirty && login_form.email.$error.required">*Required</span>
+								<span  style="color:red;" ng-show="login_form.email.$dirty && login_form.email.$error.pattern">*Invalid Email</span>
+                            </div>
+                            </div>
+								<div class="clearfix"></div>
+                            <div class="form-group for_m col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <label class="form-label top_marg">Password :</label>
+							</div>	
+							<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">	
+                                <input class="form-control password border_none" type="password" placeholder="Password" ng-model="password" required>
+								<span  style="color:red;" ng-show="login_form.password.$dirty && login_form.password.$error.required">*Required</span>
+                            </div>
+                            </div>
+								<div class="clearfix"></div>
+							<div class="form-group for_m col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">	
+                                <label class="form-label top_marg">Warehouse :</label>
+							</div>	
+							 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <select class="form-control border_none select" ng-model="warehouse_id" required>
+									<option value="" ng-selected="selected">Select Warehouse</option> 
+									   <option ng-repeat="warehouse in warehouse_list" value="{{warehouse.warehouse_id}}">{{warehouse.warehouse_name}}</option>
+								</select>	  
+								<span  style="color:red;" ng-show="login_form.warehouse_id.$dirty && login_form.warehouse_id.$error.required">*Required</span>								
+                            </div>
+                            </div>	
+								<div class="clearfix"></div>
+                           
+                            <div class="form-actions" style="border-top:0px solid #dfe4ed">
+                                <center><button class="btn btn-rounded btn-success margin-inline width-150" ng-click="signInFunction()">Log In</button> </center>
+                                
+                            </div>
+							
+							 <div class="form-group form-actions">
+                                <center><a href="javascript: void(0);" class="link-blue link-underlined">Forgot Password?</a>
+                                </center>
+                                
+                            </div>
+                          
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- End Login Alpha Page -->
+
+</div>
+
+<!-- Page Scripts -->
+<script>
+    $(function() {
+
+        // Add class to body for change layout settings
+        $('body').addClass('single-page');
+
+        // Form Validation
+        $('#form-validation').validate({
+            submit: {
+                settings: {
+                    inputContainer: '.form-group',
+                    errorListClass: 'form-control-error',
+                    errorClass: 'has-danger'
+                }
+            }
+        });
+
+        // Show/Hide Password
+        $('.password').password({
+            eyeClass: '',
+            eyeOpenClass: 'icmn-eye',
+            eyeCloseClass: 'icmn-eye-blocked'
+        });
+
+    });
+</script>
+<!-- End Page Scripts -->
+</section>

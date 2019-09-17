@@ -1,0 +1,511 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/debit note.png"> Goods Receiving Note
+                              <div id="grSuccess" style="color: green;font-size: 15px" class="formessage_display">{{gr_success}}</div>
+                           </div>
+                           <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_gr_details_list">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" type="button" ng-click="add_btn_clicked()">
+                              <i class="fa fa-plus" aria-hidden="true"></i> Add New</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1 topupmm">
+                        <!--add after record  sb-container container-example1 hei  -->
+                        <!--<div id="warehouseError">{{warehouse_error}}</div>-->
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                     <th>Sr. No.</th>
+                                    <th>GRN No.</th>
+                                    <!--<th>Invoice No.</th>-->
+                                    <th>Supplier Name</th>
+                                    <th>Product</th>
+                                    <th>Product Group</th>
+                                    <th>Unit</th>
+                                    <th>Brand Name</th>
+                                    <th>Quantity</th>
+                                    <th>Received Date</th>
+                                    <th>Remark</th>
+                                    <!-- <th>Bills</th> -->
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                                 <tr ng-repeat="data in gr_details_list | filter:filter_gr_details_list">
+                                     <td>{{$index+1}}</td>
+                                    <td class="tblhover">{{data.grn_code}}</td>
+                                   <!-- <td class="tblhover">{{data}}</td>-->
+                                    <td class="tblhover">{{data.supplier_name}}</td>
+                                    <td class="tblhover">{{data.product_code}}-{{data.product_name}}</td>
+                                    <td>{{data.product_group}}</td>
+                                    <td>{{data.unit}}</td>
+                                    <td>{{data.brand_name}}</td>
+                                    <td>{{data.quantity}}</td>
+                                    <td>{{data.receiveddate}}</td>
+                                    <td>{{data.remark}}</td>
+                                    <!-- <td ng-click="open_pdf_file(data.filename)">{{data.filename}}</td> -->
+                                    <td>
+                                       <!-- <a data-toggle="modal" data-target="#add_gr_note"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="edit_gr_data(data.id)"></i></a> |
+                                       <a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a> -->
+
+                                       <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="gr_permission_popup(data.id,data.comment_status,'edit')"></i></a>|
+                                                
+                                       <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="gr_permission_popup(data.id,data.delete_status,'delete')"></i></a>|
+
+                                       <a ng-show="current_module_rights[3].status" ng-click="open_pdf_file(data.filename)"> <i class="fa fa-file font_six" title="File" aria-hidden="true"></i></a>
+
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- hover Details  -->
+<div class="tblcontentnew">
+   <div class="stylenew">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_bb">
+            <b>Details :</b>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Request No. :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+                {{data.request_code}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Request  Date:</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+                {{data.requestdate}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b> Received Date :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+                {{data.receiveddate}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+   <div class="clearfix"></div>
+</div>
+<style type="text/css">
+   .stylenew{width: 53em;background-color: #fff;border:2px solid #BEB9B5 !important;padding: 10px;}
+   .tblhover{cursor: pointer;}
+   .fontsize12{font-size: 12px !important;}
+</style>
+<!-- hower details js -->
+<script type="text/javascript">
+   $.widget("ui.tooltip", $.ui.tooltip, {
+       options: {
+           content: function () {
+               return $(this).prop('title');
+           }
+       }
+   });
+   
+   $(function () {
+       $('.tblhover').attr('title', $('.tblcontentnew').remove('').html())
+       $(document).tooltip();
+   });
+   
+   
+   $(document).tooltip({
+       //tooltipClass: 'top',
+       position: {
+           my: 'right-25 bottom-25',
+           at: 'right-25 top',
+           using: function(position, feedback) {
+               console.log(feedback);
+               $(this).css(position);
+               $(this).addClass(feedback.vertical);
+           }
+       },
+     /*  open: function(e, ui) {
+           var topOfToolTip = ui.tooltip.offset().top;
+           var elem = $(e.originalEvent.target);
+           if (elem.offset().top < topOfToolTip) {
+               pos = {
+                   my: 'center top',
+                   at: 'center bottom+10'
+               };
+               ui.tooltip.position(pos);
+               ui.tooltip.addClass("bottom");
+           }
+       }*/
+   });
+</script>
+<script>
+   $(document).ready(function(){
+   //alert("hii")
+   
+   setTimeout(function(){
+     $(".tblhover").removeAttr('style');
+   },1000);
+   })
+</script>
+<!-- hower details js end-->
+<!-- hover Details -->
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-my-modal id="add_gr_note" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Add New GRN</h4>
+            <span id="grError">{{gr_error}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="formWarehouse">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_grn_id">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">GRN No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="GRN No." type="text" name="grn" ng-model="gr_details.grn_code" capitalize disabled>
+                              </div>
+                             <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Invoice No.</div>
+                                 &lt;!&ndash; add for edit button click class 'label_display' &ndash;&gt;
+                                 <input class="form-control border_none uppercase " placeholder="Invoice No." type="text" name="invoiceno" capitalize>
+                              </div>-->
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Supplier Name</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Supplier Name" type="text" name="suppliername" ng-model="gr_details.supplier_name" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Request No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Request No." id="request_no_id" type="text" name="requestno" ng-model="request_no" capitalize ng-keyup="search_request_code()" list="request_code_datalist" autocomplete="off">
+                                 <datalist id="request_code_datalist" >
+                                        <select >
+                                            <option ng-repeat="d in all_request_code">{{d.value}}</option>
+                                        </select>
+                                    </datalist>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_display" > Request Date</div>
+                                 <input class="form-control border_none" type="text" name="Date" placeholder="Request Date" id="datetimepicker1" ng-model="gr_details.request_date" disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Product Code</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Product Code" name="icode" type="text" ng-model="gr_details.product_code" capitalize disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Product Group</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Product Group" name="igroup" type="text" ng-model="gr_details.product_group" capitalize disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                <div  ng-class="{label_display : active_lable}" class=" label_display ">Product Name</div>
+                                <!-- add for edit button click class 'label_display' -->
+                                <input class="form-control border_none uppercase " placeholder="Product Name" name="iname" type="text" ng-model="gr_details.product_name" capitalize disabled>
+                             </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Unit</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Unit" name="unit" type="text" ng-model="gr_details.unit" capitalize disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                <div  ng-class="{label_display : active_lable}" class=" label_display ">Brand Name</div>
+                                <!-- add for edit button click class 'label_display' -->
+                                <input class="form-control border_none uppercase " placeholder="Brand Name" name="Brand Name" type="text" ng-model="gr_details.brand_name" capitalize disabled>
+                             </div>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              
+                              
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Quantity</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Quantity" name="qty" type="text" ng-model="gr_details.quantity" capitalize disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Rate</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Rate" name="Rate" type="text" ng-model="gr_details.rate" capitalize ng-keyup="calculate_total()">
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                <div  ng-class="{label_display : active_lable}" class=" label_display ">Amount</div>
+                                <!-- add for edit button click class 'label_display' -->
+                                <input class="form-control border_none uppercase " placeholder="Amount" name="Amount" type="text" ng-model="gr_details.amount" capitalize>
+                             </div>
+                             <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                <div  ng-class="{label_display : active_lable}" class=" label_display ">Tax Type</div>
+                                <!-- add for edit button click class 'label_display' -->
+                                <!-- <input class="form-control border_none uppercase " placeholder="Tax Type" name="tax_type" type="text" ng-model="gr_details.tax_type" capitalize> -->
+                                <select class="form-control border_none" type="text" ng-model="gr_details.tax_type" >
+                                    <option value="" >-Tax Type-</option>
+                                    <option value="GST" ng-selected="gr_details.tax_type == 'GST'">GST</option>
+                                    <option value="IGST" ng-selected="gr_details.tax_type == 'IGST'">IGST</option>
+                                </select>
+                             </div>
+                             <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                <div  ng-class="{label_display : active_lable}" class=" label_display ">Tax Rate</div>
+                                <!-- add for edit button click class 'label_display' -->
+                                <select class="form-control border_none" type="text" ng-model="tax" ng-change="calculate_total(tax)">
+                                    <option value="" >-Select Tax-</option>
+                                    <option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="grn_tax_id == data.id">{{data.tax_rate}}%</option>
+                                </select>
+                             </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_display" > Received Date</div>
+                                 <input class="form-control border_none" type="text" name="Date" placeholder=" Received Date" id="datetimepicker2" ng-model="gr_details.received_date" >
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Type</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Type" name="Type" type="text" ng-model="gr_details.type" capitalize disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                    
+                                <input class="" id="fileInput" type="file" upload-my-file>
+                                <div class="clearfix"></div>
+                                <small style="float: left;">Attach File</small>
+                                <!--<button ng-click="uploadFile()">upload me</button>-->
+
+                         
+                         
+                      </div>
+                      <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                        <a href="" ng-click="open_file()">{{filename}}
+                      </a>                               
+                        
+                     </div>
+                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                              
+
+
+                                <div class="form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div ng-class="{label_display : active_lable}" class=" label_display ">Remark</div>
+                                    <textarea class="form-control ng-pristine ng-valid" rows="3" id="l15" placeholder="Remark" ng-model="gr_details.remark" capitalize></textarea>
+
+                                </div>
+
+                            </div>
+
+                           </div>
+                           <div><b>Sub Total : {{gr_details.subtotal}}  Tax Amount : {{gr_details.tax_amount}}  Grand Total : {{gr_details.grand_total}}</b></div>
+                            <!-- <div>Tax Amount : {{total}}</div>
+                            <div>Grand Total : {{total}}</div> -->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+                              <center>
+                                 <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="save_gr_data()">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>
+                              </center>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit">
+                              <center>
+                                 <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="update_gr_data()">
+                                    <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                 </button>
+                              </center>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+
+                        <input class="form-control border_none"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+
+
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+
+                        <input class="form-control border_none"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+
+                                <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="approve_msg" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">{{heading_msg}}</h4>
+			</div>
+			<div class="modal-body">
+				<div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div>
+				<br/>
+				<center >
+					<button type="button" data-dismiss="modal" class="btn btn-primary-outline margin-inline">Ok</button>
+				</center>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- modal start -->
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this ).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }      
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+    $("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('select').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+
+<script type="text/javascript">
+   $('textarea').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('#datetimepicker1').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+   
+   });
+     $('#datetimepicker2').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+   
+   });
+   
+</script>

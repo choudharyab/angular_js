@@ -1,0 +1,97 @@
+
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/log.png">Log Files </div>
+						<div class="right margin-left-40 col-lg-2 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input ng-model="filter_log_file" class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+					<!-- <button class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button> -->
+							<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">&nbsp;</div>
+						<div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control border_none" placeholder="From"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker'>
+                                <input type='text' class="form-control border_none" placeholder="To"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                        </div> -->
+                        </div>
+						<div class="clearfix"></div><br/>
+                   <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader1">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                              
+                                 <th>Date</th>
+								 <th>User Type</th>
+								<th>Email Address</th>
+								<th>Action Performed</th>
+								<th>IP Address</th>	
+
+                                </tr>
+                            </thead>
+                         
+                            <tbody>
+                                 <tr ng-repeat="data in logfiles | filter:filter_log_file ">
+                                <td>{{data.date}}</td> 
+                                <td>{{data.name}}</td>
+                                <td>{{data.email}}</td>
+                                <td>{{data.action}}</td>
+                                <td>{{data.ip_address}}</td>                               
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader1").tableHeadFixer(); 
+   });
+</script>

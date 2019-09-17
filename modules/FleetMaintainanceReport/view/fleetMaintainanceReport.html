@@ -1,0 +1,247 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/masters.png"> Fleet Maintainance Report
+                               
+                           </div>
+                           <div class="right searchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_fleet_details">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" type="button" ng-click="add_btn_clicked()">
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>   
+                            Export to Excel</button>
+                        </div>
+                     </div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                            <br/>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">&nbsp;</div>
+                            <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                                <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input type='text' id='datetimepicker1' class="form-control border_none" placeholder="From" ng-model="from_date" />
+                                        <label class="input-group-addon" for="datetimepicker1">
+                                            <i class="icmn-calendar"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                                <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input type='text' id='datetimepicker2' class="form-control border_none" placeholder="To" ng-model="to_date" />
+                                        <label class="input-group-addon" for="datetimepicker2">
+                                            <i class="icmn-calendar"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                                <button ng-click="search_disputed_list()" class="btn btn-success">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                      
+                      
+                           
+
+                        </div>
+                     <div class="sb-container container-example1 hei1">
+                        <!--add after record  sb-container container-example1 hei  -->
+                        <!--<div id="warehouseError">{{warehouse_error}}</div>-->
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered" id="table2excel">
+                              <thead>
+                                 <tr class="colorhead">
+                                     <th>Sr. No.</th>
+                                    <th>Fleet Code</th>
+                                    <th>Make Name</th>
+                                    <th>Fleet Reg. No.</th>
+                                    
+                                    <th>Location</th>
+                                   
+                                    <th>Last Maintainance Date</th>
+                                     <th>Avg Maintainance (Days)</th>
+                                    <th>Next Maintenance Date</th>
+                                    <th>Avg Amount Spent</th>
+                                   
+                                    
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                                 <tr ng-repeat="data in fm_report_data| filter:filter_fleet_details">
+                                     <td>{{$index+1}}</td>
+                                    <td>{{data.fleet_code}}</td>
+                                    <td>{{data.make_name}}</td>
+                                    <td>{{data.fleet_reg_no}}</td>
+                                    <td>{{data.city}}</td>
+                                    <td>{{data.last_maintenance_date}}</td>
+                                    <td>{{data.average_days}}</td>
+                                    <td>{{data.tentative_date}}</td>   
+                                    <td>{{data.average_amount_spent}}</td>
+                                    
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+
+<!-- modal start -->
+
+
+
+
+<input type="hidden" id="temp_date">
+<!-- modal start -->
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this ).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('#datetimepicker1').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker2').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker3').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker4').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker5').datepicker({
+     changeMonth: true,
+    changeYear: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+   
+   });
+  $('#datetimepicker6').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+   
+   });
+   $('#datetimepicker7').datepicker({
+       changeMonth: true,
+       changeYear: true,
+       yearRange: '2000:2060' ,
+       dateFormat:'dd/mm/yy'
+
+   });
+   </script>
+
+   <script>
+       $("#tblExport").click(function(){
+
+$("#table2excel").table2excel({
+  // exclude CSS class
+  //exclude: ".noExl",
+  name: "Worksheet Name",
+  //fileext: ".xlsx",
+  filename: "Fleet_Maintenance_report" //do not include extension
+}); 
+});
+</script>
+<script>
+          $(document).ready(function() {
+              $("#table2excel").tableHeadFixer(); 
+          });
+      </script>
+<!--<script>
+    var x=document.getElementById("vehicle_purchase").value;
+    var yr=x.getFullYear();
+    var mnth=x.getMonth();
+    var day=x.getDate();
+    document.getElementById("fitness").innerHTML =new Date(yr+2,mnth,day);
+</script>-->

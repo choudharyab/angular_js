@@ -1,0 +1,451 @@
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-x">Product List
+                            <span id="delete_product" style="color: red;font-size: 15px">{{delete_product_msg}}</span>
+                            <span id="productSuccess" style="color: green;font-size: 15px">{{product_success}}</span>
+                        </div>
+
+						<div class="right hidden-md-down margin-left-50 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>
+
+				<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example3" type="button" ng-click="add_product_called()"><i class="fa fa-plus" aria-hidden="true"></i> Add Product</button>
+
+				<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button" ng-click="click_group()"><i class="fa fa-plus" aria-hidden="true"></i> Add Group</button>
+                        </div>
+                        </div>
+						
+                    <div class="table_dis sb-container container-example1 hei"><!--add after record  sb-container container-example1 hei  -->
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Product code</th>
+								<th>Product Group</th>
+                                <th>Product Name</th>
+                                <th>Grade</th>
+                                <th>Unit Of Measure</th>
+                                <th>Tax Rate</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                 <tr ng-repeat="product in product_list">
+                                <td>{{product.product_code}}</td>
+								  <td>{{product.productgroup.group_name}}</td>
+                                <td>	
+									<span class="cursor">
+										<div class="popover__wrapper">
+												<a href="#">
+													<div class="popover__title">{{product.product_name}}</div>
+												</a>
+										
+					<!--<div class="push popover__content">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_bb">
+									<b>Details :</b>
+							</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>Alternate Mobile No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>PAN No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>TIN No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>DL No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>GST No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>ARN No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>FAX No. :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+							<b>Website :</b>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+							Molecules@gmail.com
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+
+						</div>
+						<div class="clearfix"></div>
+                    </div>
+											</div>-->
+										</div>
+									</span>
+								</td>
+                                <td>{{product.grade}}</td>
+                                <td>{{product.measurement.measurement_name}}</td>
+                                <td>{{product.tax_rate.tax_rate}}</td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="product_permission_popup(product.id,product.comment_status,'edit')"></i></a> |
+                                    <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" title="Edit" aria-hidden="true" ng-click="product_permission_popup(product.id,product.delete_status,'delete')"></i></a>
+								</td>
+                                
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div></div>
+</section>	
+
+<!-- modal start -->
+
+ <div class="modal fade modal-size-large" id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Group and Measurement</h4>
+                                <span id="popupSuccess" style="font-size: 15px;color: green">{{success_message_show}}</span>
+                                <span id="productGroupMeasureSuccess" style="font-size: 15px;color: green;">{{productGroupMeasureSuccess}}</span>
+                                <span id="productGroupMeasureError" style="font-size: 15px;color:red">{{productGroupMeasureError}}</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                                <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <form ng-submit="updateMethod ? update_pro_group_measure() : save_product_group()">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t">
+										<input class="form-control border_none" placeholder="Product group" type="text" ng-model="product_group_text">
+										</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t">
+											<input class="form-control border_none" placeholder="Unit Of Measure" type="text" ng-model="unit_of_measurement">
+										</div>
+	                            		</div>
+										
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="save_btn">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="submit" >
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										
+											</center>
+									</div>
+
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="update_btn">
+                                           <center>
+                                               <button class="btn btn-success-outline margin-inline" type="submit">
+                                                   <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                               </button>
+                                           </center>
+                                       </div>
+
+                                       </form>
+                       <!-------------below table--------------->
+
+
+                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                           <div class="table_dis sb-container container-example1 hei">
+                                               <!--add after record  sb-container container-example1 hei  -->
+                                               <table class="table table-hover table-bordered">
+                                                   <thead>
+                                                   <tr>
+                                                       <th>Sr.No.</th>
+                                                       <th>Group Name</th>
+                                                       <th>Action</th>
+                                                   </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                   <tr ng-repeat="productGroup in product_group">
+                                                       <td>{{$index+1}}</td>
+                                                       <td>{{productGroup.group_name}}</td>
+                                                       <td><a href=""> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"  ng-click="selected_product_group($index,productGroup.id,'pro_group')"></i></a> |
+                                                   <a ng-bootbox-confirm="Are you sure to delete this?"
+                                                              ng-bootbox-confirm-action="delete_pro_group_measure($index,productGroup.id,'pro_group')" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" aria-hidden="true"></i></a>
+                                                       </td>
+                                                   </tr>
+                                                   </tbody>
+                                               </table>
+                                           </div>
+                                       </div>
+                                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                           <div class="table_dis sb-container container-example1 hei ">
+                                               <!--add after record  sb-container container-example1 hei  -->
+                                               <table class="table table-hover table-bordered">
+                                                   <thead>
+                                                   <tr>
+                                                       <th>Sr.No.</th>
+                                                       <th>Measure Name</th>
+                                                       <th>Action</th>
+                                                   </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                   <tr ng-repeat="measurement in get_measurement">
+                                                       <td>{{$index+1}}</td>
+                                                       <td>{{measurement.measurement_name}}</td>
+                                                       <td><a href=""> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"  ng-click="selected_product_group($index,measurement.id,'measure')"></i></a> |
+                                                           <!--<a> <i class="fa fa-trash-o font_six" aria-hidden="true"  ng-click="deleteMeasurement(measurement.id)"></i></a>-->
+                                                           <a ng-bootbox-confirm="Are you sure to delete this?"
+                                                              ng-bootbox-confirm-action="delete_pro_group_measure($index,measurement.id,'measure')" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" aria-hidden="true"></i></a>
+                                                       </td>
+                                                   </tr>
+                                                   </tbody>
+                                               </table>
+                                           </div>
+                                       </div>
+
+								<!-------------product group table end--------->
+
+                                </div>
+                                </div>
+                           </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                          <!--  <div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+
+				<div class="modal fade modal-size-large" close-modal-two id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">{{product_title}}</h4>
+                                <!--<span id="productSuccess">{{product_success}}</span>-->
+                                <span id="productError">{{product_error}}</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t">
+										<input class="form-control border_none" placeholder="Product Code" type="text" ng-model="add_product.product_code" disabled>
+										
+										</div>
+											
+										<div class="top_t">
+											<input class="form-control border_none" placeholder="Product Name" type="text" ng-model="add_product.product_name">
+										</div>
+											<div class="top_t">
+												<select class="form-control border_none select" ng-model="add_product.product_group_id">
+
+													<option value="" ng-selected="selected">Select Product Group</option>
+													<option ng-repeat="group in product_group" value="{{group.id}}">{{group.group_name}}</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t">
+										<input class="form-control border_none" placeholder="Grade" type="text" ng-model="add_product.grade">
+										
+										</div>
+											<div class="top_t">
+												<select class="form-control border_none select" ng-model="add_product.measurement_id">
+													<option value="" ng-selected="selected">Unit Of Measure</option> 
+													<option ng-repeat="measure in measuement_list" value="{{measure.id}}">{{measure.measurement_name}}</option>
+												</select>
+											</div>
+
+											<div class="top_t">
+												<select class="form-control border_none select" ng-model="add_product.tax_rate_id">
+														<option value="" ng-selected="selected">Tax Rate</option> 
+													<option ng-repeat="tax in tax_rate_list" value="{{tax.id}}">{{tax.tax_name}} &nbsp {{tax.tax_rate}}</option>
+												</select>
+											</div>
+										</div>
+	    							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_product()" ng-hide="show_save">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+		    							</center>
+									</div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+                                           <center>
+                                               <button ng-click="edit_product()" class="btn btn-success-outline margin-inline" type="button">
+                                                   <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                               </button>
+                                           </center>
+                                       </div>
+			                       </div>
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+						<div class="clearfix"></div>
+                           <!-- <div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+<!-- modal start -->
+
+<div class="modal fade modal-size-large" id="succ_error_popup" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{popup_title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <ul>
+                                  <li ng-repeat="error in product_error_array">
+                                      <div>{{$index+1}} ) </div>
+                                      <div>{{error}}</div>
+                                      <br>
+                                  </li>
+                              </ul>
+                              <div>{{product_success}}</div>
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                 <center>
+                                   <button class="btn btn-success-outline margin-inline" type="button" data-dismiss="modal">               OK
+                                   </button>
+                                 </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="generate_password" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+                <form name="form-validation" ng-submit="generateOTP ? product_generate_password() : product_verify_otp()">
+                    <div class="form-group" ng-hide="gen_pass_div">
+                        <label class="form-label">Comments</label>
+                        <input class="form-control"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment">
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+                        <label class="form-label">Enter OTP</label>
+                        <input class="form-control"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+                                <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                                <button type="submit" ng-hide="gen_pass_btn" class="btn btn-primary">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary" data-dismiss="modal">Verify OTP</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

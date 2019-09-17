@@ -1,0 +1,493 @@
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{    z-index: 999 !important;}
+</style>
+
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                        
+                           <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/PO invoice.png">Daily Reports  </div>
+						   
+						    <div class="right  margin-left-40 col-lg-2 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input ng-model="filter_daily_report" class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                         
+                           <br>
+                           <br> <br>
+                           <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 text_d1">
+                            <div class="col-lg-5 col-md-6 col-sm-5 col-xs-12 padd_none text_d">
+                                <b>Service Type :</b>
+                            </div>
+                            <div class="col-lg-7 col-md-6 col-sm-7 col-xs-12 padd_none">
+                                
+
+                                <select class="form-control border_none color_f " ng-model="service_id" ng-change="getDailyReportList()">
+                                    <option value="">--Select Service--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                    <option ng-repeat="service_list in service_details" value="{{service_list.id}}">{{service_list.service_name}}</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                </select>
+                            </div>
+
+                            
+            </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 text_d1">
+                            <div class="col-lg-5 col-md-6 col-sm-5 col-xs-12 padd_none text_d">
+                                <b>Client Name :</b>
+                            </div>
+                            <div class="col-lg-7 col-md-6 col-sm-7 col-xs-12 padd_none">
+                                
+
+                                <select class="form-control border_none color_f " ng-model="client_id" ng-change="getDailyReportList()">
+                                    <option value="" >--Select Client--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                    <option ng-repeat="client_list in client_listing_details" value="{{client_list.id}}">{{client_list.client_name}}</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                </select>
+                            </div>
+
+                           
+            </div>
+						   <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                                 <div class="form-group">
+                                    <div class='input-group date'>
+                                       <input type='text' class="form-control border_none" id="from_date" placeholder="Date" ng-model="date"/>
+                                       <span class="input-group-addon">
+                                       <i class="icmn-calendar"></i>
+                                       </span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <!--<div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                                 <div class="form-group">
+                                    <div class='input-group date'>
+                                       <input type='text' class="form-control border_none" id="to_date" placeholder="To" ng-model="to_date"/>
+                                       <span class="input-group-addon">
+                                       <i class="icmn-calendar"></i>
+                                       </span>
+                                    </div>
+                                 </div>
+                              </div>-->
+                              
+                              <div class=" col-lg-2 col-md-1 col-sm-3 col-xs-12 " align="left">
+                                 <button ng-click="getDailyReportList()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                              </div>
+                              </div>
+                          
+                          
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <br/>
+                     <div class="nav-tabs-horizontal">
+                        <ul class="nav nav-tabs" role="tablist">
+                           <li class=" nav-item"  role="presentation">
+                              <a class="nav-link active" role="tab" data-target="#one" data-toggle="tab" id="1">Case Management</a>
+                           </li>
+                           <li class="nav-item" >
+                              <a class="nav-link " role="tab" data-target="#two" data-toggle="tab" id="2">Scrutiny Sheet</a>
+                           </li>
+                           <li class="nav-item" >
+                              <a class="nav-link" role="tab" data-target="#three" data-toggle="tab" id="3">Approved Sheet</a>
+                           </li>
+                           <li class="nav-item" >
+                              <a class="nav-link" role="tab" data-target="#four" data-toggle="tab" id="4">Disputed Sheet</a>
+                           </li>
+                          <!-- <li class="nav-item" >
+                              <a class="nav-link" role="tab" data-target="#five" data-toggle="tab" id="5">Stock Transfer</a>
+                           </li>-->
+                           <li class="nav-item" >
+                              <a class="nav-link" role="tab" data-target="#six" data-toggle="tab" id="6">Cash Client Sheet</a>
+                           </li>
+                           <li class="nav-item" >
+                              <a class="nav-link" role="tab" data-target="#seven" data-toggle="tab" id="7">Invoice</a>
+                           </li>
+                        </ul>
+                        <div class="tab-content padding-vertical-20">
+                           <!-- 1 -->
+                           <div class="tab-pane active"  id="one" role="tabpanel">
+                              <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader1">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                              <th>Sr. No.</th>
+                                            <th>Case No.</th>
+                                            <th>Ticket ID</th>
+                                            <th>Client Name</th>
+                                            <th>Customer Name</th>
+                                             <th>Vehicle No.</th>
+                                             <th>Vehicle Name</th>
+                                             <th>Fleet Allotted</th>
+                                             <th>Driver Name</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="data in case_management_data | filter: filter_daily_report">
+                                              <td>{{$index+1}}</td>
+                                            <td>{{data.case_no}}</td>
+                                            <td>	
+                                                {{data.ticket_no }}
+                                            </td>
+                                            <td>{{data.client_name }}</td>
+                                            <td>{{data.case_customer.customer_name }}</td>
+                                           
+                                            <td>{{data.case_customer.vehicle_reg_no }}</td>
+                                            <td>{{data.case_customer.vehicle_make }}</td>
+                                            <td>{{data.fleet.fleet_code}}-{{data.fleet.make}}</td>
+                                            <td>{{data.driver_name }}</td>
+										</tr>	 
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- 1 -->
+                           <!-- 2 -->
+                           <div class="tab-pane" id="two" role="tabpanel">
+								
+                              <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader2">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                            <th>Sr No</th>
+                                            <th>Case Id</th>
+                                            <th>Date</th>
+                                            <th>Model</th>
+                                            <th>Routemap</th>
+                                            <!-- <th>Fleet Reg. No.</th> -->
+                                            <th>Customer Name</th>
+                                            <th>Service Type</th>
+                                            <th>Towing/RSR KM</th>
+                                            <th>Towing Charges</th>
+                                            <th>SGST@9%</th>
+                                            <th>CGST@9%</th>
+                                            <th>IGST@18%</th>
+                                            <!-- <th>Diesel/Petrol To Customer</th> -->
+                                            <th ng-repeat="data in charge_details">{{data.transportation_name}}</th>
+                                            <th>Total Amount</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="data in scrutiny_sheet_data | filter: filter_daily_report">
+                                            <td>{{$index+1}}</td>
+                                            <td class="tblhover">{{data.case_no}}</td>
+                                            <td>{{data.casedate}}</td>
+                                            <td>{{data.case_customer.vehicle_make}}</td>
+                                            <td>{{data.close_route_map}}</td>
+                                            <td>{{data.case_customer.customer_name}}</td>
+                                            <td>{{data.service[0].service_name}}</td>
+                                            <td>{{data.close_total_service_km}}</td>
+                                            <td>{{data.close_towing_charges}}</td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'IGST'">{{data.tax_amount}}</p><p ng-if="data.tax_name != 'IGST'"></p></td>
+                                            <td ng-repeat="d1 in data.charge_data">{{d1.charge_amount}}</td>
+                                            <td>{{data.total}}</td>
+										</tr>	 
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                         
+                           <!-- 2 -->	
+                           <!-- 3 -->
+                           <div class="tab-pane" id="three" role="tabpanel">
+                              <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader3">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                            
+                                            <th>Sr No</th>
+                                            <th>Case Id</th>
+                                            <th>Date</th>
+                                            <th>Model</th>
+                                            <!-- <th>Veh.No</th> -->
+                                            <th>Customer Name</th>
+                                            <th>Service Type</th>
+                                            <th>Towing/RSR KM</th>
+                                            <th>Towing Charges</th>
+                                            <th>SGST@9%</th>
+                                            <th>CGST@9%</th>
+                                            <th>IGST@18%</th>
+                                            <!-- <th>Diesel/Petrol To Customer</th> -->
+                                            <th ng-repeat="data in charge_details">{{data.transportation_name}}</th>
+                                            <th>Total Amount</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="data in approved_sheet_data | filter: filter_daily_report">
+                                            <td>{{$index+1}}</td>
+                                            <td class="tblhover">{{data.case_no}}</td>
+                                            <td>{{data.casedate}}</td>
+                                            <td>{{data.case_customer.vehicle_make}}</td>
+                                            <!-- <td>{{data.fleet.fleet_reg_no}}</td> -->
+                                            <td>{{data.case_customer.customer_name}}</td>
+                                            <td>{{data.service[0].service_name}}</td>
+                                            <td>{{data.close_total_service_km}}</td>
+                                            <td>{{data.close_towing_charges}}</td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'IGST'">{{data.tax_amount}}</p><p ng-if="data.tax_name != 'IGST'"></p></td>
+                                            <!-- <td>{{data.}}</td> -->
+                                            <td ng-repeat="d1 in data.charge_data">{{d1.charge_amount}}</td>
+                                            <td>{{data.total}}</td>
+                                           </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- 3 -->
+                           <!-- 4 -->
+                           <div class="tab-pane" id="four" role="tabpanel">
+                              <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader4">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                            
+                                            <th>Sr No</th>
+                                            <th class="tblhover">Case Id</th>
+                                            <th>Date</th>
+                                            <th>Model</th>
+                                            <th>Customer Name</th>
+                                            <th>Service Type</th>
+                                            <th>Towing/RSR KM</th>
+                                            <th>Towing Charges</th>
+                                            <th>SGST@9%</th>
+                                            <th>CGST@9%</th>
+                                            <th>IGST@18%</th>
+                                            <th ng-repeat="data in charge_details">{{data.transportation_name}}</th>
+                                            <th>Total Amount</th>
+                                             
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="data in disputed_sheet_data | filter: filter_daily_report">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.case_no}}</td>
+                                            <td>{{data.casedate}}</td>
+                                            <td>{{data.case_customer.vehicle_make}}</td>
+                                            <td>{{data.case_customer.customer_name}}</td>
+                                            <td>{{data.service[0].service_name}}</td>
+                                            <td>{{data.close_total_service_km}}</td>
+                                            <td>{{data.close_towing_charges}}</td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'IGST'">{{data.tax_amount}}</p><p ng-if="data.tax_name != 'IGST'"></p></td>
+                                            <td ng-repeat="d1 in data.charge_data">{{d1.charge_amount}}</td>
+                                            <td>{{data.total}}</td>
+                                             
+                                           </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- 4 -->
+                           <!-- 5 -->
+                           <!--<div class="tab-pane" id="five" role="tabpanel">
+                              <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader3">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                            <th>Invoice No.</th>
+                                             <th>Invoice Date</th>
+                                             <th> Warehouse</th>
+                                             <th>To  Warehouse</th>
+                                            
+                                             <th>Product Name</th>
+                                             <th>Rate</th>
+                                             <th>Total Adjustments Qty</th>
+                                             <th> Total Adjustments Amt</th>
+                                             
+                                             
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             <td>1</td>
+                                             <td>1</td>
+                                             <td>1</td>
+                                             <td>1</td>
+                                             <td>1</td>
+                                             <td>1</td>
+                                             <td>1</td>
+                                             <td>1</td>
+                                            
+                                           </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>-->
+                           <!-- 5 -->
+                           <!-- 6 -->
+                           <div class="tab-pane" id="six" role="tabpanel">
+                               <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader3">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                            <th>Sr No</th>
+                                            <th>Case Id</th>
+                                            <th>Date</th>
+                                            <th>Model</th>
+                                            <!--<th>Veh.No</th>-->
+                                            <th>Customer Name</th>
+                                            <th>Service Type</th>
+                                            <th>Towing/RSR KM</th>
+                                            <th>Towing Charges</th>
+                                            <th>SGST@9%</th>
+                                            <th>CGST@9%</th>
+                                            <th>IGST@18%</th>
+                                            <th ng-repeat="data in charge_details">{{data.transportation_name}}</th>
+                                            <th>Total Amount</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="data in cash_client_data | filter: filter_daily_report">
+                                            <td>{{$index+1}}</td>
+                                            <td class="tblhover">{{data.case_no}}</td>
+                                            <td>{{data.casedate}}</td>
+                                            <td>{{data.case_customer.vehicle_make}}</td>
+                                           <!-- <td>{{data.fleet.fleet_reg_no}}</td>-->
+                                            <td>{{data.case_customer.customer_name}}</td>
+                                            <td>{{data.service[0].service_name}}</td>
+                                            <td>{{data.close_total_service_km}}</td>
+                                            <td>{{data.close_towing_charges}}</td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                            <td><p ng-if="data.tax_name == 'IGST'">{{data.tax_amount}}</p><p ng-if="data.tax_name != 'IGST'"></p></td>
+                                            <td ng-repeat="d1 in data.charge_data">{{d1.charge_amount}}</td>
+                                            <td>{{data.total}}</td>
+                                            
+                                           </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- 6 -->
+                           <!-- 7 -->
+                           <div class="tab-pane" id="seven" role="tabpanel">
+                               <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader3">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                                            <th>Sr No</th>
+                                            <th>Invoice Date</th>
+                                            <th>Invoice No.</th>
+                                            <th>Client Name</th>
+                                            <!-- <th>Tax Type</th> -->
+                                            <th>Tax Amount</th>
+                                            <th>Total Amount</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="data in invoice_data | filter: filter_daily_report">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.billdate}}</td>
+                                            <td>{{data.invoice_no}}</td>
+                                            <td>{{data.client.client_name}}</td>
+                                            <!-- <td>{{data.tax_name}}</td> -->
+                                            <td>{{data.sumtax_amount}}</td>
+                                            <td>{{data.sumtotal_amount}}</td>
+                                           </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- 7 -->
+                        </div>
+                     </div>
+                     <center>
+                     </center>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- modal start -->
+<!-- modal start -->
+
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader1").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader2").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader3").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader4").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader5").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader6").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader7").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+
+<script>
+
+    $('#from_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040',
+        dateFormat:'dd/mm/yy'
+        // defaultDate: '2015-01-01',
+
+    });
+    $('#to_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040'
+        // defaultDate: '2015-01-01',
+
+    });
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+</script>

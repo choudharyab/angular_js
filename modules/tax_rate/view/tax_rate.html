@@ -1,0 +1,414 @@
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-x" style="margin-bottom: 20px;"><img class="headsectionimages" src="assets/headerimages/product.png">Tax Rate | Other Services
+                            
+                            <span style="color:green;font-size:15px;" id="succ_msg">{{success_msg}}</span>
+                            <span style="color:red;font-size:15px;" id="del_msg">{{delete_msg}}</span>
+                            
+                            <br/></div>
+						
+				
+				    <br/>
+                        </div>
+                        </div>
+				<div class=" col-lg-6 col-md-12 col-sm-6 col-xs-12 width_100" style="padding-left: 0px;padding-right: 0px;">
+                    <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12"  style="position: relative;top: 7px;"><h4><b>Tax Rate</b></h4></div>
+                    <div class="search-block col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                            <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_tax_rate_details">
+                                                <button class="search-block-submit " type="submit"></button>
+                                </div>
+                            </div>
+                           <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button" ng-click="add_tax_click()"><i class="fa fa-plus" aria-hidden="true"></i> Add Tax</button>
+
+                           </div>    
+                    <div class=" sb-container container-example1 hei1"><!--add after record  sb-container container-example1 hei  -->
+					<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                             <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <!-- <th>Tax Name</th> -->
+                                
+                                <th>Rate (%)</th>
+                                
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat="tax in tax_rate_details | filter:filter_tax_rate_details">
+                                <td>{{$index+1}}</td>
+                               
+                                <!-- <td>{{tax.tax_name}}</td> -->
+                                <td>{{tax.tax_rate}} %</td>
+                                
+                                <td>
+                                <!--   <a href=""> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" data-toggle="modal" data-target="#example2" ng-click="get_tax($index,tax.id)"></i></a>  -->
+                                  
+                                  <a ng-show="current_module_rights[1].status" href="" data-toggle="modal" data-target="#generate_password" ng-click="tax_permission_popup(tax.id,tax.comment_status,'edit')"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i>|</a>
+                                  
+                                     <!-- <a ng-bootbox-confirm="Are you sure to delete this tax rate?"
+                                       ng-bootbox-confirm-action="deleteTaxRate(tax.id)(attr1, attr2)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a> 
+  -->
+                                       <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password" > <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="tax_permission_popup(tax.id,tax.delete_status,'delete')"></i></a>
+                                       
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+               </div>
+                     
+                    </div>
+                    <div class=" col-lg-6 col-md-12 col-sm-6 col-xs-12 width_100" style="padding-right: 0px;"> 
+                            <div class=" col-lg-5 col-md-5 col-sm-5 col-xs-12"  style="position: relative;top: 7px;"><h4><b>Additional Services</b></h4></div>
+                    <div class="search-block col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                            <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_charge_details">
+                                                <button class="search-block-submit " type="submit"></button>
+                                </div>
+                            </div>
+                           <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                               <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" ng-click="add_charges()"><i class="fa fa-plus" aria-hidden="true"></i> Additional Services</button>
+
+                           </div>  
+<div class="clearfix"></div>						   
+                             <div class=" sb-container container-example1 overfl"><!--add after record  sb-container container-example1 hei  -->
+                    <div class="table_dis" id="fixedheader1">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                             <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Additional Service Name</th>
+                                
+                             
+                                
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                          
+                            <tbody>
+                                 <tr ng-repeat="charges in charge_details | filter:filter_charge_details">
+                                <td>{{$index+1}}</td>
+                                  <td>{{charges.transportation_name}}</td>
+                               <td>
+                               <!--    <a href=""> <i class="fa fa-edit font_six" title="Edit" data-toggle="modal" data-target="#example3" ng-click="get_transportation_by_id($index,charges.id)"></i></a>| -->
+
+                                   <a ng-show="current_module_rights[1].status" href=""> <i class="fa fa-edit font_six" title="Edit" data-toggle="modal" data-target="#generate_password" ng-click="charge_permission_popup(charges.id,charges.comment_status,'edit')"></i></a>|
+                                   
+                                 <!-- <a ng-bootbox-confirm="Are you sure to delete this tax rate?"
+                                     ng-bootbox-confirm-action="deleteTransportationName(charges.id)(attr1, attr2)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a>-->
+                                
+                                     <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password" > <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="charge_permission_popup(charges.id,charges.delete_status,'delete')"></i></a>
+
+                                </td>
+                                
+                            </tr>
+                           
+                           
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                   </div>
+                    </div>
+<div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+<!-- modal start -->
+
+  <div class="modal fade modal-size-large" id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">{{tax_rate_title}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                           <!-- <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#home1" role="tab">Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#profile1" role="tab">Address</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#messages1" role="tab">Contact</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#settings1" role="tab">Product</a>
+                                </li>
+                            </ul>-->
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="taxratenew">
+										
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										
+											<div class="star">*</div>
+                        <div  ng-class="{label_display : active_lable}" class="label_none">Rate in %</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" placeholder="Rate in %" type="text" id="tax_rate" name="taxrate" ng-model="tax_details.tax_rate" onkeypress="return isNumber(event)" ng-required="true" ng-keyup="check_enter_clicked($event)">
+
+                    <!-- <input class="form-control border_none uppercase" id="s_id" placeholder="Rate in %" type="text" name="service_name" ng-model="service_name" capitalize ng-required="true" autofocus> -->
+
+										 <div ng-messages="taxratenew.taxrate.$error" ng-show="taxratenew.taxrate.$dirty">
+										  <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+										</div>
+											
+										
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_save">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_tax_rate()" data-dismiss="modal" ng-disabled="taxratenew.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										
+											</center>
+									</div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+                                           <center>
+                                               <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_tax_rate()" data-dismiss="modal"  ng-disabled="taxratenew.$invalid">
+                                                   <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                               </button>
+
+                                           </center>
+                                       </div>
+								
+                                </div>
+								</form>
+                                </div>
+                               
+                               
+                                
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                            <!--<div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+				
+		<div class="modal fade modal-size-medium" close-my-modal id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Additional Services</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                           
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="tax_rate">
+										<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+											<div class="star">*</div>
+                      <div  ng-class="{label_display : active_lable}" class="label_none">Service Name</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none " placeholder="Service Name" type="text" name="transportation_name1" ng-model="charge_details.transportation_name" ng-required="true" capitalize focus-on="isOpen">
+										 <div ng-messages="charge_details.charge_name.$error" ng-show="charge_details.charge_name.$dirty">
+										  <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+										</div>
+											
+										
+									</div>
+									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="show_save_charge">
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_transportation_name()"  ng-disabled="tax_rate.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										</div>
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit_charge">
+                                           <center>
+                                               <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_transportation_name()" data-dismiss="modal"  >
+                                                   <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                               </button>
+
+                                           </center>
+                                       </div>
+										
+									</div>
+
+									
+                                       
+								
+                                </div>
+								</form>
+                                </div>
+                               
+                               
+                                
+                            </div>
+                        </div>
+						
+                </div>
+						<div class="clearfix"></div>
+                            <!--<div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                
+                            </div>-->
+                        </div>
+                    </div>
+                  </div>	
+
+ 
+   <div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form name="form-validation" ng-submit="generateOTP ? generate_password_function() : verify_otp()">-->
+                <form name="formvalidation" ng-submit="generateOTP ? tax_generate_password_function() : tax_verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+                        <!--<label class="form-label">Comments</label>-->
+                        <input class="form-control border_none"
+                                placeholder="Comment"
+                                type="text"
+                                ng-model="comment.comment" name="comments"  ng-required="true" capitalize>
+                               
+
+                                          <!--   <div class="error-container" ng-show="formvalidation.comments.$dirty && formvalidation.comments.$invalid" ng-messages="formvalidation.comments.$error">
+                                                                    <div class="error color_font" ng-message="required">This field is required.</div>
+                                                </div> -->
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+                        <!--<label class="form-label">Enter OTP</label>-->
+                        <input class="form-control border_none"
+                                placeholder="OTP"
+                                type="text"
+                                ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+                                <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                                <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+				
+<script>
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+
+
+
+<!-- modal start -->
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->
+ <script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>

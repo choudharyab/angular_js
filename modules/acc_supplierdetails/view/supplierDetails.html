@@ -1,0 +1,482 @@
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+</style>
+
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/supplier cheque details.png">Supplier Cheque Details
+                              <span id="chequeDetailSuccess" style="color: green;font-size: 15px">{{cheque_detail_success}}</span>
+                           </div>
+                           <div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_cheque_list">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button"><i class="fa fa-plus" aria-hidden="true" ng-click="reset_sup_modal()"></i>Add More</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1">
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th>Supplier Name</th>
+                                    <th>Invoice No.</th>
+                                    <th>Invoice Date</th>
+                                    <th>Cheque No.</th>
+                                    <th>Cheque Status</th>
+                                    <th>Cheque Amount</th>
+                                    <th>Cheque Date</th>
+                                    <th>Clearing Date</th>
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="data in cheque_list | filter:filter_cheque_list">
+                                    <td>{{data.supplier_name}}</td>
+                                    <td>{{data.purchase_invoice_no}}</td>
+                                    <td>{{data.purchase_invoice_date}}</td>
+                                    <td>{{data.cheque_no}}</td>
+                                    <td>{{data.cheque_status}}</td>
+                                    <td>{{data.currency}}{{data.cheque_amount}}</td>
+                                    <td>{{data.cheque_date}}</td>
+                                    <td>{{data.cleared_date}}</td>
+                                    <td>
+                                       <a href=""> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" data-toggle="modal" data-target="#example3" ng-click="edit_cheque_details($index,data.id)"></i></a> |
+                                       <a ng-bootbox-confirm="Are you sure to delete this details?"
+                                          ng-bootbox-confirm-action="deleteSupplierChequeList(data.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)">
+                                       <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> | 
+                                       <a href=""> <i class="fa fa-check-square-o font_six" title="Check" data-toggle="modal" data-target="#checkderails" type="button" ng-click="sup_cheque_status($index,data.id)"></i></a>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- modal start -->
+<div class="modal fade modal-size-large" id="example2" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Cheque Details</h4>
+            <span id="chequeDetailError">{{cheque_detail_error}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content ">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12 overfl">
+                        <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12   padd_none">
+                           <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                              <h6><b>Supplier Cheque Details</b></h6>
+                           </div>
+                           <!-- ======================================================================================================================================================-->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_none">Select Supplier</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <select class="form-control border_none select" data-ng-model="add_supplier_cheque_info.select_supplier" data-ng-change="get_selected_supplier_info()">
+                                    <option value="">Select Supplier</option>
+                                    <option ng-repeat="data in supplier_list" value="{{data.id}}">{{data.supplier_name}}</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div>
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Invoice No.</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <select class="form-control border_none select" data-ng-model="add_supplier_cheque_info.invoice_id" data-ng-change="get_details_by_invoice()">
+                                       <option value="">Select Invoice No</option>
+                                       <option  ng-repeat="data1 in invoice_list" value="{{data1.id}}">{{data1.purchase_invoice_no}}</option>
+                                    </select>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">PO Number</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="PO Number" ng-model="add_supplier_cheque_info.po_number" readonly>
+                                 </div>
+                              </div>
+                              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12" >
+                                 <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                   <div  ng-class="{label_display : active_lable}" class="label_display">Debit Note</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Debit Note" ng-model="add_supplier_cheque_info.debit_note" readonly>
+                                 </div>
+                                 <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                   <div  ng-class="{label_display : active_lable}" class="label_display">Invoice Date</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Invoice Date" ng-model="add_supplier_cheque_info.invoice_date" readonly>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Grand Total</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Grand Total"  ng-model="add_supplier_cheque_info.grand_total" readonly>
+                                 </div>
+                                 <!--<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                    <div class="label_none">Available Cheque Amt.</div><!-- add for edit button click class 'label_display' -->
+                                 <!--<input class="form-control border_none" type="text" placeholder="Available Cheque Amt." ng-model="add_supplier_cheque_info.available_amt" readonly>
+                                    </div>-->
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+                                 <div class="sb-container container-example1 hei_common ">
+                                    <div id="fixedheader1">
+                                       <table class="table table-hover table-bordered">
+                                          <thead>
+                                             <tr class="colorhead">
+                                                <th class="com_font">Cheque No.</th>
+                                                <th class="com_font">Cheque Amount</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr ng-repeat="data in available_amount_list">
+                                                <td class="com_font"> {{data.cheque_no}} </td>
+                                                <td class="com_font"> {{data.cheque_amount}} </td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                                 <!--<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" align="right">
+                                    <button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+                                    </div>-->
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                        </div>
+                        <!--=====================================================================================================================================================-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                           <h6><b>Cheque Details</b></h6>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="details in add_cheque_info">
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <button class="btn btn-rounded btn-primary-outline margin-inline flt_d pull-right" type="button" ng-click="remove_cheque_details($index)" ng-if="$index>0">
+                              <i class="fa fa-minus" aria-hidden="true"></i></button>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_display">Cheque No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Cheque No." ng-model="add_cheque_info[$index].cheque_no" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_display">Cheque Amount</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Cheque Amount" ng-model="add_cheque_info[$index].cheque_amount" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_display">Bank Name</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Bank Name" ng-model="add_cheque_info[$index].bank_name_on_cheque" capitalize>
+                              </div>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_display">Cheque Date</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none datepicker_recurring_start" type="text" placeholder="Cheque Date" ng-model="add_cheque_info[$index].cheque_date">
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_display">Name On Cheque</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Name Of Cheque" ng-model="add_cheque_info[$index].name_on_cheque" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_display">Transfer From Bank</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <!--<input class="form-control border_none" type="text" placeholder="Bank Name" ng-model="add_cheque_info.transfer_from_bank">-->
+                                 <select class="form-control border_none select" data-ng-model="add_cheque_info[$index].bank_id">
+                                    <option value="">Select Bank</option>
+                                    <option  ng-repeat="item in bank_list" value="{{item.id}}">{{item.ledger_name}}</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" align="right">
+                           <button class="btn btn-rounded btn-primary-outline margin-inline" type="button" ng-click="add_cheque_details()"><i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <center>
+                        <button class="btn btn-success-outline margin-inline" type="button" ng-click="add_supplier_cheque()">
+                        <span class="top_p"><i class="icmn-share2"></i></span> Save
+                        </button>
+                     </center>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>
+<!-- modal start -->
+<div class="modal fade modal-size-large"  id="example3" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Cheque Details</h4>
+            <span id="chequeDetailError1">{{cheque_detail_error1}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content ">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12 overfl padd_none">
+                           <!-- chq-->
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                              <h6><b>Cheque Details</b></h6>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Cheque No.</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Cheque No." ng-model="edit_cheque_info.cheque_no" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                   <div  ng-class="{label_display : active_lable}" class="label_none">Cheque Amount</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Cheque Amount" ng-model="edit_cheque_info.cheque_amount" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                   <div  ng-class="{label_display : active_lable}" class="label_none">Bank Name</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Bank Name" ng-model="edit_cheque_info.bank_name_on_cheque" capitalize>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                   <div  ng-class="{label_display : active_lable}" class="label_none">Cheque Date</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none datepicker_recurring_start" type="text" placeholder="Cheque Date" ng-model="edit_cheque_info.cheque_date" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                  <div  ng-class="{label_display : active_lable}" class="label_none">Name On Cheque</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Name Of Cheque" ng-model="edit_cheque_info.name_on_cheque" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                   <div  ng-class="{label_display : active_lable}" class="label_none">Transfer From Bank</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <select class="form-control border_none select" data-ng-model="edit_cheque_info.bank_id" capitalize>
+                                       <option value="">Select Bank</option>
+                                       <option ng-selected="item.id==add_cheque_info.bank_id" ng-repeat="item in bank_list" value="{{item.id}}">{{item.ledger_name}}</option>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- chq-->
+                     </div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <center>
+                           <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_cheque_details()">
+                           <span class="top_p"><i class="icmn-share2"></i></span> Update
+                           </button>
+                        </center>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+         <!--   <div class="modal-footer bgcolor">
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+            
+            </div>-->
+      </div>
+   </div>
+</div>
+<!-- -->
+<div class="modal fade modal-size-large" id="checkderails" close-otp-supp-return-update tabindex="-1" role="dialog"  aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Cheque Status</h4>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+              
+               <div class="tab-content padding-vertical-20">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                           <div  ng-class="{label_display : active_lable}" class="label_none">Website</div>
+                          <div class="form-group">
+                            <div class='input-group date' >
+                                <input type='text' id='datetimepicker5' class="form-control border_none" placeholder="Date" ng-model="cleared_date" />
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="position:relative;top:11px;">
+                           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                              <div class="form-group">
+                                 <div class="radio">
+                                    <label>
+                                   <input name="example1" checked="" type="radio" ng-model="status" value="Bounce">
+                                    Bounced 
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                              <div class="form-group">
+                                 <div class="radio">
+                                    <label>
+                                   	<input name="example1" type="radio" ng-model="status" value="Cleared">
+                                    Cleared
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                           <textarea  placeholder="Note" rows="2" class="form-control" data-ng-model="comments"></textarea>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                           <center>
+                              <button class="btn btn-success-outline margin-inline" type="button" ng-click="save_sup_cheque_status()">
+                              <span class="top_p"><i class="icmn-share2"></i></span> Save
+                              </button>
+                           </center>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+<!-- modal start -->
+<!-- -->
+<script>
+   $.datepicker.setDefaults({
+       dateFormat: 'yy-mm-dd'
+   });
+   
+</script>
+<script type="text/javascript">
+   $(function () {
+   		$('#datetimepicker1').datetimepicker({
+   			icons: {
+   				time: "fa fa-clock-o",
+   				date: "fa fa-calendar",
+   				up: "fa fa-arrow-up",
+   				down: "fa fa-arrow-down"
+   			}
+   		});
+   	});
+</script>
+<script type="text/javascript">
+   $(document).on('focus',".datepicker_recurring_start", function(){
+       console.log('mood off');
+       $(this).datepicker({changeMonth: true,
+           changeYear: true,
+           yearRange: '2000:2040' ,
+           defaultDate: new Date()});
+   });
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader1").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script>
+   $.datepicker.setDefaults({
+       dateFormat: 'yy-mm-dd'
+   });
+   
+</script>
+
+											
+<script>
+    $('#datetimepicker5').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+
+</script>
+
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>

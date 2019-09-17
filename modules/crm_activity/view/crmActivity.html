@@ -1,0 +1,830 @@
+<!-- <style>
+	.approve_color{
+		color:#0088ff
+	}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+   
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 text-x">Activity
+							<span id="activitySuccess" style="color: green;font-size: 15px">{{activity_success}}</span>
+						</div>
+						<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_activity_list">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				<button class="btn btn-rounded btn-primary-outline margin-inline" ng-click="add_activicty_clicked()" data-toggle="modal" data-target="#example3" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add Activity</button>
+                        </div>
+                        </div>
+						
+                   <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                             
+											<th>Date</th>
+											<th>Activity</th>
+											<th class="rport_www">Action</th>
+											
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr ng-repeat="data in activity_list | filter:filter_activity_list">
+											<td>{{data.activity_date}}</td>
+											
+											<td>{{data.activity}}</td>
+											
+											<td>
+												<a ng-click="send_email(data.id)"> <i class="fa fa-envelope font_six" aria-hidden="true"  title="Email" ng-class="{approve_color:data.mail_status=='yes'}" ></i></a> |
+												<a href=""> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" data-toggle="modal" data-target="#example3" ng-click="edit_activity($index,data.id)"></i></a> |
+												
+												<a ng-bootbox-confirm="Are you sure to delete this Activity?"
+												   ng-bootbox-confirm-action="deleteActivityList(data.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)" > <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+                    </div>
+                    </div>
+               
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+ 
+
+</div>
+
+</section>	
+
+
+
+
+  
+  <div class="modal fade modal-size-large"  id="example2" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Activity</h4>
+								<span id="activityError">{{activity_error}}</span>
+                              
+                            </div> 
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                            <ul class="nav nav-tabs" role="tablist">
+								<li class=" nav-item"  role="presentation">
+									<a class="nav-link active" role="tab" data-target="#home1" data-toggle="tab" id="1">Customer</a>
+								</li>
+                             
+								<li class="nav-item" >
+									<a class="nav-link " role="tab" data-target="#profile1" data-toggle="tab" id="2">Supplier</a>
+								</li>
+                             
+								
+                               
+                            </ul>
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active"  id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="details">
+									<div class="sb-container container-example1 hei">
+						<div class="table_dis" id="fixedheader2">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+											<th class="rport_www">
+													<center>
+													Select All<br/>
+													<input name="select all" type="checkbox" ng-model="selectedAll2" ng-click="checkAll2(customer_list)">
+													</center>
+												</th>
+												<th>Sr.No.</th>
+												<th>Customer</th>
+
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="data in customer_list" >
+												<td><center><input name="select" type="checkbox" ng-model="data.Selected" ng-checked="check_if_checked(data.id)"
+																   ng-click="add_selected_customer(data.id,data.customer_code,data.customer_name,data.email)">
+												</center></td>
+												<td>{{data.customer_code}}</td>
+												<td>{{data.customer_name}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+
+								
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+
+											<button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+									<span class="top_p">
+									<i class="icmn-arrow-left15"></i>
+									</span>
+									Previous
+									</button>
+
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_activity(type = 'save')">
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="add_activity(type = 'email')">Email
+												<span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											</button>	
+											</center>
+									</div>
+
+								</form>
+                                </div>
+                                </div>
+
+						
+
+
+                                <div class="tab-pane" id="profile1" role="tabpanel">
+								 <form name="address">
+                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+									<div class="sb-container container-example1 hei">
+						<div class="table_dis" id="fixedheader1">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+											<th class="rport_www">
+													<center>
+													Select All<br/>
+													<input name="select all" type="checkbox" ng-model="selectedAll" ng-click="checkAll(supplier_list)"/>
+													</center>
+												</th>
+												<th>Sr.No.</th>
+												<th>Supplier</th>
+												
+											
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="item in supplier_list">
+												<td><center><input name="select" type="checkbox" ng-model="item.Selected" ng-checked="check_if_checked2(item.id)"
+																  ng-click="add_selected_supplier(item.id,item.supplier_code,item.supplier_name,item.email)" ></center></td>
+												<td>{{item.supplier_code}}</td>
+												<td>{{item.supplier_name}}</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+								</div>
+
+									
+						          </div>
+
+							
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+
+											<button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+									<span class="top_p">
+									<i class="icmn-arrow-left15"></i>
+									</span>
+									Previous
+									</button>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_activity(type = 'save')">
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+										<button class="btn btn-primary-outline margin-inline" type="button" ng-click="add_activity(type = 'email')">Email
+												<span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											</button>	
+											</center>
+									</div>
+									</form>
+                                </div>
+								
+								
+						
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+				<div class="modal fade modal-size-large" id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Activity</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content padding-vertical-20">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							  <form name="crmactivity">
+								<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index:999999;">Date</div>
+												<div class="input-group date">
+													<input type="text" placeholder="Date" class="form-control border_none " id="feedback_date" ng-model="crm_activity.activity_date">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+															
+										</div>
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Activity</div>
+												<div class="star">*</div>
+										<input class="form-control border_none uppercase" type="text" placeholder="Activity" ng-model="crm_activity.activity" name="activity"  ng-required="true">
+											<div ng-messages="crmactivity.activity.$error" ng-show="crmactivity.activity.$dirty">
+										  <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										 
+										</div>
+									</div>
+									</div>
+								<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Note</div>
+										
+										<textarea  placeholder="Note" rows="3" class="form-control " data-ng-model="crm_activity.note"></textarea>
+									</div>
+									</div>
+									
+									<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+													<input id="l16" file-model="myFile" type="file">
+														<br>
+											<small>Upload File</small>
+											</div>
+									</div>
+									</div>
+								
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<center>
+										<button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button" data-dismiss="modal" ng-disabled="crmactivity.$invalid">Next 
+										<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+										</button>	
+									</center>
+								</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			
+		</div>
+	</div>
+</div>
+
+
+												<script>
+    $('#feedback_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040'
+        
+
+    });
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+</script>
+
+<style>
+    #feedback_date{
+        z-index:99999;
+    }
+
+</style>
+		
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+           
+        }
+    });
+</script>										
+												
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader2").tableHeadFixer(); 
+			});
+		</script>
+		
+		
+		
+ -->
+
+ <style>
+	.approve_color{
+		color:#0088ff
+	}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/attendance_management.png"> Activity
+							<div id="activitySuccess" style="color: green;font-size: 15px" class="formessage_display">{{activity_success}}</div>
+						</div>
+						<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				<button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" ng-click="add_activicty_clicked()" data-toggle="modal" data-target="#example3" type="button">
+					<i class="fa fa-plus" aria-hidden="true"></i>Add Activity</button>
+                        </div>
+                        </div>
+						
+                   	<div class="sb-container container-example1 hei1 topupmm">
+						<div class="table_dis" id="fixedheader">
+                        	<table class="table table-hover table-bordered">
+                            	<thead>
+                                	<tr class="colorhead">
+											<th>Date</th>
+											<th>Activity</th>
+											<th class="rport_www">Action</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr ng-repeat="data in activity_list">
+											<td>{{data.activity_date}}</td>
+											
+											<td>{{data.activity}}</td>
+											
+											<td>
+												<a ng-show="current_module_rights[1].status" ng-click="send_email(data.id)"> <i class="fa fa-envelope font_six" aria-hidden="true"  title="Email" ng-class="{approve_color:data.mail_status=='yes'}" ></i> |</a>
+
+												<a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password" > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="crm_activity_permission_popup(data.id,data.comment_status,'edit')"></i>| </a>
+
+												<a ng-show="current_module_rights[3].status" data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete" ng-click="crm_activity_permission_popup(data.id,data.delete_status,'delete')"></i></a>
+
+												<!-- <a ng-bootbox-confirm="Are you sure to delete this Activity?"
+												   ng-bootbox-confirm-action="deleteActivityList(data.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)" > <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> -->
+											</td>
+										</tr>
+									</tbody>
+								</table>
+                    </div>
+                    </div>
+               
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+  <div class="modal fade modal-size-large"  id="example2" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Activity</h4>
+								<span id="activityError">{{activity_error}}</span>
+                              
+                            </div> 
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                            <ul class="nav nav-tabs" role="tablist">
+								<li class=" nav-item"  role="presentation">
+									<a class="nav-link active" role="tab" data-target="#home1" data-toggle="tab" id="1">Customer</a>
+								</li>
+                             
+								<li class="nav-item" >
+									<a class="nav-link " role="tab" data-target="#profile1" data-toggle="tab" id="2">Supplier</a>
+								</li>
+                             
+								
+                               
+                            </ul>
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active"  id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="details">
+										<div class="table_dis sb-container container-example1 overfl ">
+									<!--add after record  sb-container container-example1 hei  -->
+									<table class="table table-hover table-bordered">
+										<thead>
+											<tr>	
+											<th class="rport_www">
+													<center>
+													Select All<br/>
+													<input name="select all" type="checkbox" ng-model="selectedAll2" ng-click="checkAll2(customer_list)">
+													</center>
+												</th>
+												<th>Sr.No.</th>
+												<th>Customer</th>
+
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="data in customer_list" >
+												<td><center><input name="select" type="checkbox" id="cust_check_{{data.id}}" ng-model="data.Selected" ng-checked="check_if_checked(data.id)"
+																   ng-click="add_selected_customer(data.id,data.customer_code,data.customer_name,data.email)">
+												</center></td>
+												<td>{{data.customer_code}}</td>
+												<td>{{data.customer_name}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_save_block">
+											<center>
+												<button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+													<span class="top_p"><i class="icmn-arrow-left15"></i></span>
+													Previous
+												</button>
+
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_activity(type = 'save')">
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="add_activity(type = 'email')">Email
+												<span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											</button>	
+											</center>
+									</div>
+
+									   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_update_block">
+										   <center>
+											   <button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+												   <span class="top_p"><i class="icmn-arrow-left15"></i></span>
+												   Previous
+											   </button>
+
+											   <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_activity(type='save')">
+												   <span class="top_p"><i class="icmn-share2"></i></span> Update
+											   </button>
+											   <!--<button class="btn btn-primary-outline margin-inline" type="button">Email
+												   <span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											   </button>-->
+										   </center>
+									   </div>
+
+								</form>
+                                </div>
+                                </div>
+
+						<!--------------ADDRESS------------>
+
+
+                                <div class="tab-pane" id="profile1" role="tabpanel">
+								 <form name="address">
+                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+									<div class="table_dis sb-container container-example1 hei ">
+									<!--add after record  sb-container container-example1 hei  -->
+									<table class="table table-hover table-bordered">
+										<thead>
+											<tr>	
+											<th class="rport_www">
+													<center>
+													Select All<br/>
+													<input name="select all" type="checkbox" ng-model="selectedAll" ng-click="checkAll(supplier_list)"/>
+													</center>
+												</th>
+												<th>Sr.No.</th>
+												<th>Supplier</th>
+												
+											
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="item in supplier_list">
+												<td><center><input name="select" type="checkbox" ng-model="item.Selected" ng-checked="check_if_checked2(item.id)"
+																  ng-click="add_selected_supplier(item.id,item.supplier_code,item.supplier_name,item.email)" ></center></td>
+												<td>{{item.supplier_code}}</td>
+												<td>{{item.supplier_name}}</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+
+									
+						          </div>
+
+							
+									
+									<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+
+											<button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+									<span class="top_p">
+									<i class="icmn-arrow-left15"></i>
+									</span>
+									Previous
+									</button>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_activity(type = 'save')">
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+										<button class="btn btn-primary-outline margin-inline" type="button" ng-click="add_activity(type = 'email')">Email
+												<span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											</button>	
+											</center>
+									</div>-->
+
+									 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_save_block">
+										 <center>
+											 <button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+												 <span class="top_p"><i class="icmn-arrow-left15"></i></span>
+												 Previous
+											 </button>
+
+											 <button class="btn btn-success-outline margin-inline" type="button" ng-click="add_activity(type = 'save')">
+												 <span class="top_p"><i class="icmn-share2"></i></span> Save
+											 </button>
+											 <button class="btn btn-primary-outline margin-inline" type="button" ng-click="add_activity(type = 'email')">Email
+												 <span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											 </button>
+										 </center>
+									 </div>
+
+									 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_update_block">
+										 <center>
+											 <button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" data-dismiss="modal">
+												 <span class="top_p"><i class="icmn-arrow-left15"></i></span>
+												 Previous
+											 </button>
+
+											 <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_activity(type='save')">
+												 <span class="top_p"><i class="icmn-share2"></i></span> Update
+											 </button>
+											 <!--<button class="btn btn-primary-outline margin-inline" type="button">Email
+												 <span class="top_p"> <i class="fa fa-envelope font_six"></i></span>
+											 </button>-->
+										 </center>
+									 </div>
+									</form>
+                                </div>
+								
+								<!--------------ADDRESS END------------>
+
+								<!--------------CONTACT------------>
+
+							
+				<!---------------------PRODUCT------------------>
+                        
+						
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+<div class="modal fade modal-size-large" id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Activity</h4>
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content padding-vertical-20">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="">
+												<div class="input-group date">
+													<input type="text" placeholder="Date" class="form-control border_none " id="datetimepicker1" ng-model="crm_activity.activity_date">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+															
+										</div>
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="label_none">Activity</div>
+										<!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Activity" ng-model="crm_activity.activity">
+									</div>
+								<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="label_none">Note</div>
+										<!-- add for edit button click class 'label_display' -->
+										<textarea  placeholder="Note" rows="3" class="form-control " data-ng-model="crm_activity.note"></textarea>
+									</div>
+									
+									<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="label_none">Upload</div>
+										<!-- add for edit button click class 'label_display' -->
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+													<input id="l16" file-model="myFile" type="file">
+														<br>
+											<small>Upload File</small>
+											</div>
+									</div>
+								
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<center>
+										<button class="btn btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button" data-dismiss="modal">Next
+										<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+										</button>	
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--<div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+
+<!-- modal start -->
+												<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLbel">{{title_text}}</h4>
+			</div>
+			<div class="modal-body">
+				<!--<form name="form-validation" ng-submit="generateOTP ? generate_password_function() : verify_otp()">-->
+				<form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+					<div class="form-group" ng-hide="gen_pass_div">
+						<label class="form-label ">Comments</label>
+						<input class="form-control border_none"
+							   placeholder="Comment"
+							   type="text"
+							   ng-model="comment.comment" name="comments" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true">
+							   <div ng-messages="formvalidation.comments.$error" ng-show="formvalidation.comments.$dirty">
+												
+												<p ng-message="pattern" class="color_font" class="color_font">Enter Alphabet only.</p>
+								</div>
+					</div>
+					<div class="form-group" ng-show="otp_div">
+						<label class="form-label ">Enter OTP</label>
+						<input class="form-control border_none"
+							   placeholder="OTP"
+							   type="text"
+							   ng-model="otp_object.otp">
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+							<div class="col-md-6">
+								<!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+								<button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+								<button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+		$("#fixedheader").tableHeadFixer(); 
+	});
+</script>

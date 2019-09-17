@@ -1,0 +1,349 @@
+<style>
+   .bgcolor{background-color:#F2F4F8;}
+   .padd_left{padding-left:21px !important;}
+   .padd_left a{color:#514d6a !important;}
+   .padd_left1{padding-left:30px !important;}
+   .padd_left1 a{color:#514d6a !important;}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+<!-- Dashboard -->
+<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+   <div class="row">
+      <div class="col-xl-12">
+         <div class="panel panel-with-borders m-b-0">
+            <div class="panel-body" id="createBalance">
+					<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/balancesheet.png"> Balance Sheet</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+									<span class="font_nw">Wheels On Road Pvt. Ltd. </span><br/>
+										<span class="font_1"><b>CIN : U74999MP2018PTC044976</b> &nbsp; </span><br/>
+									<span class="font_1"><b>Period : </b>{{from_date}} To {{to_date}}</span>
+									</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<b>Financial Year :</b> {{finance_year}}-{{finance_year+1}}
+									</div>
+								</div>
+							</div>
+							<br/>
+			
+               
+               <div class="clearfix"></div>
+               <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			     <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                        <div class="form-group top_wa">
+                           <div class="input-group date">
+                              <input ng-model="from_date" id="from_date" type="text" class="form-control border_none" placeholder="From">
+                              <label class="input-group-addon" for="from_date">
+                              <i class="icmn-calendar"></i>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                        <div class="form-group top_wa">
+                           <div class="input-group date">
+                              <input ng-model="to_date" id="to_date" type="text" class="form-control border_none" placeholder="To">
+                              <label class="input-group-addon" for="to_date">
+                              <i class="icmn-calendar"></i>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+                        <button  class="btn btn-success" ng-click="onLoadGetBalanceSheetData()"><i class="fa fa-search"></i></button>
+                     </div>
+			   
+                  <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1 pull-right" style="margin-bottom:15px;">
+                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+                        <b>View :</b>
+                     </div>
+                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none">
+                        <select class="form-control border_none select" ng-change="change_view_type()" ng-model="view_type">
+                           <option value="">Select View</option>
+                           <option value="Compacted">Compact View</option>
+                           <option value="Detailed">Details View</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="clearfix"></div>
+                  
+                  <div class="table_dis  container-example1 " id="dvData">
+                     <table class="table table-hover" id="table2excel">
+                        <tr> 
+                           <!--left-->
+                           <td class="h_n_w">
+                              <div class="table_dis  container-example1 ">
+                                 <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                    <tr class="colorhead">
+                                       <td  colspan="3" class="colorhead" style="background-color:#F2F4F8;">
+                                          <h4 style="margin:0px;">
+                                             <b>Liabilities</b>
+                                          </h4>
+                                       </td>
+                                    </tr>
+                                    <tr ng-repeat="liability in liabilities">
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr>
+                                                <td class="size_font width_1">{{liability.group_name}}</td>
+                                                <td class="size_font width_2">&nbsp;</td>
+                                                <td class="size_font width_2 right_a">{{liability.amt | number:2}}</td>
+                                             </tr>
+                                             <tr ng-repeat="ledger_list in liability.ledger_arr" style="display:none;" >
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="width_1 cur padd_left" ng-click="get_subgroupwise_ledgers(ledger_list.id,ledger_list.ledger_name,'Liabilities')"><a>{{ledger_list.ledger_name}}</a></td>
+                                                         <td class="width_2 right_a">{{ledger_list.sub_grp_total | number:2}}</td>
+                                                         <td class="width_2">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in ledger_list.sub_ledger_arr">
+                                                                  <td class="width_1 cur padd_left1" ng-click="get_month_wise_details_for_sub_ledger(sub_ledger_list.id,sub_ledger_list.ledger_name,sub_ledger_list.ledger_type,'Liabilities',sub_ledger_list.supplier_id,ledger_list.id,ledger_list.ledger_name)"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="width_2 right_a">{{sub_ledger_list.total_amount | number:2}}</td>
+                                                                  <td class="width_2">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                                <!--<td class="wiii cur padd_left1"><a ng-click="get_month_wise_details(ledger_list.id,ledger_list.ledger_name)">{{ledger_list.ledger_name}}</a></td>
+                                                   <td class="wiii">{{ledger_list.amount | number}}1</td>
+                                                   <td class="wiii">&nbsp;</td>-->
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </td>
+                           <input type="hidden" ng-model="tax_duties_total">
+                           <input type="hidden" ng-model="sundry_credit_amt">
+                           <!--left-->
+                           <!--right-->
+                           <td class="h_n_w">
+                              <div class="table_dis  container-example1 ">
+                                 <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                    <tr class="colorhead">
+                                       <td  colspan="3" lass="colorhead" style="background-color:#F2F4F8;">
+                                          <h4 style="margin:0px;">
+                                             <b>Assets</b>
+                                          </h4>
+                                       </td>
+                                    </tr>
+                                    <tr ng-repeat="asset in assets">
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr>
+                                                <td class="size_font width_1">{{asset.group_name}}</td>
+                                                <td class="size_font width_2">&nbsp;</td>
+                                                <td class="size_font width_2 right_a">{{asset.amt | number:2}}</td>
+                                             </tr>
+                                             <tr ng-repeat="ledger_list in asset.ledger_arr"  style="display:none;" >
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="width_1 cur padd_left" ng-click="get_subgroupwise_ledgers(ledger_list.id,ledger_list.ledger_name,'Asset')"><a>{{ledger_list.ledger_name}}</a></td>
+                                                         <td class="width_2 right_a">{{ledger_list.sub_grp_total | number:2}}</td>
+                                                         <td class="width_2">&nbsp;</td>
+                                                      </tr>
+                                                      <tr  style="display:none;" >
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_led_list in ledger_list.sub_ledger_arr">
+                                                                  <td class="width_1 cur padd_left1" ng-click="get_month_wise_details_for_sub_ledger(sub_led_list.id,sub_led_list.ledger_name,sub_led_list.ledger_type,'Asset',sub_led_list.customer_id,ledger_list.id,ledger_list.ledger_name)"><a>{{sub_led_list.ledger_name}}</a></td>
+                                                                  <td class="width_2 right_a">{{sub_led_list.total_amount | number:2}}</td>
+                                                                  <td class="width_2">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                                <!--<td class="wiii cur padd_left1"><a ng-click="get_month_wise_details(ledger_list.id,ledger_list.ledger_name)">{{ledger_list.ledger_name}}</a></td>
+                                                   <td class="wiii">{{ledger_list.amount | number}}1</td>
+                                                   <td class="wiii">&nbsp;</td>-->
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                    <!-- <tr ng-repeat="asset in assets">
+                                       <td colspan="3" class="padd_none">
+                                       	<table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" id="table_id_{{asset.id}}">
+                                       	  <tr ng-click="open_sub_detail_rows_for_credit(asset.id)" id="first_row_{{asset.id}}" class="first_row">
+                                       			<td class="size_font wiii">{{asset.group_name}}</td>
+                                       		    <td class="size_font wiii">&nbsp;</td>
+                                       			<td class="size_font wiii">{{asset.amt | number}}</td>
+                                       		</tr>
+                                        
+                                        
+                                       	  <tr ng-repeat="ledger_list in asset.ledger_arr" style="display:none";>
+                                       			<td class="wiii cur padd_left"><a ng-click="get_month_wise_details(ledger_list.id,ledger_list.ledger_name)">{{ledger_list.ledger_name}}</a></td>
+                                       			<td class="wiii">{{ledger_list.amount | number}}</td>
+                                       		    <td class="wiii">&nbsp;</td>
+                                       	 </tr>
+                                       	 
+                                        </table>
+                                       
+                                       </td>	
+                                        
+                                        </tr>-->
+                                 </table>
+                              </div>
+                           </td>
+                           <!--right-->
+                        </tr>
+                        <tr>
+                           <!--left-->
+                           <td class="h_n_w">
+                              <div class="table_dis  container-example1 ">
+                                 <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                    <tr>
+                                       <td class="size_font width_1"><b>Total</b></td>
+                                       <td class="size_font width_2">&nbsp;</td>
+                                       <td class="size_font width_2 right_a">{{calculate_liabilities_total() | number:2}}</td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </td>
+                           <!--left-->
+                           <!--right-->
+                           <td class="h_n_w">
+                              <div class="table_dis  container-example1 ">
+                                 <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                    <tr>
+                                       <td class="size_font width_1"><b>Total</b></td>
+                                       <td class="size_font width_2">&nbsp;</td>
+                                       <td class="size_font width_2 right_a">{{calculate_assets_total() | number:2}}</td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </td>
+                           <!--right-->
+                        </tr>
+                     </table>
+                  </div>
+              
+               </div>
+         
+               <input type="hidden" ng-model="currentassesttotal">
+               <input type="hidden" ng-model="sundry_debit_amt">
+               <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+					 
+                        <center>
+						<button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline  " type="button" id="pdfExport" onclick="createPDF()"  ><i class="fa fa-file-pdf-o " aria-hidden="true" style="color:#01a8fe;"></i> Export To PDF</button>
+                        </center>
+                     </div>
+					 
+               <div class="clearfix"></div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <!-- End Dashboard -->
+</div>
+<style>
+   @media(min-width: 768px)  and 	(max-width: 1023px){
+   .formessage_display {position: absolute;right: 0;width: 400px;top: 0;}
+   }
+</style>
+<script>
+   $('#from_date').datepicker({
+       changeMonth: true,
+       changeYear: true,
+   yearRange: '2000:2040',
+   dateFormat:'dd/mm/yy'
+       // defaultDate: '2015-01-01',
+   
+   });
+   $('#to_date').datepicker({
+       changeMonth: true,
+       changeYear: true,
+   yearRange: '2000:2040',
+   dateFormat:'dd/mm/yy'
+       // defaultDate: '2015-01-01',
+   
+   });
+   $.datepicker.setDefaults({
+       dateFormat: 'dd/mm/yy'
+   });
+</script>
+
+<script>
+	$("#tblExport").click(function(e) {
+  let file = new Blob([$('#dvData').html()], {type:"application/vnd.ms-excel"});
+
+let url = URL.createObjectURL(file);
+
+let a = $("<a />", {
+  href: url,
+  download: "balancesheet.xls"
+})
+.appendTo("body")
+.get(0)
+.click();
+  e.preventDefault();
+});
+// $("#tblExport").click(function(){
+
+//     $("#table2excel").table2excel({
+//       // exclude CSS class
+//       //exclude: ".noExl",
+//       name: "Worksheet Name",
+//       //fileext: ".xlsx",
+//       filename: "Balance Sheet" //do not include extension
+//     }); 
+//   });
+  </script>
+  <script>
+              // $(document).ready(function() {
+              //     $("#table2excel").tableHeadFixer(); 
+              // });
+          </script>
+   <script>
+   	 function createPDF() {
+        var sTable = document.getElementById('dvData').innerHTML;
+
+        var style = "<style>";
+        style = style + "table {width: 100%;font: 17px Calibri;}";
+        style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+        style = style + "padding: 2px 3px;text-align: center;}";
+        style = style + "</style>";
+
+        // CREATE A WINDOW OBJECT.
+        var win = window.open('', '', 'height=700,width=700');
+
+        win.document.write('<html><head>');
+        win.document.write('<title>WHEELS ON ROAD</title>');   // <title> FOR PDF HEADER.
+        win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+        win.document.write('</head>');
+        win.document.write('<body>');
+        win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+        win.document.write('</body></html>');
+
+        win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+        win.print();    // PRINT THE CONTENTS.
+    }
+   
+//    	$("#pdfExport").click(function(e) {
+//    		let doc = new jsPDF({
+//   orientation: 'landscape',
+//   unit: 'in',
+//   format: [4, 2]
+// })
+//    	//let doc = new jsPDF('p','pt','a4');
+// doc.addHTML(document.body,function() {
+//     doc.save('html.pdf');
+// });
+// });
+   </script>

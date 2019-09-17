@@ -1,0 +1,11 @@
+[07-Oct-2017 15:22:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method stdClass::query() in /home/tectureindia/public_html/elephentonew/adminer.php:52
+Stack trace:
+#0 /home/tectureindia/public_html/elephentonew/adminer.php(146): get_key_vals('SHOW DATABASES', Object(stdClass), 5)
+#1 /home/tectureindia/public_html/elephentonew/adminer.php(1250): slow_query('SHOW DATABASES')
+#2 /home/tectureindia/public_html/elephentonew/adminer.php(1354): get_databases(true)
+#3 /home/tectureindia/public_html/elephentonew/adminer.php(1456): Adminer->databases()
+#4 /home/tectureindia/public_html/elephentonew/adminer.php(1455): Adminer->databasesPrint('db')
+#5 /home/tectureindia/public_html/elephentonew/adminer.php(1498): Adminer->navigation('db')
+#6 /home/tectureindia/public_html/elephentonew/adminer.php(1514): page_footer('db')
+#7 {main}
+  thrown in /home/tectureindia/public_html/elephentonew/adminer.php on line 52

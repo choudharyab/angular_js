@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Wheels On Road</title>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="assets/common/img/favicon.144x144.png" rel="apple-touch-icon" type="image/png" sizes="144x144">
+    <link href="assets/common/img/favicon.114x114.png" rel="apple-touch-icon" type="image/png" sizes="114x114">
+    <link href="assets/common/img/favicon.72x72.png" rel="apple-touch-icon" type="image/png" sizes="72x72">
+    <link href="assets/common/img/favicon.57x57.png" rel="apple-touch-icon" type="image/png">
+    <link href="assets/common/img/favicon.png" rel="icon" type="image/png">
+    <link href="favicon.ico" rel="shortcut icon">
+    <!-- Vendors Styles -->
+    <!-- v1.0.0 -->
+    <link rel="stylesheet" type="text/css" href="assets/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/jscrollpane/style/jquery.jscrollpane.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/ladda/dist/ladda-themeless.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/fullcalendar/dist/fullcalendar.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/cleanhtmlaudioplayer/src/player.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/cleanhtmlvideoplayer/src/player.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/bootstrap-sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/summernote/dist/summernote.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/ionrangeslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/c3/c3.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/chartist/dist/chartist.min.css">
+    <!-- v1.4.0 -->
+    <link rel="stylesheet" type="text/css" href="assets/vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/jquery-steps/demo/css/jquery.steps.css">
+    <!-- v1.4.2 -->
+    <link rel="stylesheet" type="text/css" href="assets/vendors/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <!-- v1.7.0 -->
+    <link rel="stylesheet" type="text/css" href="assets/vendors/dropify/dist/css/dropify.min.css">
+
+    <!-- Clean UI Styles -->
+    <link rel="stylesheet" type="text/css" href="assets/common/css/source/main.css">
+
+    <!-- Vendors Scripts -->
+
+    <!-- ab css start-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+    <link href="assets/css/scrollBar.css?load=6" rel="stylesheet">
+    <link href="bower_components/angularjs-datepicker/src/css/angular-datepicker.css" rel="stylesheet">
+   <!-- <script src="assets/vendors/multiple-select-master/multiple-select.js" type="text/javascript"></script>-->
+    <!-- ab css end-->
+
+    <!-- angular css start -->
+    <link rel="stylesheet" href="css/app.css"/>
+    <link href="lib/jquery-ui.css" rel="Stylesheet">
+    <script src="assets/vendors/jquery/jquery.min.js"></script>
+    <script src="lib/jquery-ui.js" ></script>
+    <link rel="stylesheet" href="css/loader.css"/>
+   <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>-->
+    <script type="text/javascript" src="js/alasql.min.js"></script>
+    <script type="text/javascript" src="js/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+    <!-- angular css end -->
+    <!--<link rel="stylesheet" href="bower_components/angular-mass-autocomplete/massautocomplete.theme.css"/>-->
+    <!--<link rel="stylesheet" href="bower_components/jQuery-autoComplete-master/jquery.auto-complete.css">-->
+
+
+</head>
+<body class="menu-top theme-dark menu-static colorful-enabled menu-fixed">
+
+<!-- site menu -->
+
+<!-- site menu -->
+<!--<nav class="left-menu" left-menu ng-class="{'hidden-left-menu': hideLeftMenu}"> -->
+<nav id="checkLoginPage1" class="my_menubar left-menu" left-menu ng-controller="homeController" ng-show="menu_return()">
+    <div class="logo-container">
+        <a href="#/home" class="logo">
+            <img src="assets/common/img/logo.png" alt="Clean UI Admin Template" />
+            <img class="logo-inverse" src="assets/common/img/logo-inverse.png" alt="Clean UI Admin Template" />
+        </a>
+    </div>
+    <div class="left-menu-inner scroll-pane">
+        <ul class="left-menu-list left-menu-list-root list-unstyled">
+
+        <!-- <li class="left-menu-list-submenu" ng-repeat="mod in menus">
+                <a class="left-menu-link" href="javascript: void(0);">
+                    </i>
+                    {{mod.modules_name}}
+                </a>
+                <ul class="left-menu-list list-unstyled">
+                   
+                    <li ng-repeat="submod in mod.sub_modules">
+                        <a class="left-menu-link" href="{{submod.sub_module_routes}}">
+                          <img src="assets/images/{{submod.icon}}" alt="enquiry" class="image_dro"/>{{submod.sub_module_name}}
+                        </a>
+                    </li>
+                </ul>
+            </li> -->
+            <li class="left-menu-list-submenu" ng-repeat="mod in menus">
+                <a class="left-menu-link" href="javascript: void(0);">
+                    {{mod.modules_name}}
+                </a>
+                <ul class="left-menu-list  list-unstyled" style="right:0px;left:auto">
+
+                <li ng-repeat="submod in mod.sub_modules" ng-if="submod.sub_sub_modules.length == 0">
+
+                        <a class="left-menu-link" href="{{submod.sub_module_routes}}">
+                        <img src="assets/images/{{submod.icons}}" alt="enquiry" class="image_dro"/>
+                            {{submod.sub_module_name}}
+                        </a>
+                    </li>
+
+                   
+                    <li class="left-menu-list-submenu" ng-repeat="submod in mod.sub_modules" ng-if="submod.sub_sub_modules.length > 0">
+
+                        <a class="left-menu-link" href="{{submod.sub_module_routes}}">
+                        <img src="assets/images/{{submod.icons}}" alt="enquiry" class="image_dro"/>
+                            {{submod.sub_module_name}}
+                        </a>
+
+                        <ul class="left-menu-list list-unstyled rport_w1" ng-if="submod.sub_sub_modules.length > 0">
+                            <li ng-repeat="sub_sub in submod.sub_sub_modules"><a href="{{sub_sub.sub_sub_module_routes}}" class="left-menu-link">{{sub_sub.sub_sub_module_name}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- <li class="left-menu-list-submenu" ng-repeat="mod in menus">
+                <a class="left-menu-link left-menu-link1" href="javascript: void(0);">
+
+                    {{mod.modules_name}}
+                </a>
+                  <ul class="left-menu-list  list-unstyled" style="right:0px;left:auto">
+
+                  <li ng-repeat="submod in mod.sub_modules" ng-if="submod.sub_sub_modules.length == 0">
+
+                        <a class="left-menu-link" href="javascript: void(0);">
+
+                            {{submod.sub_module_name}}
+                        </a>
+                    </li>
+
+                   
+                    <li class="left-menu-list-submenu" ng-repeat="submod in mod.sub_modules" ng-if="submod.sub_sub_modules.length > 0">
+
+                        <a class="left-menu-link" href="javascript: void(0);">
+
+                            {{submod.sub_module_name}}
+                        </a>
+
+                        <ul class="left-menu-list list-unstyled rport_w1" ng-if="submod.sub_sub_modules.length > 0">
+                            <li ng-repeat="sub_sub in submod.sub_sub_modules"><a href="" class="left-menu-link">{{sub_sub.sub_sub_module_name}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li> -->
+
+
+<li class="left-menu-list-submenu" >
+                <a class="left-menu-link left-menu-link1" href="javascript: void(0);">
+
+                    <span class="menu-top-hidden">Theme</span> Wheels On Road
+                </a>
+                  <ul class="left-menu-list  list-unstyled" style="right:0px;left:auto">
+                   
+                    <li class="left-menu-list-submenu">
+
+                        <a class="left-menu-link" href="javascript: void(0);">
+                            Change Company
+                        </a>
+
+                        <ul class="left-menu-list list-unstyled rport_w1">
+                                <li ng-if="user_type=='admin'" ng-click="change_to_all()"><a href="" class="left-menu-link">All</a></li>
+                            <li ng-repeat="company in company_list" ng-hide="check_user_warehouse($index,company)" ng-click="menu_change_warehouse(company)"><a href="" class="left-menu-link">{{company.company_name}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+
+            <!-- <li class="left-menu-list-submenu">
+                <a class="left-menu-link" href="javascript: void(0);">
+					<span class="avatar">
+						<img src="assets/images/chat.png" alt="Alternative text to the image">
+					</span>
+
+                    <span class="notification">10</span>
+                </a>
+                <ul class="left-menu-list list-unstyled">
+                    <li class="bottom_b">
+                        <a class="left-menu-link" href="">
+                            Update Status: <span class="label label-danger font-weight-700">New</span>
+                            <span class="pull-right">now</span>
+
+                            <div>
+                                <small>
+                                    Failed to get available update data. To ensure the proper functioning of your application, update now.
+                                </small>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="bottom_b">
+                        <a class="left-menu-link" href="">
+                            Update Status: <span class="label label-danger font-weight-700">New</span>
+                            <span class="pull-right">2/08/17</span>
+
+                            <div>
+                                <small>
+                                    Failed to get available update data. To ensure the proper functioning of your application, update now.
+                                </small>
+                            </div>
+                        </a>
+                    </li>
+
+
+
+
+                </ul>
+            </li> -->
+
+            <li class="left-menu-list-submenu" ng-controller="homeController">
+                <a class="left-menu-link" href="javascript: void(0);">
+					<span class="avatar">
+						<img src="assets/images/notification.png" alt="Alternative text to the image">
+					</span>
+
+                    <span class="notification">{{count}}</span>
+                </a>
+                <ul class="left-menu-list list-unstyled  hh">
+                        <li class="bottom_b" ng-repeat="data in notification_data.case_activated">
+                                <a class="left-menu-link" href="">
+                                        <img class="image_dro" alt="Customer" src="assets/images/customer sevice bill.png">Activated Case: <span class="label label-danger font-weight-700"></span>
+                                    <span class="pull-right"></span>
+        
+                                    <div>
+                                        <small>
+                                            {{data.message}}
+                                        </small>
+                                    </div>
+                                </a>
+                            </li> 
+                            <li class="bottom_b" ng-repeat="data in notification_data.case_closed">
+                                    <a class="left-menu-link" href="">
+                                            <img class="image_dro" alt="Customer" src="assets/images/customer sevice bill.png">Closed Case: <span class="label label-danger font-weight-700"></span>
+                                        <span class="pull-right"></span>
+            
+                                        <div>
+                                            <small>
+                                                {{data.message}}
+                                            </small>
+                                        </div>
+                                    </a>
+                                </li> 
+                    <li class="bottom_b" ng-repeat="data in notification_data.case_disputed">
+                        <a class="left-menu-link" href="">
+                                <img class="image_dro" alt="Customer" src="assets/images/customer sevice bill.png">Disputed Case: <span class="label label-danger font-weight-700"></span>
+                            <span class="pull-right"></span>
+
+                            <div>
+                                <small>
+                                    {{data.message}}
+                                </small>
+                            </div>
+                        </a>
+                    </li> 
+                    <li class="bottom_b">
+                        <a class="left-menu-link" ng-repeat="data in notification_data.fitness_expiry">
+                                <img src="assets/images/logistics.png" alt="Fleet" class="image_dro"/>Fleet Fitness: <span class="label label-danger font-weight-700"></span>
+                            <span class="pull-right"></span>
+
+                            <div >
+                                <small>
+                                    {{data.message}}
+                                </small>
+                            </div>
+                        </a>
+
+                        <li class="bottom_b">
+                                <a class="left-menu-link" ng-repeat="data in notification_data.insurance_expiry">
+                                        <img src="assets/images/logistics.png" alt="Fleet" class="image_dro"/>Fleet Insurance: <span class="label label-danger font-weight-700"></span>
+                                        <span class="pull-right"></span>
+            
+                                        <div >
+                                            <small>
+                                                {{data.message}}
+                                            </small>
+                                        </div>
+                                    </a>
+                        </li>
+
+                        <li class="bottom_b">
+                                <a class="left-menu-link" ng-repeat="data in notification_data.statepermit_expiry">
+                                        <img src="assets/images/logistics.png" alt="Fleet" class="image_dro"/>Fleet State Permit: <span class="label label-danger font-weight-700"></span>
+                                        <span class="pull-right"></span>
+            
+                                        <div >
+                                            <small>
+                                                {{data.message}}
+                                            </small>
+                                        </div>
+                                    </a>
+                        </li>
+
+                        <li class="bottom_b">
+                                <a class="left-menu-link" ng-repeat="data in notification_data.nationalpermit_expiry">
+                                        <img src="assets/images/logistics.png" alt="Fleet" class="image_dro"/>Fleet National Permit: <span class="label label-danger font-weight-700"></span>
+                                        <span class="pull-right"></span>
+            
+                                        <div >
+                                            <small>
+                                                {{data.message}}
+                                            </small>
+                                        </div>
+                                    </a>
+                        </li>
+                    
+                        <li class="bottom_b">
+                                <a class="left-menu-link" ng-repeat="data in notification_data.pollutionpermit_expiry">
+                                        <img src="assets/images/logistics.png" alt="Fleet" class="image_dro"/>Fleet Pollution: <span class="label label-danger font-weight-700"></span>
+                                        <span class="pull-right"></span>
+            
+                                        <div >
+                                            <small>
+                                                {{data.message}}
+                                            </small>
+                                        </div>
+                                    </a>
+                        </li>
+                        <li class="bottom_b">
+                            <a class="left-menu-link" ng-repeat="data in notification_data.loan_statememt">
+                                    <img src="assets/images/stockentry1.png" alt="enquiry" class="image_dro"/>Loan Statement: <span class="label label-danger font-weight-700"></span>
+                                    <span class="pull-right"></span>
+        
+                                    <div >
+                                        <small>
+                                            {{data.message}}
+                                        </small>
+                                    </div>
+                                </a>
+                    </li>
+                        <li class="bottom_b">
+                                <a class="left-menu-link" ng-repeat="data in notification_data.purchase_requistion">
+                                        <img src="assets/images/enquiry.png" alt="enquiry" class="image_dro"/>Purchase Requisition: <span class="label label-danger font-weight-700"></span>
+                                        <span class="pull-right"></span>
+            
+                                        <div >
+                                            <small>
+                                                {{data.message}}
+                                            </small>
+                                        </div>
+                                    </a>
+                        </li>
+                        <li class="bottom_b">
+                            <a class="left-menu-link" ng-repeat="data in notification_data.purchase_requistion_approved">
+                                    <img src="assets/images/enquiry.png" alt="enquiry" class="image_dro"/>Purchase Requisition: <span class="label label-danger font-weight-700"></span>
+                                    <span class="pull-right"></span>
+        
+                                    <div >
+                                        <small>
+                                            {{data.message}}
+                                        </small>
+                                    </div>
+                                </a>
+                    </li>
+
+                </ul>
+            </li>
+            <!-- <div ng-repeat="data in notification_data.insurance_expiry">
+                <small>
+                    {{data.message}}
+                </small>
+            </div>
+
+            <div ng-repeat="data in notification_data.nationalpermit_expiry">
+                <small>
+                    {{data.message}}
+                </small>
+            </div>
+
+            <div ng-repeat="data in notification_data.pollutionpermit_expiry">
+                <small>
+                    {{data.message}}
+                </small>
+            </div>
+
+            <div ng-repeat="data in notification_data.statepermit_expiry">
+                <small>
+                    {{data.message}}
+                </small>
+            </div> -->
+
+            <li class="left-menu-list-submenu" ng-controller="homeController">
+                <a class="left-menu-link" href="javascript: void(0);">
+					<span class="avatar">
+                        <img src="assets/images/profile.png" alt="Alternative text to the image">
+                      <!--  <img src="wheelsonroadserver/public/profile_photos//{{photo}}" style=" max-width: 100%; height: 100%;" ng-if="photo != null">-->
+					</span>
+                </a>
+                <ul class="left-menu-list list-unstyled">
+                    <li>
+                        <a class="left-menu-link" href="#/hrm_employee_details">
+                            <i class="dropdown-icon icmn-user"></i> My Profile
+                        </a>
+                    </li>
+                     <li>
+                        <a class="left-menu-link" href="#/documentation">
+                            <i class="fa fa-file" aria-hidden="true"></i> Share Documents
+                        </a>
+                    </li>
+                    <li>
+                        <a class="left-menu-link" href=""  data-toggle="modal" data-target="#change_password">
+                            <i class="dropdown-icon icmn-circle-right"></i> Change Password
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a class="left-menu-link" href="">
+                            <i class="dropdown-icon icmn-cog2"></i> Setting
+                        </a>
+                    </li> -->
+                    <li ng-controller="supplierController">
+                        <a class="left-menu-link" ng-click="logout()">
+                            <i class="dropdown-icon icmn-exit"></i> Logout
+                        </a>
+                    </li>
+
+
+
+                </ul>
+            </li>
+
+
+
+     <li class="left-menu-list-submenu"><a href="" style="padding-left: 70px;"></a></li>
+  <li>
+                <!-- <a class="left-menu-link">
+
+                    &nbsp;
+                </a> -->
+            </li>
+
+            <!-- remove "horizontal-left-direction" class, for get submenu with right direction (horizontal menu option) -->
+
+            <li class="menu-top-hidden no-colorful-menu">
+                <div class="example-left-menu-chart chartist-animated chartist-theme-dark"></div>
+                <script>
+                    $(function () {
+                        // CSS STYLING & ANIMATIONS
+                        var cssAnimationData = {
+                                labels: ["S", "M", "T", "W", "T", "F", "S"],
+                                series: [
+                                    [11, 14, 24, 16, 20, 16, 24]
+                                ]
+                            },
+                            cssAnimationOptions = {
+                                fullWidth: !0,
+                                chartPadding: {
+                                    right: 2,
+                                    left: 30
+                                },
+                                axisY: {
+                                    position: 'end'
+                                }
+                            },
+                            cssAnimationResponsiveOptions = [
+                                [{
+                                    axisX: {
+                                        labelInterpolationFnc: function(value, index) {
+                                            return index % 2 !== 0 ? !1 : value
+                                        }
+                                    }
+                                }]
+                            ];
+
+                        new Chartist.Line(".example-left-menu-chart", cssAnimationData, cssAnimationOptions, cssAnimationResponsiveOptions);
+
+                    });
+                </script>
+            </li>
+            <!--   <li class="menu-top-hidden no-colorful-menu">
+                   <div class="left-menu-item">
+                       Solar System
+                   </div>
+               </li>
+               <li class="menu-top-hidden">
+                   <div class="left-menu-item">
+                       <span class="donut donut-success"></span> Jupiter
+                   </div>
+               </li>
+               <li class="menu-top-hidden">
+                   <div class="left-menu-item">
+                       <span class="donut donut-primary"></span> Earth
+                   </div>
+               </li>
+               <li class="menu-top-hidden">
+                   <div class="left-menu-item">
+                       <span class="donut donut-danger"></span> Mercury
+                   </div>
+               </li>-->
+        </ul>
+    </div>
+</nav>
+<nav class="top-menu display_n">
+    <div class="menu-icon-container hidden-md-up">
+        <div class="animate-menu-button left-menu-toggle">
+            <div><!-- --></div>
+        </div>
+    </div>
+
+</nav>
+
+<!--<ul class="menu">
+  <li><a href="#/view1">view1</a></li>
+  <li><a href="#/view2">view2</a></li>
+</ul>-->
+
+
+<!-- page view call start-->
+
+<div ng-view></div>
+
+<!-- page view call end -->
+
+
+
+<!-- v1.0.0 -->
+
+<script src="assets/vendors/tether/dist/js/tether.min.js"></script>
+<script src="assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="assets/vendors/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+<script src="assets/vendors/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+<script src="assets/vendors/spin.js/spin.js"></script>
+<script src="assets/vendors/ladda/dist/ladda.min.js"></script>
+<script src="assets/vendors/select2/dist/js/select2.full.min.js"></script>
+<script src="assets/vendors/html5-form-validation/dist/jquery.validation.min.js"></script>
+
+<script src="assets/vendors/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+<script src="assets/vendors/autosize/dist/autosize.min.js"></script>
+<script src="assets/vendors/bootstrap-show-password/bootstrap-show-password.min.js"></script>
+<script src="assets/vendors/moment/min/moment.min.js"></script>
+<script src="assets/vendors/combodate/min/combodate.js"></script>
+<script src="assets/vendors/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="assets/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="assets/vendors/cleanhtmlaudioplayer/src/jquery.cleanaudioplayer.js"></script>
+<script src="assets/vendors/cleanhtmlvideoplayer/src/jquery.cleanvideoplayer.js"></script>
+<script src="assets/vendors/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
+<script src="assets/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+<script src="assets/vendors/summernote/dist/summernote.min.js"></script>
+<script src="assets/vendors/owl.carousel/dist/owl.carousel.min.js"></script>
+<script src="assets/vendors/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+<script src="assets/vendors/nestable/jquery.nestable.js"></script>
+<script src="assets/vendors/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="assets/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+<script src="assets/vendors/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
+<script src="assets/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+<script src="assets/vendors/editable-table/mindmup-editabletable.js"></script>
+<script src="assets/vendors/d3/d3.min.js"></script>
+<script src="assets/vendors/c3/c3.min.js"></script>
+<script src="assets/vendors/chartist/dist/chartist.min.js"></script>
+<script src="assets/vendors/peity/jquery.peity.min.js"></script>
+<!-- v1.0.1 -->
+<script src="assets/vendors/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js"></script>
+<!-- v1.1.1 -->
+<script src="assets/vendors/gsap/src/minified/TweenMax.min.js"></script>
+<script src="assets/vendors/hackertyper/hackertyper.js"></script>
+<script src="assets/vendors/jquery-countTo/jquery.countTo.js"></script>
+<!-- v1.4.0 -->
+<script src="assets/vendors/nprogress/nprogress.js"></script>
+<script src="assets/vendors/jquery-steps/build/jquery.steps.min.js"></script>
+<!-- v1.4.2 -->
+<script src="assets/vendors/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="assets/vendors/chart.js/src/Chart.bundle.min.js"></script>
+<!-- v1.7.0 -->
+<script src="assets/vendors/dropify/dist/js/dropify.min.js"></script>
+
+<!-- Clean UI Scripts -->
+<script src="assets/common/js/common.js"></script>
+<!--<script src="assets/common/js/demo.temp.js"></script>-->
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-route.js"></script>
+<script src="lib/angular/angular-sanitize.js"></script>
+
+<!-- all js end-->
+<!-- Page Scripts -->
+<script>
+    $(function() {
+
+        ///////////////////////////////////////////////////////////
+        // COUNTERS
+        $('.counter-init').countTo({
+            speed: 1500
+        });
+
+        ///////////////////////////////////////////////////////////
+        // ADJUSTABLE TEXTAREA
+        autosize($('#textarea'));
+
+        ///////////////////////////////////////////////////////////
+        // CUSTOM SCROLL
+        if (!cleanUI.hasTouch) {
+            $('.custom-scroll').each(function() {
+                $(this).jScrollPane({
+                    autoReinitialise: true,
+                    autoReinitialiseDelay: 100
+                });
+                var api = $(this).data('jsp'),
+                    throttleTimeout;
+                $(window).bind('resize', function() {
+                    if (!throttleTimeout) {
+                        throttleTimeout = setTimeout(function() {
+                            api.reinitialise();
+                            throttleTimeout = null;
+                        }, 50);
+                    }
+                });
+            });
+        }
+
+        ///////////////////////////////////////////////////////////
+        // CALENDAR
+        $('.example-calendar-block').fullCalendar({
+            //aspectRatio: 2,
+            height: 450,
+            header: {
+                left: 'prev, next',
+                center: 'title',
+                right: 'month, agendaWeek, agendaDay'
+            },
+            buttonIcons: {
+                prev: 'none fa fa-arrow-left',
+                next: 'none fa fa-arrow-right',
+                prevYear: 'none fa fa-arrow-left',
+                nextYear: 'none fa fa-arrow-right'
+            },
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            viewRender: function(view, element) {
+                if (!cleanUI.hasTouch) {
+                    $('.fc-scroller').jScrollPane({
+                        autoReinitialise: true,
+                        autoReinitialiseDelay: 100
+                    });
+                }
+            },
+            defaultDate: '2016-05-12',
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: '2016-05-01',
+                    className: 'fc-event-success'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2016-05-09T16:00:00',
+                    className: 'fc-event-default'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2016-05-16T16:00:00',
+                    className: 'fc-event-success'
+                },
+                {
+                    title: 'Conference',
+                    start: '2016-05-11',
+                    end: '2016-05-14',
+                    className: 'fc-event-danger'
+                }
+            ],
+            eventClick: function(calEvent, jsEvent, view) {
+                if (!$(this).hasClass('event-clicked')) {
+                    $('.fc-event').removeClass('event-clicked');
+                    $(this).addClass('event-clicked');
+                }
+            }
+        });
+
+        ///////////////////////////////////////////////////////////
+        // CAROUSEL WIDGET
+        $('.carousel-widget').carousel({
+            interval: 4000
+        });
+
+        $('.carousel-widget-2').carousel({
+            interval: 6000
+        });
+
+        ///////////////////////////////////////////////////////////
+        // DATATABLES
+        $('#example1').DataTable({
+            responsive: true,
+            "lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]]
+    });
+
+    });
+</script>
+
+<script>
+    // <!--site Menu -->
+
+    $(function () {
+        /* START OF DEMO JS - NOT NEEDED */
+        if (window.location == window.parent.location) {
+            $('#fullscreen').html('<span class="glyphicon glyphicon-resize-small"></span>');
+            $('#fullscreen').attr('href', 'http://bootsnipp.com/mouse0270/snippets/PbDb5');
+            $('#fullscreen').attr('title', 'Back To Bootsnipp');
+        }
+        $('#fullscreen').on('click', function(event) {
+            event.preventDefault();
+            window.parent.location =  $('#fullscreen').attr('href');
+        });
+        $('#fullscreen').tooltip();
+        /* END DEMO OF JS */
+
+        $('.navbar-toggler').on('click', function(event) {
+            event.preventDefault();
+            $(this).closest('.navbar-minimal').toggleClass('open');
+        })
+    });
+
+</script>
+<!--site Menu -->
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!--srcollbar js -->
+
+<script type="text/javascript" src="assets/js/scrollBar.js?load=6"></script>
+<script type="text/javascript">
+    $(".sb-container").scrollBox();
+</script>
+<!--srcollbar js -->
+
+
+
+
+
+<!-- End Page Scripts -->
+
+
+<!--<div class="cwt__footer visible-footer col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin:0px;border-radius:0px;">
+
+    <div class="">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="cwt__footer__company">
+                  <!--  <img class="cwt__footer__company-logo" src="assets/common/img/temp/mediatec.png" target="_blank" title="Mediatec Software">-->
+
+<!--            <span>
+                &copy; 2017 Elephento
+
+                All rights reserved | Developed & Maintain By<a href="http://www.tecture.in/" target="_ " style="color:#cb7d46;">Tecture Inc.</a>
+            </span>
+        </div>
+    </div>
+</div>
+</div>
+</div>-->
+</div>
+<div class="main-backdrop"><!-- --></div>
+
+<script src="assets/js/tableHeadFixer.js"></script>
+<script type="text/javascript" src="assets/js/jquery.table2excel.min.js"></script>
+<!-- angular js start -->
+<!--
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-sanitize.js"></script>
+<script src="lib/angular/angular-route.js"></script>-->
+<script src="js/app.js"></script>
+<script src="js/services.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/directives.js"></script>
+
+<script src="assets/js/angular-chart.min.js"></script>
+<script src="assets/js/d3/d3.min.js"></script>
+<script type='text/javascript' src='assets/js/angular-charts/dist/angular-charts.min.js'></script>
+
+<!-- my Controller -->
+<script src="modules/login/controller/loginController.js"></script>
+<script src="modules/login/service/loginService.js"></script>
+
+<script src="modules/product/controller/productController.js"></script>
+<script src="modules/product/service/productService.js"></script>
+
+
+<script src="modules/warehouse/controller/warehouseController.js"></script>
+<script src="modules/warehouse/service/warehouseService.js"></script>
+
+<script src="modules/agent/controller/supplierController.js"></script>
+<script src="modules/agent/service/supplierService.js"></script>
+
+<script src="modules/home/controller/homeController.js"></script>
+
+<script src="modules/tax_rate/controller/taxController.js"></script>
+<script src="modules/tax_rate/service/taxService.js"></script>
+
+<!-- <script src="modules/payment_term/controller/paymentController.js"></script>
+<script src="modules/payment_term/service/paymentService.js"></script> -->
+
+<script src="modules/agent/controller/supplierController.js"></script>
+<script src="modules/agent/service/supplierService.js"></script>
+
+<script src="modules/client/controller/customerlistController.js"></script>
+<script src="modules/client/service/customerlistService.js"></script>
+
+<script src="modules/otp/controller/otpController.js"></script>
+<script src="modules/otp/service/otpService.js"></script>
+
+
+<script src="modules/bank_details/controller/bankDetailsController.js"></script>
+<script src="modules/bank_details/service/bankDetailsService.js"></script>
+
+<script src="modules/documentation/controller/documentationController.js"></script>
+<script src="modules/documentation/service/documentationService.js"></script>
+
+<!-- <script src="modules/purchase_enquiry/controller/purchaseenqiryController.js"></script>
+<script src="modules/purchase_enquiry/service/purchaseenquiryservice.js"></script>
+
+<script src="modules/purchase_compare/controller/purchase_compareController.js"></script>
+<script src="modules/logistics/controller/logisticsController.js"></script>
+
+<script src="modules/purchase_order/controller/purchase_orderController.js"></script>
+<script src="modules/purchase_order/service/purchase_orderService.js"></script>
+
+<script src="modules/purchase_invoice/controller/invoiceController.js"></script>
+<script src="modules/purchase_invoice/controller/addInvoiceController.js"></script>
+<script src="modules/purchase_invoice/controller/editinvoiceController.js"></script>
+<script src="modules/purchase_invoice/service/purchaseInvoiceService.js"></script>
+
+<script src="modules/purchase_debit_note/controller/purchase_debitController.js"></script>
+<script src="modules/purchase_debit_note/service/purchase_debitService.js"></script>
+
+<script src="modules/logistics/controller/logisticsController.js"></script>
+<script src="modules/logistics/service/logisticsService.js"></script>
+
+<script src="modules/inv_stock_list/controller/stocklistController.js"></script>
+<script src="modules/inv_stock_list/service/stocklistService.js"></script>
+
+<script src="modules/purchase_supplier_return/controller/supplier_returnController.js"></script>
+<script src="modules/purchase_supplier_return/service/supplier_returnService.js"></script>
+
+<script src="modules/purchase_service_bill/controller/purchaseServicebillController.js"></script>
+<script src="modules/purchase_service_bill/service/purchaseServicebilllService.js"></script>
+
+<script src="modules/inv_stock_entry/controller/stockEntryController.js"></script>
+<script src="modules/inv_stock_entry/service/stockEntryService.js"></script>
+
+<script src="modules/indenting_po_order/controller/indenting_purchase_orderController.js"></script>
+<script src="modules/indenting_po_order/service/indenting_purchase_orderService.js"></script>
+
+<script src="modules/indenting_purchase_invoice/controller/indentingInvoiceController.js"></script>
+<script src="modules/indenting_purchase_invoice/controller/addIndentingInvoiceController.js"></script>
+<script src="modules/indenting_purchase_invoice/controller/editIndentinginvoiceController.js"></script>
+<script src="modules/indenting_purchase_invoice/service/indentingInvoiceService.js"></script>
+
+<script src="modules/supplier_service_bill/controller/supplierServicebillController.js"></script>
+<script src="modules/supplier_service_bill/service/supplierServicebilllService.js"></script>
+
+<script src="modules/inv_stock_register/controller/stockRegisterController.js"></script>
+<script src="modules/inv_stock_register/service/stockRegisterService.js"></script>
+
+<script src="modules/purchaseSale/controller/purchaseSaleController.js"></script>
+<script src="modules/purchaseSale/service/purchaseSaleService.js"></script>
+
+<script src="modules/purchaseSaleNarco/controller/purchaseSaleNarcoController.js"></script>
+<script src="modules/purchaseSaleNarco/service/purchaseSaleNarcoService.js"></script>
+
+<script src="modules/sale_target/controller/saleTargetController.js"></script>
+<script src="modules/sale_target/service/saleTargetService.js"></script>
+
+<script src="modules/sale_po/controller/salePurchaseorderController.js"></script>
+<script src="modules/sale_po/service/salePurchaseorderService.js"></script>
+
+<script src="modules/sale_logistics/controller/saleLogisticsController.js"></script>
+<script src="modules/sale_logistics/service/saleLogisticsService.js"></script>
+
+<script src="modules/sale_delivery/controller/saleDeliveryController.js"></script>
+<script src="modules/sale_delivery/service/saleDeliveryService.js"></script> -->
+
+<!-- sale enquiry starts here -->
+<!-- <script src="modules/sales_enquiry/controller/saleenqiryController.js"></script>
+<script src="modules/sales_enquiry/service/saleenquiryservice.js"></script> -->
+
+<!----------- Purchase Report  ------------------>
+<!-- <script src="modules/purchase_report/controller/purchaseReportController.js"></script>
+<script src="modules/purchase_report/controller/principlePurchaseReportController.js"></script>
+<script src="modules/purchase_report/controller/costAnalysisReportController.js"></script>
+<script src="modules/purchase_report/controller/ageingReportController.js"></script>
+<script src="modules/purchase_report/controller/reOrderPurchaseReportController.js"></script>
+<script src="modules/purchase_report/service/purchaseReportService.js"></script> -->
+
+<!----------- inventory Report  ------------------>
+
+<!-- <script src="modules/inventory_detailStock/controller/detailStockController.js"></script>
+<script src="modules/inventory_detailStock/service/detailStockService.js"></script>
+
+<script src="modules/inventory_totalstock/controller/totalStockController.js"></script>
+<script src="modules/inventory_totalstock/service/totalStockService.js"></script>
+
+<script src="modules/inventory_productReport/controller/productReportController.js"></script>
+<script src="modules/inventory_productReport/service/productReportService.js"></script>
+
+<script src="modules/inventory_stockReport/controller/stockReportController.js"></script>
+<script src="modules/inventory_stockReport/service/stockReportService.js"></script>
+
+<script src="modules/inventory_batchNumber/controller/batchNumberController.js"></script>
+<script src="modules/inventory_batchNumber/service/batchNumberService.js"></script>
+
+<script src="modules/inventory_stockCount/controller/stockCountController.js"></script>
+<script src="modules/inventory_stockCount/service/stockCountService.js"></script>
+
+<script src="modules/inventory_stockmovement/controller/stockMovementController.js"></script>
+<script src="modules/inventory_stockmovement/service/stockMovementService.js"></script>
+
+<script src="modules/inventory_stockSummary/controller/stockSummaryController.js"></script>
+<script src="modules/inventory_stockSummary/service/stockSummaryService.js"></script>
+
+
+<script src="modules/inventory_report/controller/batchNoEnquiryReportController.js"></script>
+<script src="modules/inventory_report/controller/detailStockReportController.js"></script>
+<script src="modules/inventory_report/controller/productwiseStockReportController.js"></script>
+<script src="modules/inventory_report/controller/quickStockCountReportController.js"></script>
+<script src="modules/inventory_report/controller/stockReportController.js"></script>
+<script src="modules/inventory_report/controller/stockSummeryReportController.js"></script>
+<script src="modules/inventory_report/controller/totalStockReportController.js"></script>
+<script src="modules/inventory_report/service/inventoryReportService.js"></script> 
+
+
+
+
+<script src="modules/sale_order_invoice/controller/saleOrderinvoiceController.js"></script>
+<script src="modules/sale_order_invoice/service/saleOrderinvoiceService.js"></script>
+<script src="modules/sale_order_invoice/controller/editsaleorderinvoiceController.js"></script>-->
+
+
+
+
+<!-- <script src="modules/sales_customerReport/controller/customerReportController.js"></script>
+<script src="modules/sales_customerReport/service/customerReportService.js"></script>
+
+<script src="modules/sales_totalsale/controller/totalsaleController.js"></script>
+<script src="modules/sales_totalsale/service/totalsaleService.js"></script>
+
+<script src="modules/sales_saleInquiry/controller/saleInquiryController.js"></script>
+<script src="modules/sales_saleInquiry/service/saleInquiryService.js"></script>
+
+<script src="modules/sales_marginInquiry/controller/marginInquiryController.js"></script>
+<script src="modules/sales_marginInquiry/service/marginInquiryService.js"></script>
+
+<script src="modules/sales_shipmentInquiry/controller/shipmentInquiryController.js"></script>
+<script src="modules/sales_shipmentInquiry/service/shipmentInquiryService.js"></script>
+
+<script src="modules/sales_invoiceInquiry/controller/invoiceInquiryController.js"></script>
+<script src="modules/sales_invoiceInquiry/service/invoiceInquiryService.js"></script>
+
+<script src="modules/sales_saleRetureninquiry/controller/saleRetureninquiryController.js"></script>
+<script src="modules/sales_saleRetureninquiry/service/saleRetureninquiryService.js"></script>
+
+
+<script src="modules/sales_customerList/controller/customerListController.js"></script>
+<script src="modules/sales_customerList/service/customerListService.js"></script>
+
+<script src="modules/sales_customerPDC/controller/customerPdcController.js"></script>
+<script src="modules/sales_customerPDC/service/customerPdcService.js"></script>
+
+
+<script src="modules/sales_averageProfit/controller/averageProfitController.js"></script>
+<script src="modules/sales_averageProfit/service/averageProfitService.js"></script>
+
+<script src="modules/sales_productDetail/controller/productDetailController.js"></script>
+<script src="modules/sales_productDetail/service/productDetailService.js"></script>
+
+<script src="modules/sales_customerSale/controller/customerSaleController.js"></script>
+<script src="modules/sales_customerSale/service/customerSaleService.js"></script>
+
+<script src="modules/sales_averageMonthlyincome/controller/averageMonthlyincomeController.js"></script>
+<script src="modules/sales_averageMonthlyincome/service/averageMonthlyincomeService.js"></script>
+
+<script src="modules/sales_saledeport/controller/saledeportController.js"></script>
+<script src="modules/sales_saledeport/service/saledeportService.js"></script>
+
+<script src="modules/sales_productwise/controller/productwiseSaleController.js"></script>
+<script src="modules/sales_productwise/service/productwiseSaleService.js"></script>
+
+<script src="modules/sales_productSale/controller/productSaleController.js"></script>
+<script src="modules/sales_productSale/service/productSaleService.js"></script>
+
+<script src="modules/sales_purchaseOrdertrac/controller/purchaseOrdertrackerController.js"></script>
+<script src="modules/sales_purchaseOrdertrac/service/purchaseOrdertrackerService.js"></script>
+
+
+<script src="modules/sales_monthlyReport/controller/monthlyReportController.js"></script>
+<script src="modules/sales_monthlyReport/service/monthlyReportService.js"></script>
+
+<script src="modules/sales_saledeport/controller/saledeportController.js"></script>
+<script src="modules/sales_saledeport/service/saledeportService.js"></script>
+
+<script src="modules/customer_service_bill/controller/customerServicebillController.js"></script>
+<script src="modules/customer_service_bill/service/customerServicebilllService.js"></script>
+
+<script src="modules/inv_stock_exit/controller/stockExitController.js"></script>
+<script src="modules/inv_stock_exit/service/stockExitService.js"></script>
+
+<script src="modules/outstanding_report_purchase/controller/outstandingPurchaseController.js"></script>
+<script src="modules/outstanding_report_purchase/service/outstandingPurchaseService.js"></script>
+
+<script src="modules/outstanding_report/controller/outstandingController.js"></script>
+<script src="modules/outstanding_report/service/outstandingService.js"></script> 
+
+
+
+<script src="modules/sale_supplier_return/controller/sale_supplier_returnController.js"></script>
+<script src="modules/sale_supplier_return/service/sale_supplier_returnService.js"></script>
+
+<script src="modules/sale_creditnote/controller/saleCreditnoteController.js"></script>
+<script src="modules/sale_creditnote/service/saleCreditnoteService.js"></script>-->
+
+
+
+<script src="modules/acc_ledger/controller/ledgerController.js"></script>
+<script src="modules/acc_ledger/service/ledgerService.js"></script>
+
+<script src="modules/acc_generatevoucher/controller/generateVoucherController.js"></script>
+<script src="modules/acc_generatevoucher/service/generateVoucherService.js"></script>
+
+<script src="modules/hrm_feedback/controller/hrmfeedbackController.js"></script>
+<script src="modules/hrm_feedback/service/hrmfeedbackService.js"></script>
+
+<script src="modules/crm_feedback/controller/crmfeedbackController.js"></script>
+<script src="modules/crm_feedback/service/crmfeedbackService.js"></script>
+
+<script src="modules/hrm_master_data/controller/hrmMasterController.js"></script>
+<script src="modules/hrm_master_data/service/hrmMasterServices.js"></script>
+
+<script src="modules/hrm_salary_master/controller/hrmSalarymasterController.js"></script>
+<script src="modules/hrm_salary_master/service/hrmSalarymasterServices.js"></script>
+
+<script src="modules/hrm_leave_feedback/controller/hrmLeavefeedbackController.js"></script>
+<script src="modules/hrm_leave_feedback/service/hrmLeavefeedbackServices.js"></script>
+
+<script src="modules/hrm_leaveManagement/controller/leaveManagementController.js"></script>
+<script src="modules/hrm_leaveManagement/service/leaveManagementService.js"></script>
+
+<script src="modules/crm_activity/controller/crmActivityController.js"></script>
+<script src="modules/crm_activity/service/crmActivityService.js"></script>
+
+<script src="modules/hrm_employeedetail/controller/employeeDetailController.js"></script>
+<script src="modules/hrm_employeedetail/service/employeeDetailService.js"></script>
+
+<script src="modules/hrm_full_&_final/controller/fullAndFinalController.js"></script>
+<script src="modules/hrm_full_&_final/service/fullAndFinalService.js"></script>
+
+<script src="modules/hrm_attendance/controller/attendanceController.js"></script>
+<script src="modules/hrm_attendance/service/attendanceService.js"></script>
+
+<!-- yogita report work route -->
+<!-- <script src="modules/hrm_attendance/controller/attendanceController.js"></script>
+<script src="modules/hrm_attendance/controller/attendanceDetailsController.js"></script>
+<script src="modules/hrm_attendance/service/attendanceService.js"></script> -->
+
+<script src="modules/acc_customerdetails/controller/customerDetailsController.js"></script>
+<script src="modules/acc_customerdetails/service/customerDetailsService.js"></script>
+
+<script src="modules/acc_otherdetails/controller/otherDetailsController.js"></script>
+<script src="modules/acc_otherdetails/service/otherDetailsService.js"></script>
+
+<script src="modules/acc_supplierdetails/controller/supplierDetailsController.js"></script>
+<script src="modules/acc_supplierdetails/service/supplierDetailsService.js"></script>
+
+<!-- <script src="modules/report_reorder_report/controller/reorderReportController.js"></script>
+<script src="modules/report_reorder_report/service/reorderReportService.js"></script>
+
+<script src="modules/insurances/controller/insurancesController.js"></script>
+<script src="modules/insurances/service/insurancesService.js"></script> -->
+
+<script src="modules/acc_bankaccount/controller/bankAccountController.js"></script>
+<script src="modules/acc_bankaccount/service/bankAccountService.js"></script>
+
+<script src="modules/dailyreport/controller/dailyreportController.js"></script>
+<script src="modules/dailyreport/service/dailyreportService.js"></script>
+
+<!-- <script src="modules/sale_coveringLetter/controller/coveringLetterController.js"></script>
+<script src="modules/sale_coveringLetter/service/coveringLetterService.js"></script>
+
+<script src="modules/sale_coveringLetter/controller/chequeLetterController.js"></script>
+<script src="modules/sale_coveringLetter/service/chequeLetterService.js"></script>
+
+<script src="modules/purchase_coveringLetter/controller/chequeLetterpoController.js"></script>
+<script src="modules/purchase_coveringLetter/service/coveringLetterpoService.js"></script> -->
+
+<script src="modules/home/service/homeService.js"></script>
+
+<script src="modules/crm_customerStatus/controller/customerStatusController.js"></script>
+<script src="modules/crm_customerStatus/service/customerStatusService.js"></script>
+
+<script src="modules/hrm_loan&advance/controller/loan&advancecontroller.js"></script>
+<script src="modules/hrm_loan&advance/service/loan&advanceService.js"></script>
+
+<script src="modules/hrm_payrolenew/controller/payrolenewController.js"></script>
+<script src="modules/hrm_payrolenew/service/payrolenewtService.js"></script>
+
+<script src="modules/purchase_expense_order/controller/purchaseExpenseController.js"></script>
+<script src="modules/purchase_expense_order/service/purchaseExpenseService.js"></script>
+
+
+
+<!-- account  -->
+<script src="modules/acc_profitloss/controller/profitLossController.js"></script>
+<script src="modules/acc_profitloss/service/profitLossService.js"></script>
+
+<script src="modules/acc_balancesheet/controller/balanceSheetController.js"></script>
+<script src="modules/acc_balancesheet/service/balanceSheetService.js"></script>
+
+<!-- payrole by akhilesh -->
+<!-- <script src="modules/hrm_payrole/controller/payroleController.js"></script>
+<script src="modules/hrm_payrole/service/payroleService.js"></script> -->
+
+<!-- formulation by nilesh -->
+<!-- <script src="modules/formulation_sale_po/controller/formulationSalePurchaseorderController.js"></script>
+<script src="modules/formulation_sale_po/service/formulationSalePurchaseorderService.js"></script>
+
+<script src="modules/formulation_purchase_order/controller/formulation_purchase_orderController.js"></script>
+<script src="modules/formulation_purchase_order/service/formulation_purchase_orderService.js"></script>
+<script src="modules/formulation_purchase_invoice/controller/formulationInvoiceController.js"></script>
+<script src="modules/formulation_purchase_invoice/service/formulationPurchaseInvoiceService.js"></script>
+<script src="modules/formulation_purchase_invoice/controller/addFormulationInvoiceController.js"></script>
+<script src="modules/formulation_purchase_invoice/controller/editFormulationInvoiceController.js"></script>
+
+<script src="modules/formulation_sale_invoice/controller/formulationsaleinvoiceController.js"></script>
+<script src="modules/formulation_sale_invoice/service/formulationSaleOrderinvoiceService.js"></script>
+<script src="modules/formulation_sale_invoice/controller/editformulationsaleinvoiceController.js"></script> -->
+
+<script src="modules/followsheet/controller/followsheetController.js"></script>
+<script src="modules/followsheet/service/followsheetService.js"></script>
+
+<script src="modules/crm_leadmanagement/controller/leadManagementController.js"></script>
+<script src="modules/crm_leadmanagement/service/leadManagementService.js"></script>
+
+<!-- <script src="modules/purchase_invoice/controller/purchaseInvoiceDetails.js"></script> -->
+
+<script src="modules/user_management/controller/userManagementController.js"></script>
+<script src="modules/user_management/service/userManagementService.js"></script>
+
+<script src="modules/serviceRule/controller/serviceRuleController.js"></script>
+<script src="modules/serviceRule/service/serviceRuleService.js"></script>
+
+<script src="modules/fleetList/controller/fleetListController.js"></script>
+<script src="modules/fleetList/service/fleetListService.js"></script>
+
+<script src="modules/case_scruting/controller/caseScrutingController.js"></script>
+<script src="modules/case_scruting/service/caseScrutingService.js"></script>
+
+<script src="modules/case_ApprovedSheet/controller/caseApprovedSheetController.js"></script>
+<script src="modules/case_ApprovedSheet/service/caseApprovedSheetService.js"></script>
+
+<script src="modules/case_DisputedSheet/controller/disputedSheetController.js"></script>
+<script src="modules/case_DisputedSheet/service/disputedSheetService.js"></script>
+
+<script src="modules/caseManagement/controller/caseManagement.js"></script>
+<script src="modules/caseManagement/controller/cancelledCaseManagement.js"></script>
+<script src="modules/caseManagement/service/caseManagementService.js"></script>
+
+<script src="modules/purchaseRequisition/controller/purchaseRequisitionController.js"></script>
+<script src="modules/purchaseRequisition/service/purchaseRequisitionService.js"></script>
+
+<script src="modules/goodsreceivingnote/controller/goodsreceivingController.js"></script>
+<script src="modules/goodsreceivingnote/service/goodsreceivingService.js"></script>
+
+<script src="modules/loanStatement/controller/loanStatementController.js"></script>
+<script src="modules/loanStatement/service/loanStatementService.js"></script>
+
+<script src="modules/fleetMaintenance/controller/fleetMaintenanceController.js"></script>
+<script src="modules/fleetMaintenance/service/fleetMaintenanceService.js"></script>
+
+<script src="modules/fleetAvailability/controller/fleetAvailabilityController.js"></script>
+<script src="modules/fleetAvailability/service/fleetAvailabilityService.js"></script>
+
+<script src="modules/case_CashClientSheet/controller/cashClientSheetController.js"></script>
+<script src="modules/case_CashClientSheet/service/cashClientSheetService.js"></script>
+
+<script src="modules/case_invoice/controller/caseInvoiceController.js"></script>
+<script src="modules/case_invoice/service/caseInvoiceService.js"></script>
+
+<script src="modules/hrm_employee_reimbursement/controller/empReimbursementController.js"></script>
+<script src="modules/hrm_employee_reimbursement/service/empReimbursementService.js"></script>
+
+<script src="modules/purchase_expense/controller/purchaseExpenseController.js"></script>
+<script src="modules/purchase_expense/service/purchaseExpenseSevices.js"></script>
+
+<script src="modules/log_files/controller/logfilesController.js"></script>
+<script src="modules/log_files/service/logfilesService.js"></script>
+
+<script src="modules/backup/controller/backupController.js"></script>
+<script src="modules/backup/service/backupService.js"></script>
+
+<script src="modules/overall_case_report/controller/overallCaseReportController.js"></script>
+<script src="modules/overall_case_report/service/overallCaseReportService.js"></script>
+
+<script src="modules/cash_client_report/controller/cashClientReportController.js"></script>
+<script src="modules/cash_client_report/service/cashClientReportService.js"></script>
+
+<script src="modules/ClientwiseTotalCaseReport/controller/clientwiseReportController.js"></script>
+<script src="modules/ClientwiseTotalCaseReport/service/clientwiseReportService.js"></script>
+
+<script src="modules/OutstandingReport/controller/outstandingReportController.js"></script>
+<script src="modules/OutstandingReport/service/outstandingReportService.js"></script>
+
+<script src="modules/15DaysAgingReport/controller/15daysController.js"></script>
+<script src="modules/15DaysAgingReport/service/15daysService.js"></script>
+
+<script src="modules/FleetMaintainanceReport/controller/fleetMaintainanceReportController.js"></script>
+<script src="modules/FleetMaintainanceReport/service/fleetMaintainanceReportService.js"></script>
+
+<script src="modules/acc_ledger/controller/subLedgerController.js"></script>
+<script src="modules/acc_ledger/controller/monthWiseController.js"></script>
+<script src="modules/acc_ledger/controller/dateWiseController.js"></script>
+
+<script src="modules/gstr1/controller/gstr1Controller.js"></script>
+<script src="modules/gstr1/service/gstr1Service.js"></script>
+
+<script src="modules/gstr3b/controller/gstr3bController.js"></script>
+<script src="modules/gstr3b/service/gstr3bService.js"></script>
+
+<script src="modules/fleet_DieselRecord/controller/fleet_DieselRecordController.js"></script>
+<script src="modules/fleet_DieselRecord/service/fleet_DieselRecordService.js"></script>
+
+<script src="modules/cashCaseManagement/controller/cashCaseManagement.js"></script>
+<script src="modules/cashCaseManagement/service/cashCaseManagementService.js"></script>
+
+<script src="modules/awp_toll_report/controller/awpTollReportController.js"></script>
+<script src="modules/awp_toll_report/service/awpTollReportService.js"></script>
+
+<script src="modules/policyrule/controller/policyRuleController.js"></script>
+<script src="modules/policyrule/service/policyRuleService.js"></script>
+
+<script src="modules/policyDetails/controller/policyDetailsController.js"></script>
+<script src="modules/policyDetails/service/policyDetailsService.js"></script>
+
+<script src="modules/acc_ledger_Ac/controller/ledger_AcController.js"></script>
+<script src="modules/acc_ledger_Ac/service/ledger_AcService.js"></script>
+
+<script src="modules/acc_trial_balance/controller/trialBalanceController.js"></script>
+<script src="modules/acc_trial_balance/service/trialBalanceService.js"></script>
+
+<script src="modules/policy_users/controller/policyUserController.js"></script>
+<script src="modules/policy_users/service/policyUserService.js"></script>
+
+<script src="modules/expense_product/controller/expenseProductController.js"></script>
+<script src="modules/expense_product/service/ExpenseProductService.js"></script>
+
+<script src="modules/expense_supplier/controller/expenseSupplierController.js"></script>
+<script src="modules/expense_supplier/service/expenseSupplierService.js"></script>
+
+<!-- <script src="modules/purchase_expense/controller/purchaseExpenseController.js"></script>
+<script src="modules/purchase_expense/service/purchaseExpenseSevices.js"></script>
+ -->
+<script src="modules/invoice_services/controller/invoiceServiceController.js"></script>
+<script src="modules/invoice_services/service/invoiceSerSevices.js"></script>
+
+<!-- <script src="modules/acc_ledger/controller/ledgerController.js"></script>
+<script src="modules/acc_ledger/service/ledgerSevices.js"></script> -->
+
+<!-------- Bower Components ------------------->
+
+<script src="bower_components/bootbox/bootbox.js"></script>
+<script src="bower_components/ngBootbox/dist/ngBootbox.js"></script>
+<script src="bower_components/angularjs-datepicker/src/js/angular-datepicker.js"></script>
+<script src="bower_components/validation/angular-messages.min.js"></script>
+<!--<script src="bower_components/ng-ckeditor/dist/ng-ckeditor.js"></script>-->
+<!--<script src="bower_components/angular-ckeditor-placeholder/ckeditor.js"></script>
+<script src="bower_components/angular-ckeditor-placeholder/angular-ckeditor-placeholder.js"></script>-->
+
+<script src="bower_components/tinymce/js/tinymce/jquery.tinymce.min.js"></script>
+<script src="bower_components/tinymce/js/tinymce/tinymce.min.js"></script>
+
+
+<script src="bower_components/pdf_generation/pdfmake.min.js"></script>
+<script src="bower_components/pdf_generation/vfs_fonts.js"></script>
+
+
+
+<link rel="stylesheet" href="bower_components/Timepicker/dist/css/timepicker.css">
+<script src="bower_components/Timepicker/dist/js/timepicker.js"></script>
+
+
+<link rel="stylesheet" href="lib/trix.css">
+<script src="lib/trix.js"></script>
+<script src="bower_components/angular-trix/dist/angular-trix.js"></script>
+
+<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+
+<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+<script src="http://ui-grid.info/release/ui-grid-unstable.js"></script>
+<link rel="stylesheet" href="http://ui-grid.info/release/ui-grid-unstable.css" type="text/css">
+
+
+
+<!--  <script src="bower_components/angular-mass-autocomplete/massautocomplete.js"></script>-->
+<!--<script src="bower_components/jQuery-autoComplete-master/jquery.auto-complete.js"></script>-->
+
+<!--<script data-require="angular-animate@1.5.*" data-semver="1.5.8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+<script data-require="angular-touch@1.5.*" data-semver="1.5.8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-touch.js"></script>
+<script data-require="ui-bootstrap@*" data-semver="2.1.3" src="https://cdn.rawgit.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-2.1.3.js"></script>-->
+
+<script>
+   // window.onbeforeunload = function (e) {
+
+           // localStorage.clear();
+    
+    //return undefined;
+    //};
+</script>
+
+
+</body>
+</html>
+
+
+
+
+<div class="modal fade modal-size-medium" id="change_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static" ng-controller="homeController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+                    <div class="tab-content ">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div   class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <form name="tax_rate">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div class="label_none">Existing Password</div><!-- add for edit button click class 'label_display' -->
+                                            <!--<div class="star">*</div>-->
+                                            <input class="form-control border_none" placeholder="Enter Existing Password" type="password" ng-model="change_password.old_password" ng-required="true">
+                                            <!--<div ng-messages="charge_details.charge_name.$error" ng-show="charge_details.charge_name.$dirty">
+                                                <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div class="label_none">New Password</div><!-- add for edit button click class 'label_display' -->
+                                            <!--<div class="star">*</div>-->
+                                            <input class="form-control border_none" placeholder="Enter New Password" type="password" ng-model="change_password.password" ng-required="true">
+                                            <!--<div ng-messages="charge_details.charge_name.$error" ng-show="charge_details.charge_name.$dirty">
+                                                <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div class="label_none">Confirm Password</div><!-- add for edit button click class 'label_display' -->
+                                            <!--<div class="star">*</div>-->
+                                            <input class="form-control border_none" placeholder="Confirm Password" type="password" ng-model="cnfrm_password" ng-required="true" ng-blur="check_cnfrm_pass()">
+                                            <p class="color_font" ng-show="password_error_msg">Password not match</p>
+                                            <!--<div ng-messages="charge_details.charge_name.$error" ng-show="charge_details.charge_name.$dirty">
+                                                <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <center><button class="btn btn-success-outline margin-inline" type="button" ng-click="save_password()">
+                                                <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                            </button>
+                                            </center>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+

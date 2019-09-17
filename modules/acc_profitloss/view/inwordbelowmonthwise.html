@@ -1,0 +1,160 @@
+ <style>
+ .table thead th {
+    vertical-align: top;
+  
+}
+ </style>
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<h4>Direct Expenses : {{charge_name}} (Month Wise)</h4>
+							<div class="nav-tabs-horizontal margin-bottom-5">
+					
+							</div>
+							<br/>
+							<div class="clearfix"></div>
+							
+								<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+					
+							
+							<!--<h4>
+							<b>Liabilities</b>
+							</h4>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							
+								<div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+											
+											<th rowspan="2" valign="top" class="width_tbb">Particular</th>
+											<th colspan="2" class="width_tbb"><center>Transaction</center></th>
+										
+											<th rowspan="2" valign="top" class="width_tbb">Closing Balance</th>
+											
+											
+										</tr>
+										<tr class="colorhead">
+											
+											
+											<th>Debit</th>
+											<th>Credit</th>
+											
+											
+											
+										</tr>
+									</thead>
+									<!--<tfoot>
+										<tr>
+										  <th>Supplier Code</th>
+										<th>Supplier Name</th>
+										
+										<th>City</th>
+										<th>Country</th>
+										<th>Action</th>
+										</tr>
+										</tfoot>-->
+									<tbody>
+										<tr>
+											<td>Opening Balance</td>
+											<td></td>
+											<td></td>
+											<td>{{opening_balance}}</td>
+										</tr>
+										<tr style="cursor:pointer;" ng-repeat="item in inwordBelowMonthWiseList" ng-click="purchaseDateWise('/inworddatewise/'+item.month_no+'/'+frm_date+'/'+t_date+'/'+wre_id+'/'+charge_id)">
+											<td>{{item.month}}</td>
+											<td>{{item.debit_amount}}</td>
+											<td>{{item.credit_amount}}</td>
+											<td>{{item.closing_balance}}</td>
+										</tr>
+										<tr>
+											<td><strong>Grand Total</strong></td>
+											<td>{{debit_total}}</td>
+											<td>{{credit_total}}</td>
+											<td>{{closing_balance}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							</div>
+							 
+					</div>
+					
+               
+               
+			   
+					 </div>
+					
+					<!--<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+		
+							<center>
+								<button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+							</center>	
+					</div>	-->
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+
+ <script>
+     $('#from_date').datepicker({
+         changeMonth: true,
+         changeYear: true,
+         yearRange: '1970:2020'
+         // defaultDate: '2015-01-01',
+
+     });
+     $('#to_date').datepicker({
+         changeMonth: true,
+         changeYear: true,
+         yearRange: '1970:2020'
+         // defaultDate: '2015-01-01',
+
+     });
+     $.datepicker.setDefaults({
+         dateFormat: 'yy-mm-dd'
+     });
+ </script>
+											
+	<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

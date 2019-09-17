@@ -1,0 +1,404 @@
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+</style>
+<style>
+    .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<!-- <script>
+$("#select_type").on("change", function() {
+    id = "related_" + $(this).val() + "_content";
+    $("#" + id).show().siblings().hide()
+})
+</script> -->
+
+<section class="page-content">
+<div class="page-content-inner">
+<div class="loading"></div>
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/attendance_management.png">Enter Attendance
+						<span id="attendancesuccess" style="color: green;font-size: 15px">{{attendance_success}}</span></div>
+						<div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' >
+                                <input type='text' class="form-control border_none" id='exp_del_date3' placeholder="Date" ng-model="date" />
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+						<div class="right hidden-md-down margin-left-40 col-lg-2 col-md-2 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" >
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+					<button class="btn btn-success-outline margin-inline" type="submit" ng-click="save_attendance()">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>
+
+
+ 					<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+ 				
+							
+									
+						
+                    <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date'>
+                                <input type='text' class="form-control border_none" id='exp_del_date4' placeholder="To" ng-model="to_date"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                     	<button ng-click="statusdateleave()" class="btn btn-success"><i class="fa fa-search" ng-click="attendance_listing()"></i></button>
+                      </div>
+ 					</div>	-->		
+
+
+                        </div>
+                        </div>
+						<div class="clearfix"></div><br/>
+                    
+					<div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered" id="table2excel">
+                            <thead>
+                               <tr class="colorhead">
+                               	<!-- <th style="text-align: center;">Mark All<br/>
+		                               		<input id="demo_box_2" class="css-checkbox" type="checkbox" ng-model="selectedAll" ng-click="checkAll(employee_lists)" />
+											<label for="demo_box_2" name="demo_lbl_2" class="css-label1"></label>
+                                </th> -->
+                                <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll(employee_lists)"/></th>
+                                	<th>Employee ID</th>
+                               		<th>Employee Name</th>
+                                	<th>Overtime Hours</th>
+                               		<th>Double Shift</th>
+                               		
+                               		
+                               		<th>Status</th>
+								<th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat="data in employee_lists">
+                                <!-- <td  style="text-align: center;">
+                                		<input id="demo_box_3" class="css-checkbox" type="checkbox" id="att_check_{{data.id}}" />
+										<label for="demo_box_3" name="demo_lbl_2" class="css-label"></label>
+                                </td> -->
+                                
+                                <td><input type="checkbox" ng-click="add_selected_att(data,$index)" id="att_check_{{data.id}}"/></td>
+                                <td>{{data.employee_id}}</td>
+                                <td>{{data.first_name}}</td>
+                                <td>{{data.overtime_hrs}}</td>
+                                <td>{{data.double_shift}}</td>
+                                <td ng-if="data.att_status !='P' && data.att_status!='A'">{{data.att_status}}</td> 
+                                <td ng-if="data.att_status=='P'" style="color: green;font-size: 15px">{{data.att_status}}</td>
+								<td ng-if="data.att_status=='A'" style="font-size: 15px;color: red">{{data.att_status}}</td>
+                                <td>	<a> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> | 
+                                     <a  data-toggle="modal" data-target="#example2">
+                                          <i class="fa fa-plus-square font_six" title="Edit" aria-hidden="true" ng-click="add_overtime_shift($index,data.id)"></i></a></td>
+                              
+                            </tr>
+                           
+                         
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+               <center>
+			
+			   </center>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+<style type="text/css">
+	input[type=checkbox].css-checkbox { position: absolute;  overflow: hidden;  clip: rect(0 0 0 0);  height:1px;  width:1px;  margin:-1px;  padding:0; border:0; } 
+input[type=checkbox].css-checkbox + label.css-label { padding-left:20px; height:15px;  display:inline-block; line-height:15px; background-repeat:no-repeat; background-position: 0 0; font-size:15px; vertical-align:middle; cursor:pointer; } 
+input[type=checkbox].css-checkbox:checked + label.css-label { background-position: 0 -15px; }  .css-label{ background-image:url(assets/images/lite-x-red.png); }
+
+
+input[type=checkbox].css-checkbox { position: absolute;  overflow: hidden;  clip: rect(0 0 0 0);  height:1px;  width:1px;  margin:-1px;  padding:0; border:0; } 
+input[type=checkbox].css-checkbox + label.css-label1 { padding-left:20px; height:15px;  display:inline-block; line-height:15px; background-repeat:no-repeat; background-position: 0 0; font-size:15px; vertical-align:middle; cursor:pointer; } 
+input[type=checkbox].css-checkbox:checked + label.css-label1 { background-position: 0 -15px; }  .css-label1{ background-image:url(assets/images/lite-x-green.png); }
+</style>
+
+<div class="modal fade modal-size-large" close-modal-two id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Apply</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                           
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										<div class="">
+															<!-- <div class='input-group date'>
+																<div class="label_none">Overtime Hours</div>
+																<input type='text' class="form-control border_none" placeholder="Overtime Hours" data-format="HH:mm" data-template="HH : mm" id='exp_del_date1' ng-model="overtime_hrs" />
+																<span class="input-group-addon">
+																	<i class="icmn-calendar"></i>
+																</span>
+                                                            </div> -->
+                                                            <div ng-class="{label_display : active_lable}" class="label_display">Overtime Hours</div>
+                                                            <input type="text" class="form-control border_none" id="timepickerc" placeholder="Overtime Hours" name="datetime" ng-model="overtime_hrs">
+
+														</div>
+                                        </div>
+                                        <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                   					<div  ng-class="{label_display : active_lable}" class="label_none" ng-model="overtime_hrs">Overtime Hours</div>
+                                   						<select class="form-control border_none select">
+													        <option>Select Overtime Hours</option>
+											            </select>	
+
+                               				  </div>
+
+										
+										</div> -->
+										
+
+										</div>
+										
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+										<!-- <div class="">
+															<div class='input-group date'>
+																<div class="label_none">Double Shift</div>
+															<input type='text' class="form-control border_none" placeholder="Double Shift" id='exp_del_date2' ng-model="double_shift" />
+																<span class="input-group-addon">
+																	<i class="icmn-calendar"></i>
+																</span>
+															</div>
+                                                        </div> -->
+                                                        <div ng-class="{label_display : active_lable}" class="label_display">Double Shift</div>
+                                                        <input type="text" class="form-control border_none" id="shift" name="double_shift" ng-model="double_shift" placeholder="Double Shift"
+                                                        
+										</div>
+											
+										
+										
+
+										</div>
+										
+									
+									
+									
+										<div class="clearfix"></div>
+									</div>
+									<br/>
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center><br/>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_shift_data()">
+												<span class="top_p"><i class="icmn-share2"></i></span> Submit 
+											</button>
+											
+											</center>
+									</div>	
+								
+                                </div>
+                                </div>
+                                
+                               
+                                
+                            </div>
+                        </div>
+						<div class="clearfix"></div>
+                            </div>
+						<div class="clearfix"></div>
+                         <!--   <div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                
+                            </div>-->
+                        </div>
+                    </div>
+
+
+
+<!-- modal start -->
+
+				
+<script type="text/javascript">
+$('#exp_del_date1').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  yearRange: '2000:2040' ,
+    defaultDate: '01-10-2017',
+});
+</script>
+<script type="text/javascript">
+$('#exp_del_date3').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat: 'dd/mm/yy'
+});
+</script>
+<script type="text/javascript">
+$('#exp_del_date4').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  yearRange: '2000:2040' ,
+});
+</script>
+<script type="text/javascript">
+$('#exp_del_date2').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  yearRange: '2000:2040' ,
+    defaultDate: '01-10-2017',
+});
+</script>
+<script type="text/javascript">
+ $.datepicker.setDefaults({
+          dateFormat: 'yy-mm-dd',
+          /*dateFormat: 'dd-mm-yy',*/
+ });
+
+ function test($rootScope){
+        $get_time  = $('#timepickerc').val();
+        $scope.overtime_hrs = $get_time;
+      }
+</script>
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        $("#table2excel").tableHeadFixer();
+    });
+</script>
+
+<!-- <script>
+    $(function(){
+        $('#time').combodate({
+            firstItem: 'name', //show 'hour' and 'minute' string at first item of dropdown
+            minuteStep: 1
+        });  
+    });
+</script> -->
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+    $(function() {
+      $('#timepickerc').timepicker({
+        //format: 'LT'
+        //language: 'en',
+        pick12HourFormat: true
+      });
+    });
+    // $(function() {
+    //   $('#timepickerc1').timepicker({
+    //     //format: 'LT'
+    //     //language: 'en',
+    //     pick12HourFormat: true
+    //   });
+    // });
+    // $(function() {
+    //   $('#timepickerc2').timepicker({
+    //     //format: 'LT'
+    //     //language: 'en',
+    //     pick12HourFormat: true
+    //   });
+    // });
+
+  </script>
+  <style>
+    .timepicker .title{display: none;margin-top:10px;}
+  </style> 
+  <script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!-- header fixed -->

@@ -1,0 +1,145 @@
+ <style>
+ .table thead th {
+    vertical-align: top;
+  
+}
+ </style>
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 font_nw text_d1 right_a1">Ledger : {{ledger_name}} Amount Date Wise</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+										<span class="font_nw">{{selected_warehouse_name}} </span><br/>
+                                      <span class="font_1"><b>CIN :</b> {{selected_warehouse_cin_no}} &nbsp; </span><br/>
+									<span class="font_1"><b>Period </b>25/06/2018 To 28/06/2016</span>
+									</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<b>Financial Year :</b> 2018 - 2019
+									</div>
+								</div>
+							</div>
+						
+						
+							
+							<div class="clearfix"></div>
+							
+								<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+					
+							
+							<!--<h4>
+							<b>Liabilities</b>
+							</h4>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							
+								 <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+											
+											<th>Date</th>
+											<th>Particular</th>
+											<th>Voucher Type</th>
+											<th>Voucher No.</th>
+											<th class="width_7 right_a">Debit</th>
+										
+											<th class="width_7 right_a">Credit</th>
+										</tr>
+										
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in fixedAssetsDateWiseList">
+
+											<td>{{toTimestamp(item.voucher_date)}}</td>
+											<td>{{item.ledger_name}}</td>
+											<td>{{item.voucher_type_name}}</td>
+											<td>{{item.voucher_number}}</td>
+											<td class="right_a">{{item.debit_amount}}</td>
+											<td class="right_a">{{item.credit_amount}}</td>
+
+										</tr>
+
+										<tr>
+											<td style="text-align:right;" colspan="4"><strong>Opening Balance</strong></td>
+											<td class="right_a">{{opening_balance}}</td>
+											<td></td>
+										</tr>
+
+										<tr>
+											<td style="text-align:right;" colspan="4"><strong>Current Total</strong></td>
+											<td class="right_a">{{debit_total}}</td>
+											<td class="right_a">{{credit_total}}</td>
+										</tr>
+
+										<tr>
+											<td style="text-align:right;" colspan="4"><strong>Closing Balance</strong></td>
+											<td class="right_a">{{closing_balance}}</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							</div>
+							 
+					</div>
+					
+               
+               
+			   
+					 </div>
+					
+					<!--<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+		
+							<center>
+								<button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+							</center>	
+					</div>	-->
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+											
+
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

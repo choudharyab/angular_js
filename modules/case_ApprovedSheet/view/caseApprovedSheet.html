@@ -1,0 +1,727 @@
+<!--<style>
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+    z-index: 999 !important;
+}
+</style>-->
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+body{overflow-x:hidden;}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+<div class="loading"></div>
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+        <div class="">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-2">
+
+                            <div align="right">
+                                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-x width_27">
+                                    <img class="headsectionimages" src="assets/headerimages/balancesheet.png"> Approved Sheet
+                                
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-5 col-sm-3 col-xs-12 text_d1">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                            <b>Client Name :</b>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                            
+
+                                            <select class="form-control border_none color_f " ng-model="client_id" ng-change="get_client_location_listing(client_id)">
+                                                <option value="" >--Select Client--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                                <option ng-repeat="client_list in client_listing_details" value="{{client_list.id}}">{{client_list.client_name}}</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                            </select>
+                                        </div>
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-3 col-xs-12 text_d1">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                        <b>Client Location :</b>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                        
+
+                                            <select class="form-control border_none color_f" name="client_location" ng-model="client_location" ng-change="set_location_id(client_location)">
+                                                    <option value="" ng-selected="selected">Client Location</option>
+                                                    <option ng-repeat="data in client_location_details" value="{{data}}">{{data.city}},{{data.state_name}}</option>
+                                                    
+                                                </select>
+                                    </div>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-3 col-xs-12 text_d1">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                    <b>Service Type :</b>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                    <select class="form-control border_none color_f " ng-model="service_id" ng-change="search_approved_list()">
+                                        <option value="">--Select Service--</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                        <option ng-repeat="service_list in service_details" value="{{service_list.id}}">{{service_list.service_name}}</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                    </select>
+                                </div>
+                    </div>
+                                <!-- <button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="exportData()">
+                                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                    Export To Excel</button> -->
+                                    <button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="margin-top:15px;">
+                                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                            Export To Excel</button>
+                            <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12 text_d1">
+                                    <!-- <input class="form-control border_none ng-pristine ng-valid" placeholder="Location" type="text" ng-model="location" disabled>
+                                --></div>
+
+                                
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <br/>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">&nbsp;</div>
+                                    <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                                        <div class="form-group">
+                                            <div class='input-group date'>
+                                                <input type='text' id='datetimepicker1' class="form-control border_none" placeholder="From" ng-model="from_date" />
+                                                <label class="input-group-addon" for="datetimepicker1">
+                                                    <i class="icmn-calendar"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                                        <div class="form-group">
+                                            <div class='input-group date'>
+                                                <input type='text' id='datetimepicker2' class="form-control border_none" placeholder="To" ng-model="to_date" />
+                                                <label class="input-group-addon" for="datetimepicker2">
+                                                    <i class="icmn-calendar"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                                        <button ng-click="search_approved_list()" class="btn btn-success">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                
+                                <!--<button ng-click="moved_to_scrutiny_sheet('Scrutiny')" class="btn btn-success">
+                                    Move to Scrutiny
+                                </button>-->
+                                    <div class="pull-right">
+                                            <!-- <button ng-click="generate_bill()" class="btn btn-rounded btn-primary-outline margin-inline">
+                                            <i class="fa fa-share-square" aria-hidden="true"></i>
+                                    Generate Bill
+                                </button> -->
+                                <button ng-bootbox-confirm="Are you sure to move cases to disputed sheet?"
+                                ng-bootbox-confirm-action="moved_to_approved_sheet('Disputed')" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)" class="btn btn-rounded btn-primary-outline margin-inline">
+                                <i class="fa fa-share-square" aria-hidden="true"></i>
+                                    Move to Disputed
+                                </button>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br/>
+                            <div class="table_dis sb-container container-example1 fornewpageheight" style="overflow:scroll;">
+                            <!--sb-container container-example1 hei-->
+                            <table class="table table-hover table-bordered"  id="table_id">
+                                <thead>
+                                    <tr class="colorhead">
+                                        <th><input type="checkbox"  ng-model="selectedAll" ng-click="checkAll(approved_lists)"/></th>
+                                        <th>Sr No</th>
+                                        <th>Date</th>
+                                        <th>Case Id</th>
+                                        <th>Service Type</th>
+                                        <th>Model</th>
+                                        <th>Vehicle No.</th>
+                                        <th>Total KM</th>
+                                        <th>Base KM</th>
+                                        <th>Base Price</th>
+                                        <th>Rate / KM</th>
+                                        <th>Ext KM</th>
+                                        <th>Ext KM Amt</th>
+                                        <th>Waiting Charges</th>
+                                        <th>Custody Charges</th>
+                                        <th>Amount</th>
+                                        <th ng-repeat="data in charge_details">{{data.transportation_name}}</th>
+                                        <th>Total Amount</th>
+                                        <th>SGST</th>
+                                        <th>CGST</th>
+                                        <th>IGST</th>
+                                        
+                                        <th>Grand Total</th>
+                                        <th>Routemap</th>
+                                        <th>Case Remark</th>
+                                        <th>Action</th>
+
+
+
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <tr ng-repeat="data in approved_lists">
+                                        <td><input type="checkbox" ng-click="add_selected_cases(data)"  id="case_check_{{data.case_customer.case_id}}"/></td>
+                                        <td>{{$index+1}}</td>
+                                        <td>{{data.casedate}}</td>
+                                        <td class="tblhover">{{data.case_no}}</td>
+                                        <td>{{data.service[0].service_name}}</td>
+                                        <td>{{data.case_customer.vehicle_make}}</td>
+                                        <td>{{data.case_customer.vehicle_reg_no}}</td>
+                                        <td>{{data.close_total_service_km}}</td>
+                                        <td>{{data.rules.initials_km}}</td>
+                                        <td>{{data.rules.charges_initials_km}}</td>
+                                        <td>{{data.rules.charges_above_initials_km}}</td>
+                                        <td>{{data.ext_km}}</td>
+                                        <td>{{data.ext_km_amt}}</td>
+                                        <td>{{data.waiting_total_amount}}</td>
+                                        <td>{{data.custody_total_amount}}</td>
+                                        <td>{{data.total_amount}}</td>
+                                        
+                                        <td ng-repeat="d1 in data.charge_data">{{d1.charge_amount}}</td>
+                                         <td>{{data.total_case_amount}}</td>
+                                        <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                        <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+                                        <td><p ng-if="data.tax_name == 'IGST'">{{data.tax_amount}}</p><p ng-if="data.tax_name != 'IGST'"></p></td>
+                                       
+                                        <td>{{data.total}}</td>
+                                        <td>{{data.close_route_map}}</td>
+                                        <td>{{data.close_notes}}</td>
+                                        <td>
+                                                <!-- <a><i class="fa fa-check-square-o font_six" title="Read To Bill" aria-hidden="true"></i></a> |
+                                            <a><i class="fa fa-file-pdf-o  font_six" title="Generate Bill" aria-hidden="true"></i></a> | -->
+                                            <a ng-click="open_approved_modal(data.case_customer.case_id)">
+                                                <i class="fa fa-comment  font_six" title="Remark" aria-hidden="true"></i></a>
+                                            </td>
+
+
+
+                                    </tr>
+
+                                        
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <center>
+                            <!-- <button class="btn btn-rounded btn-primary-outline margin-inline" type="button">
+<i class="fa fa-print" aria-hidden="true"></i>
+
+Print
+</button>-->
+                        </center>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>
+
+
+<!-- modal start -->
+
+<div class="tblcontentnew">
+<div class="stylenew">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_bb">
+            <b>Details :</b>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Case No.</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.case_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Client Name :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.client_name}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b> Remark :</b>
+            </div>	
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.remark}}
+            </div>	
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+                
+            </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Fleet Make :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.fleet.make}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Fleet Reg. No.:</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.fleet.fleet_reg_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>ASP Contact No.:</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.asp_contact_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>ASP Location</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.asp_location}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Breakdown Location :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.breakdown_location}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Dealership Name :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.dealership_name}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b>Dealership Address :</b>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{data.dealership_address}}
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+</div>
+
+<!-- modal start -->
+
+<table class="table table-hover table-bordered" cellpadding="5" border="1" cellspacing="0" id="table2excel" style="display: none">
+        <thead>
+        <tr class="colorhead">
+
+                <th>Sr No</th>
+                <th>Date</th>
+                <th>Case Id</th>
+                <th>Service Type</th>
+                <th>Model</th>
+                <th>Vehicle No.</th>
+                <th>Total KM</th>
+                <th>Base KM</th>
+                <th>Base Price</th>
+                <th>Rate / KM</th>
+                <th>Ext KM</th>
+                <th>Ext KM Amt</th>
+                <th>Waiting Charges</th>
+                <th>Custody Charges</th>
+                <th>Amount</th>
+                <th ng-repeat="data in charge_details">{{data.transportation_name}}</th>
+                <th>Total Amount</th>
+                <th>SGST</th>
+                <th>CGST</th>
+                <th>IGST</th>
+                
+                <th>Grand Total</th>
+                <th>Routemap</th>
+                <th>Case Remark</th>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="data in case_array_xl">
+
+                <td>{{$index+1}}</td>
+                <td>{{data.casedate}}</td>
+                <td class="tblhover">{{data.case_no}}</td>
+                <td>{{data.service_type}}</td>
+                <td>{{data.vehicle_make}}</td>
+                <td>{{data.vehicle_no}}</td>
+                <td>{{data.total_km}}</td>
+                <td>{{data.base_km}}</td>
+                <td>{{data.base_price}}</td>
+                <td>{{data.rate_per_km}}</td>
+                <td>{{data.ext_km}}</td>
+                <td>{{data.ext_km_amt}}</td>
+                <td>{{data.waiting_charges}}</td>
+                <td>{{data.custody_charges}}</td>
+                <td>{{data.total_amount}}</td>
+                <td ng-repeat="d1 in data.charge_data">{{d1.charge_amount}}</td>
+                <td>{{data.grand_total}}</td>
+            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+            <td><p ng-if="data.tax_name == 'GST'">{{data.tax_amount/2}}</p><p ng-if="data.tax_name != 'GST'"></p></td>
+            <td><p ng-if="data.tax_name == 'IGST'">{{data.tax_amount}}</p><p ng-if="data.tax_name != 'IGST'"></p></td>
+            
+            
+            <td>{{data.total}}</td>
+            <td>{{data.route_map}}</td>
+            <td>{{data.case_remark}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+<div class="modal fade modal-size-medium" close-my-modal id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Remark</h4>
+        </div>
+        <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home1" role="tabpanel">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+
+                            <div class="form-group  col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="already_added">
+                                <div class="label_none">Remark</div>
+                                <textarea class="form-control" rows="3" id="l15" placeholder="Remark" ng-model="approved_remark"></textarea>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="already_added">
+                            <center>
+
+                                <button class="btn btn-success-outline margin-inline" type="button" ng-click="update_approved_remark(id)">
+                                    <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                </button>
+
+                            </center>
+                        </div>
+                        <span ng-show="show_msg">{{added_msg}}</span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+
+</div>
+</div>
+
+<!-- modal start -->
+
+<!-- modal start -->
+
+<script>
+$('#datetimepicker1').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '2000:2040',
+    // defaultDate: '2015-01-01',
+    dateFormat:'dd/mm/yy'
+
+});
+$('#datetimepicker11').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '2000:2040',
+    // defaultDate: '2015-01-01',
+    dateFormat:'dd/mm/yy'
+
+});
+$('#datetimepicker2').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '2000:2040',
+    // defaultDate: '2015-01-01',
+    dateFormat:'dd/mm/yy'
+
+});
+$('#datetimepicker3').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '2000:2040',
+    // defaultDate: '2015-01-01',
+    dateFormat:'dd/mm/yy'
+
+});
+
+$('#datetimepicker31').datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '2000:2040',
+    // defaultDate: '2015-01-01',
+    dateFormat:'dd/mm/yy'
+});
+
+
+$("#tblExport").click(function () {
+    $("#table2excel").table2excel({
+        // exclude CSS class
+        //exclude: ".noExl",
+        name: "Worksheet Name",
+        //fileext: ".xlsx",
+        filename: "Approved_sheet" //do not include extension
+    });
+});
+</script>
+<script>
+$(document).ready(function () {
+    $("#table2excel").tableHeadFixer();
+});
+</script>
+<div class="modal fade modal-size-large" id="add_bill" close-modal-three tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog modal_size" role="document">
+    <div class="modal-content">
+        <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Generate Bill 
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home1" role="tabpanel">
+                        <!-- <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+                            <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <form name="details">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+                                            <div class="input-group date">
+                                                    <div  ng-class="{label_display : active_lable}" class="label_none" style="z-index: 999999;">Date</div>
+                                                        <input type="text" placeholder="Date" class="form-control border_none" ng-model="date" id="datetimepicker3">
+                                                        <span class="input-group-addon">
+                                                        <i class="icmn-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                    <!-- <div class='input-group date'>
+                                                            <input type='text' id='datetimepicker3' class="form-control border_none" placeholder="Date" ng-model="date" />
+                                                            <label class="input-group-addon" for="datetimepicker3">
+                                                                <i class="icmn-calendar"></i>
+                                                            </label>
+                                                        </div> -->
+                                            <!-- <div  ng-class="{label_display : active_lable}" class="label_display">Date</div>
+                                        
+                                            <input class="form-control border_none" type="text" name="date" placeholder=" Date" id="datetimepicker3" ng-model="date"> -->
+                                        </div>
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <!-- <div class="star">*</div> -->
+                                            <div  ng-class="{label_display : active_lable}" class="label_display">Invoice Type</div>
+                                            <input class="form-control border_none" type="text" placeholder="Invoice Type" name="invoice_type" ng-model="invoice_type" ng-required="true" capitalize>
+                                            <!-- <div ng-messages="details.agentname.$error" ng-show="details.agentname.$dirty" >
+                                            <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                            </div> -->
+                                        </div>
+                                        
+                                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                    <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                        <div  ng-class="{label_display : active_lable}" class="label_display">Invoice No.</div>
+                        
+                        <input class="form-control border_none" type="text" placeholder="Invoice No." ng-model="invoice_no" capitalize>
+                    </div> -->
+                                        <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_display">Reverse Charge</div>
+                                        
+                                            <input class="form-control border_none" type="text" placeholder="Reverse Charge" ng-model="reverse_charge" capitalize>
+                                        </div> -->
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 10px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <b> Reverse Charge Applicable:</b>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                            <div class="form-group" style="margin-bottom: 0px;">
+                                                <div class="radio">
+                                                    <label>
+                                                    <input name="example1"  type="radio" value="yes" ng-model="applicable">
+                                                    Yes
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                            <div class="form-group" style="margin-bottom: 0px;">
+                                                <div class="radio">
+                                                    <label>
+                                                    <input name="example1" type="radio"  value="no" ng-model="applicable">
+                                                    No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                                                                
+                                    </div>
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div ng-class="{label_display : active_lable}" class="label_display">Description</div>
+                                
+                                    <textarea placeholder="Description"  class="form-control" capitalize ng-model="description"></textarea>
+                                </div>
+                                    <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div ng-class="{label_display : active_lable}" class="label_display">Note</div>
+                                
+                                    <textarea placeholder="Note"  class="form-control" capitalize ng-model="note"></textarea>
+                                </div>
+                                </form>
+                                <!-- </div> -->
+                        
+                            <div class="sb-container container-example1 hei">
+                    <div class="table_dis" id="fixedheader2">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr class="colorhead">
+                                            <th class="width_t_sr">Sr No.</th>
+                                            <th>Towing Charges</th>
+                                            <th ng-repeat="c in case_column_array">{{c.transportation_name}}</th>
+                                            <!-- <th ng-repeat="c in case_column_array track by $index">{{c}}</th> -->
+                                            <th>Tax Amount</th>
+                                            <th>Subtotal</th>
+                                            <th>Grand Total</th>
+                                            
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="data in case_data">
+                                            <td>{{$index+1}}</td>
+                                            <td>{{data.towing_charges}}</td>
+                                            <td ng-repeat="d in data.charge_data">{{d.charge_amount | number:2}}</td>
+                                            <td>{{data.tax_amount | number:2}}</td>
+                                            <td>{{data.subtotal | number:2}}</td>
+                                            <td>{{data.total | number:2}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>{{towing_total | number:2}}</th>
+                                            <th ng-repeat="k in arr track by $index">{{k}}</th>
+                                            <!-- <th ng-repeat="k in case_total_array track by $index">{{k}}</th>-->
+                                            <th>{{tax_amount_total | number:2}}</th>
+                                            <th>{{subtotal_total | number:2}}</th>
+                                            <th>{{grand_total_total | number:2}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <center>
+                                    <button class="btn btn-primary-outline margin-inline" type="button" ng-click="save_bill_data()">
+                                        Save
+                                        <span class="top_p"></span></button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- <div class="modal-footer bgcolor">
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+            
+            </div>-->
+    </div>
+</div>
+</div>
+<div class="modal fade" id="alert_box" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{alert_heading}}</h4>
+            </div>
+            <div class="modal-body">
+                <div><span id="add_edit_success" style="font-size: 15px;">{{check_alert_msg}}</span></div>
+                <br/>
+                <center>
+                    <button type="button" class="btn btn-primary-outline margin-inline" data-dismiss="modal">Ok</button></center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .stylenew{width: 53em;background-color: #fff;border:2px solid #BEB9B5 !important;padding: 10px;}
+    .tblhover{cursor: pointer;}
+    .fontsize12{font-size: 12px !important;}
+    </style>
+    <!-- hower details js -->
+    <script type="text/javascript">
+    $.widget("ui.tooltip", $.ui.tooltip, {
+        options: {
+            content: function () {
+                return $(this).prop('title');
+            }
+        }
+    });
+    
+    $(function () {
+        $('.tblhover').attr('title', $('.tblcontentnew').remove('').html())
+        $(document).tooltip();
+    });
+    </script>
+    <script>
+    $(document).ready(function(){
+    //alert("hii")
+    
+    setTimeout(function(){
+        $(".tblhover").removeAttr('style');
+    },1000);
+    })
+    </script>
+
+
+<script>
+   $(document).ready(function() {
+   	$("#table_id").tableHeadFixer(); 
+   });
+</script>
+           

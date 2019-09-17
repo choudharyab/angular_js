@@ -1,0 +1,293 @@
+<style>
+    .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<style>
+        .approve_color{
+            color:#0088ff
+        }
+    </style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-6 col-md-5 col-sm-5 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/feedback.png">  Feedback
+                            <div id="feedbackSuccess" style="color: green;font-size: 15px" class="formessage_display">{{feedback_success}}</div>
+                        </div>
+						<div class="right  margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="feedback_list_filter">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				<button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button" ng-click="add_crm_feedback_clicked()"><i class="fa fa-plus" aria-hidden="true"></i> Add Feedback</button>
+                        </div>
+                        </div>
+						
+                  <div class="sb-container container-example1 hei1 topupmm">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th>Sr. No.</th>
+                                <th>Customer Name</th>
+                                <th>Feedback</th>
+                                <th>Ratings</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                 <tr ng-repeat='feedback in feedback_list | filter: feedback_list_filter'>
+                                <td>{{$index+1}}</td> 
+                                <td>{{feedback.name}}</td>
+                                <td>{{feedback.feedback}}</td>
+                                <td><center>
+                                    <span><i class="fa fa-star" aria-hidden="true" title="Rate" ng-class="{approve_color:feedback.count1=='1'}"></i></span>
+                                    <span><i class="fa fa-star" aria-hidden="true" title="Rate" ng-class="{approve_color:feedback.count2=='1'}"></i></span>
+                                    <span><i class="fa fa-star" aria-hidden="true" title="Rate" ng-class="{approve_color:feedback.count3=='1'}"></i></span>
+                                    <span><i class="fa fa-star" aria-hidden="true" title="Rate" ng-class="{approve_color:feedback.count4=='1'}"></i></span>
+                                    <span><i class="fa fa-star" aria-hidden="true" title="Rate" ng-class="{approve_color:feedback.count5=='1'}"></i></span>
+                               </center><br></td>
+                                <td>
+                                    <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password">
+                                        <i class="fa fa-trash-o font_six"  title="Delete" ng-click="crm_feedback_permission_popup(feedback.id,feedback.delete_status,'delete')"></i>
+                                    </a>
+
+                                    <!-- <a ng-bootbox-confirm="Are you sure to delete this feedback?"
+                                            ng-bootbox-confirm-action="deleteCrmFeedbackList(feedback.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)">
+                                        <i class="fa fa-trash-o font_six"  title="Delete"></i>
+                                    </a> -->
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+               
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+<!-- modal start -->
+
+<!-- modal start -->
+
+ <div class="modal fade modal-size-small" close-modal-two id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Feedback</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                          
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                       <!-- <div>Please Rate Us</div> -->
+                                       <!-- <div  ng-class="{label_display : active_lable}" class="label_none">Please Rate Us</div> -->
+                                       <div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none">
+                                            <div  ng-class="{label_display : active_lable}" class="label_display">Name</div>
+                                            <input class="form-control border_none" type="text" placeholder="Name" name="name">
+                                         </div>
+                                         <div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 padd_none">
+                                                
+                                        </div>
+                                         <div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_display">Mobile No.</div>
+                                                <input class="form-control border_none" type="text" placeholder="Mobile No." name="mobile_no">
+                                             </div>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none fontsize10">
+                                           <center>
+                                                <b>Please Rate Us</b>
+                                           </center> 
+                                         
+                                       <center>
+                                            <span><a><i class="fa fa-star" aria-hidden="true" title="Rate"></i></a></span>
+                                            <span><a><i class="fa fa-star" aria-hidden="true" title="Rate"></i></a></span>
+                                            <span><a><i class="fa fa-star" aria-hidden="true" title="Rate"></i></a></span>
+                                            <span><a><i class="fa fa-star" aria-hidden="true" title="Rate"></i></a></span>
+                                            <span><a><i class="fa fa-star" aria-hidden="true" title="Rate"></i></a></span>
+                                       </center><br>
+                                    </div>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+										
+											<textarea class="form-control"  placeholder="Feedback" rows="3"></textarea>
+										
+									<br/>
+											
+										
+									</div>
+
+								
+									<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_comment()">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										
+											</center>
+									</div>	 -->
+								
+                                </div>
+                                </div>
+                               
+                               
+                                
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                          
+                        </div>
+                    </div>
+                </div>
+<script>
+    $('#feedback_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040'
+        // defaultDate: '2015-01-01',
+
+    });
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+</script>
+
+<style>
+    #feedback_date{
+        z-index:99999;
+    }
+
+</style>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->
+
+        <div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLbel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form name="form-validation" ng-submit="generateOTP ? generate_password_function() : verify_otp()">-->
+                <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+                        <label class="form-label ">Comments</label>
+                        <input class="form-control border_none"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment" name="comments" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true">
+                               <div ng-messages="formvalidation.comments.$error" ng-show="formvalidation.comments.$dirty">
+                                                
+                                                <p ng-message="pattern" class="color_font" class="color_font">Enter Alphabet only.</p>
+                                </div>
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+                        <label class="form-label ">Enter OTP</label>
+                        <input class="form-control border_none"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+                                <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                                <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+
+<script type="text/javascript">
+$('textarea').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>

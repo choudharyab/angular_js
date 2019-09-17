@@ -1,0 +1,564 @@
+<style>
+.ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<style>
+		.approve_color{
+			color:#0088ff
+		}
+	</style>
+<section class="page-content">
+<div class="page-content-inner">
+<div style="display:none" class="loading">Loading&#8230;</div>
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/stock-register.png"> Payment Follow up
+								
+						</div>
+						<div class="right margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_follow_up">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				<!--<button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example3" type="button" ng-click="add_btn_click()"><i class="fa fa-plus" aria-hidden="true"></i></button>-->
+				<br/><br/><br/>
+                        </div>
+                        </div>
+				<div class="clearfix"></div>
+				<div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        	<table class="table table-hover table-bordered">
+                            	<thead>
+                                	<tr class="colorhead">
+											<th>Lead No</th>
+											<th>Deal Done Date</th>
+											<th>Deal Done By</th>
+											<!-- <th>Lead From</th> -->
+											<th>Company Name</th>
+											<th>Contact Person</th>
+											<th>Contact No.</th>
+											<!-- <th>Email</th>
+											<th>Address</th>
+											<th>Interested</th>
+											<th>Comments</th>-->
+											<th>Payment Status</th>
+										<th class="rport_www">Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="data in follow_up | filter: filter_follow_up" >
+											<td>{{data.lead_no}}</td>
+											<td><a href="" style="color:#000;" ng-click="view_follow_up_record(data.lead_followup_details)">{{data.date}}</a></td>
+											<td><a href="" style="color:#000;" ng-click="view_follow_up_record(data.lead_followup_details)">{{data.follow_up_by}}</a></td>
+											<td><a href="" style="color:#000;" ng-click="view_follow_up_record(data.lead_followup_details)">{{data.company_name}}</a></td>
+											<td>{{data.contact_to}}</td>
+											<td>{{data.contact_no}}</td>
+											<!-- <td>{{data.email_id}}</td>
+											<td>{{data.address}}</td>
+											<td>{{data.interested}}</td>
+											<td>{{data.comments}}</td> -->
+											<!-- <td>{{data.deal_done_by}}</td>
+											<td>{{data.deal_done_date}}</td> -->
+											<td>{{data.payment_status}}</td>
+											<td>
+												<!-- <a data-toggle="modal" data-target="#example3"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="get_follow_up_by_id(data.id)"></i></a> | -->
+												<a ng-show="current_module_rights[0].status" ng-bootbox-confirm="Are you sure to delete this details?"
+									   ng-bootbox-confirm-action="delete_follow_up(data.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)" > <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i>|</a>
+									   <a ng-show="current_module_rights[1].status"> <i class="fa fa-file-text font_six" aria-hidden="true"  title="Add Follow Up" aria-hidden="true" ng-click="get_lead_data_by_id(data.id,data.payment_status)" ng-class="{approve_color:data.payment_status=='Received'}"></i></a>
+												
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<!--<h5 style="cursor:pointer" class="load-more" ng-show="showLoadmore" ng-click='listLeadManagement()'>{{ buttonText }}</h5>
+								<input type="hidden" id="row" ng-model='row'>-->
+						</div>
+						
+               </div>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+<style>
+	.load-more {
+		color: darkslategrey;
+		text-align: center
+	}
+</style>
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!--add lead modal start -->
+	<!-- <div class="modal fade modal-size-large" id="example3" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Add Detail</h4>
+				
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="padding-left: 0px; ">
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index: 999999;">Date</div>
+													<input type="text" placeholder="Next Schedule Date" class="form-control border_none" id="datetimepicker1" ng-model="date">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											
+											
+												
+											</div>
+									<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="padding-right: 0px;">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Time</div>
+												<input class="form-control border_none" type="text" placeholder="Time"  ng-model="time_of_issue">
+
+											
+
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead Number</div>
+											<input class="form-control border_none" placeholder="Search Lead Number"  name="Lead Number"  type="text" ng-model="auto_lead_code"  ng-keyup="searchLead()">
+
+										</div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Company Name</div>
+											<input class="form-control border_none" placeholder="Company Name"  name="Comapny Name"  type="text" ng-model="company_name" capitalize>
+
+										</div>
+
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Follow Up By</div>
+											<input class="form-control border_none"  placeholder="Follow Up By" type="text" ng-model="follow_up_by" capitalize ng-keyup="get_emp()">
+
+										
+										</div>
+
+										
+
+										
+													
+										</div>
+										<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contacted To</div>
+											<input class="form-control border_none" placeholder="Contacted To" type="text" ng-model="contacted_to" capitalize>
+											
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index: 999999;">Next Schedule Date</div>
+													<input type="text" placeholder="Next Schedule Date" class="form-control border_none" id="datetimepicker2" ng-model="next_schedule">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+											
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 
+                                 <div ng-class="{label_display : active_lable}" class="label_none">Payment Status</div>
+                                 <select class="form-control border_none select" ng-model="payment_status">
+                                    <option value="">Select Payment Status</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Verify">Verify</option>
+                                    <option value="Received">Received</option>
+                                   
+                                   </select> 
+
+
+                              </div>
+
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Interaction Detail</div>
+										<textarea  placeholder="Interaction Detail" rows="3" class="form-control" name="Interaction Detail" ng-model="interaction_details" capitalize></textarea>
+
+									</div>
+										
+										
+							
+								
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+									<center>
+										<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_follow_up_sheet()" >
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+									</center>
+								</div>
+
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_update">
+									<center>
+										<button class="btn btn-success-outline margin-inline" type="button" ng-click="edit_follow_up_sheet()" >
+										<span class="top_p"><i class="icmn-share2"></i></span> Update
+										</button>
+									</center>
+								</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			
+		</div>
+	</div>
+</div>
+</div> -->
+<!-- add lead modal end -->
+
+<!--update lead modal start -->
+
+<!-- update lead modal end -->
+
+
+
+<style>
+    #datetimepicker1{
+        z-index:99999;
+    }
+     #datetimepicker2{
+        z-index:99999;
+    }
+     #datetimepicker3{
+        z-index:99999;
+    }
+     #datetimepicker4{
+        z-index:99999;
+    }
+	#datetimepicker11{
+        z-index:999999;
+    }
+     #datetimepicker21{
+        z-index:999999;
+    } 
+</style>
+
+<!-- header fixed -->
+<script>
+	$(document).ready(function() {
+		$("#fixedheader").tableHeadFixer(); 
+	});
+</script>
+
+<script type="text/javascript">
+ $.datepicker.setDefaults({
+          dateFormat: 'yy-mm-dd',
+ });
+  
+$('#datetimepicker1').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker11').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+});
+
+$('#datetimepicker3').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker4').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker21').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+
+  /*function test($rootScope){
+        $get_time  = $('#timepickerc').val();
+        $rootScope.time_of_issue = $get_time;
+      }*/
+
+</script>
+
+
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('textarea').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+
+<div class="modal fade modal-size-large" id="add_follow_up" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Add Detail</h4>
+				<!--<span id="leadError">{{lead_error}}</span>-->
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="padding-left: 0px; ">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index:9999999;">Date </div>
+													<input type="text" placeholder="Date" class="form-control border_none " name="date_created"  id="datetimepicker11" ng-model="date">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+									<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12 " style="padding-right: 0px;">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Time</div>
+												<input class="form-control border_none" type="text" placeholder="Time" id="timepickerc" ng-model="time_of_issue">
+
+											
+
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Lead Number</div>
+											<input class="form-control border_none" placeholder="Search Lead Number"  name="Lead Number"  type="text" ng-model="auto_lead_code" id="auto_lead_id" ng-keyup="searchLead()">
+
+										</div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Company Name</div>
+											<input class="form-control border_none" placeholder="Company Name"  name="Comapny Name"  type="text" ng-model="company_name" capitalize>
+
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Follow Up By</div>
+											<input class="form-control border_none" id="auto_emp_code_id" placeholder="Follow Up By" type="text" ng-model="follow_up_by" ng-keyup="get_emp()" capitalize>
+
+										</div>
+
+										</div>
+										<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contacted To</div>
+											<input class="form-control border_none" placeholder="Contacted To" type="text" ng-model="contacted_to" capitalize>
+											
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+												<div class="input-group date">
+												<div  ng-class="{label_display : active_lable}" class="label_none" style="z-index:9999999;">Next Schedule Date</div>
+													<input type="text" placeholder="Next Schedule Date" class="form-control border_none" id="datetimepicker21" ng-model="next_schedule">
+													<span class="input-group-addon">
+													<i class="icmn-calendar"></i>
+													</span>
+												</div>
+											</div>
+
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 
+												<div ng-class="{label_display : active_lable}" class="label_display">Payment Status</div>
+												<select class="form-control border_none select" ng-model="payment_status">
+												   <option value="">Select Payment Status</option>
+												   <option value="Pending">Pending</option>
+												   <option value="Verify">Verify</option>
+												   <option value="Received">Received</option>
+												  
+												  </select> 
+			   
+			   
+											 </div>
+
+											<!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												<input name="example6" type="checkbox" class="top_v" ng-model="deal_status" ng-click="check_status()"> <b>Deal Done</b>
+											</div> -->
+
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Interaction Detail</div>
+										<textarea  placeholder="Interaction Detail" rows="3" class="form-control" name="Interaction Detail" ng-model="interaction_details" capitalize></textarea>
+
+									</div>
+										
+										
+							
+								
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+									<center>
+										<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_follow_up_sheet()" >
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+										</button>
+									</center>
+								</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--<div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="modal fade modal-size-large" id="follow_up_details" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Follow Up List</h4>
+				<!--<span id="leadError">{{lead_error}}</span>-->
+			</div>
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+					<div class="tab-content ">
+						<form name="">
+						<div class="tab-pane active" id="home1" role="tabpanel">
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+											
+				<div class="sb-container container-example1 hei">
+						<div class="table_dis" id="fixedheader1">
+                        	<table class="table table-hover table-bordered">
+                            	<thead>
+                                	<tr class="colorhead">
+                                			<th>Date</th>
+											<th>Time</th>
+											<th>Follow Up By</th>
+											<th>Contacted To</th>
+											<th>Interaction Details</th>
+											<th>Next Scheduled Date</th>
+											<th>Payment Status</th>
+											<!-- <th>Status</th> -->
+											
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="d in follow_up_data">
+											<td>{{d.date}}</td>
+											<td>{{d.time}}</td>
+											<td>{{d.follow_up_by}}</td>
+											<td>{{d.contact_to}}</td>
+											<td>{{d.interation_details}}</td>
+											<td>{{d.next_scheduled_date}}</td>
+											<td>{{d.payment_status}}</td>
+											<!-- <td>{{d.}}</td> -->
+
+										</tr>
+									</tbody>
+								</table>
+								
+						  </div>
+               			</div>
+							
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<!--<div class="modal-footer bgcolor">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				
+				</div>-->
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="modal fade" id="approve_msg" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Follow Up</h4>
+				</div>
+				<div class="modal-body">
+					<div><span id="add_edit_success" style="font-size: 15px;">Payment Already Received, Process the Order.</span></div>
+					<br/>
+					<center>
+						<button type="button" class="btn btn-primary-outline margin-inline" data-dismiss="modal">Ok</button></center>
+				</div>
+			</div>
+		</div>
+	</div>

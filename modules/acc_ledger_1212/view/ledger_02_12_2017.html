@@ -1,0 +1,270 @@
+
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-x">Ledger <br>
+						<span id="ledger_add_success" style="color: green;font-size: 15px;">{{led_success}}</span>
+						<span id="ledger_delete_success" style="color: red;font-size: 15px;">{{led_del_success}}</span>
+						</div>
+						<div class="col-lg-2 col-md-3 col-sm-2 col-xs-12 text_d1">
+										<input class="form-control border_none" placeholder="Name" type="text" ng-model="ledger_name">
+									</div>
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text_d1">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+											<b>Type :</b>
+										</div>
+										<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none">
+											<!--<select class="form-control border_none color_f" data-ng-options="o.ledger_type for o in ledgerTypeList" data-ng-model="acc_ledger_type">
+												<option value="">&#45;&#45;Select Type&#45;&#45; &nbsp;&nbsp;&nbsp;</option>
+											</select>-->
+
+											<select class="form-control border_none color_f" data-ng-model="acc_ledger_type">
+												<option ng-selected="acc_ledger_type==a.ledger_type" ng-repeat="a in ledgerTypeList" value="{{a.ledger_type}}">{{a.ledger_type}}</option>
+											</select>
+										</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text_d1">
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none text_d">
+								<b>Under :</b>
+							</div>
+							<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none">
+
+								<!--<select class="form-control border_none color_f" data-ng-options="o.ledger_group_name for o in ledgerGroupList" ng-model="ledger_group" ng-init="ledger_group==o.id">
+									<option value="">&#45;&#45;Select Group&#45;&#45; &nbsp;&nbsp;&nbsp;</option>
+								</select>-->
+
+								<select class="form-control border_none color_f" ng-model="ledger_group_id">
+									<option ng-repeat="lg in ledgerGroupList" ng-selected="lg.id==ledger_group_id" value="{{lg.id}}">{{lg.ledger_group_name}}</option>
+								</select>
+
+							</div>
+						</div>
+						<div>
+						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 text_d1">
+						<button class="btn btn-rounded btn-primary-outline margin-inline"type="button" ng-click="save_ledger()" ng-hide="show_save">Save</button>
+							<button class="btn btn-rounded btn-primary-outline margin-inline"type="button" ng-click="update_ledger()" ng-show="show_edit">Update ledger</button>
+						</div>
+						</div>
+						<div class="right hidden-md-down margin-left-40 col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_ledgerList">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				
+                        </div>
+                        </div>
+						<div class="clearfix"></div>
+						<br/><br/>
+                    <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                	<th class="width_ad">Sr. No.</th>
+                                	<th>Ledger Name</th>
+                                	<th>Under</th>
+                                	<th>Ledger Type</th>
+                                	<th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="led in  ledgerList | filter:filter_ledgerList">
+                               		 <td>{{$index+1}}</td>
+                                	 <td>{{led.ledger_name}}</td>
+                                     <td>{{led.ledger_group_name}}</td>
+                                     <td>{{led.ledger_type}}</td>
+                                     <td><a ng-click="edit_ledger(led.id)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> | <a ng-click="deleteLedgerById(led.id)"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ></i></a></td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+  <div class="modal fade modal-size-large" id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Logistics</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                           
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Date</div><!-- add for edit button click class 'label_display' -->
+										<div class="">
+															<div class='input-group date' id='datetimepicker1'>
+																<input type='text' class="form-control border_none" placeholder="Date"/>
+																<span class="input-group-addon">
+																	<i class="icmn-calendar"></i>
+																</span>
+															</div>
+														</div>
+										</div>
+											
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Purchase Invoice No</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Purchase Invoice No">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Supplier Name</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Supplier Name">
+										</div>	
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Product Name</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Product Name">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Product Code</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Product Code">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Transporter Name</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Transporter Name">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">LR No.</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="LR No.">
+										</div>	
+										
+									</div>
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										
+											
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">GR No.</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="GR No.">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Total Quantity</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Total Quantity">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Rate</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Rate">
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Total Amount</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Total Amount">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Expected Courier Date</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Expected Courier Date">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Received Courier Date</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Received Courier Date">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div class="label_none">Supplier Location</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Supplier Location ">
+										</div>
+										
+									</div>
+									
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="button">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+											
+											</center>
+									</div>	
+								
+                                </div>
+                                </div>
+                                
+                               
+                                
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                         <!--   <div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+
+<!-- modal start -->
+												<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+												
+												<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

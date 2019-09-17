@@ -1,0 +1,176 @@
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-x">Payroll</div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text_d1">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+											<b>Month :</b>
+										</div>
+										<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none">
+											<!-- <select class="form-control border_none color_f" ng-model="select_month" readonly>
+												<option value="January">January</option>
+												<option value="February">February</option>
+												<option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+											</select> -->
+                                            <!-- <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12"> -->
+                                        <div class="label_none">Month</div>
+                                        
+                                        <input class="form-control border_none" type="text" placeholder="Month" ng-model="select_month" readonly>
+                                   <!--  </div> -->
+                                           <!--  <input class="form-control form-control-sm" type="text" name="month" ng-model="select_month" readonly/> -->
+										</div>
+									</div>
+						<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input ng-model="filter_payrolesearch" class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="payroll_filter">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+							<button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline" type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+				<!--<button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add More</button>-->
+                        </div>
+                        </div>
+						<div class="clearfix"></div>
+                    <div class="table-responsive" style="height:450px;" id="table2excel">
+    <table class="table table-hover table-bordered">
+
+         <thead>
+            <tr class="colorhead">
+            <td class="nba minaa"><b>Employee Name</td>
+            <td class="minaa"><b>Employee Code</td>
+            <td class="minaa"><b>Designation</td>                               
+            <td class="minaa" ng-repeat="w_row in column_data" ><b>{{w_row}}</th>  
+            <td class="minaa"><b>LOP</td>
+            <td class="minaa"><b>Net Payable</td>
+           <!-- <td class="minaa"><b>Action</td> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in result_data | filter:payroll_filter">
+                <td class="nba minaa">{{row.employee_data.employee_name}}</td>
+                <td class="minaa">{{row.employee_data.employee_code}}</td>
+                <td class="minaa">{{row.employee_data.designation}}</td>                          
+                              
+                                  <td class="minaa" ng-repeat="qua in row.salary_data" >{{qua}}</td> 
+                                  <td class="minaa">{{row.lop}}</td>
+                                  <td class="minaa">{{row.net_payable}}</td>
+                                 <!-- <td><a ng-click="pdf_gen($index)"> <i class="fa fa-file-pdf-o " title="Pdf" aria-hidden="true"></i></a> </td> -->
+                            </tr>
+        </tbody>
+    </table>
+</div>
+               
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+  
+
+<!-- modal start -->						
+									
+
+	<script>
+    $('#datetimepicker1').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+
+});
+$("#tblExport").click(function(){
+
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    //exclude: ".noExl",
+    name: "Worksheet Name",
+    //fileext: ".xlsx",
+    filename: "Payroll" //do not include extension
+  }); 
+});
+</script>
+
+<!-- <script>
+
+            $(document).ready(function() {
+                $("#table3excel").tableHeadFixer(); 
+            });
+        </script> -->
+
+<script>
+											var $table = $('.table');
+											var $fixedColumn = $table.clone().insertBefore($table).addClass('fixed-column');
+
+											$fixedColumn.find('th:not(:first-child),td:not(:first-child)').remove();
+
+											$fixedColumn.find('tr').each(function (i, elem) {
+												$(this).height($table.find('tr:eq(' + i + ')').height());
+											});
+
+									</script>
+					
+									<style>
+												.nba{background-color:#fff;}
+												.minaa{min-width: 168px;}
+												.table-responsive > .fixed-column {
+														display: grid !important;
+											
+												}
+												.table-responsive>.fixed-column {
+														position: absolute !important;
+														display: inline-block !important;
+														width: auto !important;
+														border-right: 1px solid #ddd;
+													}
+													@media(min-width:768px) {
+														.table-responsive>.fixed-column {
+															display: none;
+														}
+													}
+									</style>

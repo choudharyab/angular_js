@@ -1,0 +1,227 @@
+<style>
+	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+	</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+					
+					<div class="nav-tabs-horizontal margin-bottom-5">
+						<div align="right">
+							<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/balancesheet.png">Ledgers</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+							<span class="font_nw">Wheels On Road </span><br/>
+								<span class="font_1"><b>CIN :</b>&nbsp; </span><br/>
+							<span class="font_1"><b>Period </b>{{from_date }} To {{to_date}}</span>
+							</div>
+							<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+								<b>Financial Year :</b> {{finance_year}}-{{finance_year+1}}
+							</div>
+						</div>
+					</div>
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+							<br/>
+						<!--<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+							<div class="col-lg-4 col-md-5 col-sm-4 col-xs-12 padd_none text_d">
+							  <b>Division :</b>
+							</div>
+							<div class="col-lg-8 col-md-7 col-sm-8 col-xs-12 padd_none">
+							  <select class="form-control border_none select" data-ng-model="warehouse_id" data-ng-change="get_wh()">
+														<option value="" ng-selected="selected">Select Division</option>
+														<option ng-repeat="warehouse in warehouse_list" value="{{warehouse.id}}">{{warehouse.warehouse_name}}</option>
+							  </select>
+							</div>
+						  </div>-->
+					  <div class=" col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+								  <div class="form-group">
+									  <div class='input-group date' >
+										  <input type='text' class="form-control border_none" id='datetimepicker1'  placeholder="From" ng-model="from_date"/>
+										  <label class="input-group-addon" for="datetimepicker1" >
+										  <i class="icmn-calendar"></i>
+										  </label>
+									  </div>
+								  </div>
+							  </div>
+							  <div class=" col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+								  <div class="form-group">
+									  <div class='input-group date' >
+										  <input type='text' class="form-control border_none" id='datetimepicker2'  placeholder="To" ng-model="to_date"/>
+										  <label class="input-group-addon" for="datetimepicker2">
+										  <i class="icmn-calendar"></i>
+										  </label>
+									  </div>
+								  </div>
+							  </div>
+					<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+						           <button ng-click="ledger_account_list()" class="btn btn-success"><i class="fa fa-search"></i></button>
+								 </div>
+								 
+								 	
+						<div class="pull-right right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." ng-model="filter_product_list" type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+		  </div>
+                        </div>
+						<div class="clearfix"></div>
+						
+					 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="padding-left:0px;">
+				   <div class="sb-container container-example1 hei1" id="dvData">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                	<th class="width_ad">Sr. No.</th>
+                                	<th>Ledger A/c</th>
+                                	<th style="width:150px;" class="right_a">Debit (Dr)</th>
+									<th style="width:150px;" class="right_a">Credit (Cr)</th>
+									<th class="width_ad">View</th>
+                                	
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="data in ledgerAccountList | filter: filter_product_list" ng-click="ledgerAccountdetails(data.opening_balance,data.total_debit,data.total_credit,data.total_closing_balance)">
+											<td>{{$index+1}}</td>
+											<td style="cursor:pointer;" >{{data.ledger_name}}</td>
+											<td style="cursor:pointer;" class="right_a ">{{data.total_debit | number:2}}</td>
+											<td style="cursor:pointer;" class="right_a ">{{data.total_credit | number:2}}</td>
+											<td><a> <i class="fa fa-eye font_six" title="Edit" aria-hidden="true" ng-click="view_ledger_datewise(data.id,data.ledger_name,data.ledger_subgroup.ledger_group.subtype)"></i></a></td>
+								</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+					 <table class="table table-hover table-bordered">
+                           
+                                 <tr>
+									<td style="width:150px;"><b>Opening Balance :</b></td>
+									<td style="text-align:right;">{{opening_balance | number:2}}</td>
+								</tr>
+                            	<tr>
+									<td><b>Total Debit :</b></td>
+									<td style="text-align:right;">{{total_debit | number:2}}</td>
+								</tr>
+								<tr>
+									<td><b>Total Credit :</b></td>
+									<td style="text-align:right;">{{total_credit | number:2}}</td>
+								</tr>
+								<tr>
+									<td><b>PDC Balance :</b></td>
+									<td style="text-align:right;"></td>
+								</tr>
+								<tr>
+									<td><b>Closing Balance :</b></td>
+									<td style="text-align:right;">{{closing_balance | number:2}}</td>
+								</tr>
+                        </table>
+					 </div>
+					<div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <center>
+						<button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button></center>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+
+
+	<style>
+	@media(min-width: 768px)  and 	(max-width: 1023px){
+	.formessage_display {position: absolute;right: 0;width: 400px;top: 0;}
+	}
+	</style>
+				
+<!-- modal start -->
+											
+			
+<script type="text/javascript">
+	$('#datetimepicker1').datepicker({
+   changeMonth: true,
+  changeYear: true,
+   yearRange: '2000:2040' ,
+	  // defaultDate: '2015-01-01',
+ 
+ });
+ $('#datetimepicker2').datepicker({
+   changeMonth: true,
+  changeYear: true,
+   yearRange: '2000:2040' ,
+	  // defaultDate: '2015-01-01',
+ 
+ });
+$.datepicker.setDefaults({
+        dateFormat: 'dd/mm/yy'
+    });
+ </script>									
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+	$("#tblExport").click(function(e) {
+  let file = new Blob([$('#dvData').html()], {type:"application/vnd.ms-excel"});
+
+let url = URL.createObjectURL(file);
+
+let a = $("<a />", {
+  href: url,
+  download: "ledger.xls"
+})
+.appendTo("body")
+.get(0)
+.click();
+  e.preventDefault();
+});
+</script>
+		
+		<!-- header fixed End-->
+

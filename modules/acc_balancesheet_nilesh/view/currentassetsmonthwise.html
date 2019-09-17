@@ -1,0 +1,200 @@
+ <style>
+ .table thead th {
+    vertical-align: top;
+  
+}
+ </style>
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+						<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 font_nw text_d1 right_a1">Ledger : {{ledger_name}} (Monthwise)
+									<br />
+									<button onClick="doBack()">Back</button>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+										<span class="font_nw">{{selected_warehouse_name}} </span><br/>
+											<span class="font_1"><b>CIN :</b>&nbsp; </span><br/>
+									<span class="font_1"><b>Period </b>{{from_date | date :  "dd-MM-yyyy"}} To {{to_date | date :  "dd-MM-yyyy"}}</span>
+									</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<b>Financial Year :</b> {{finance_year}}-{{finance_year+1}}
+									</div>
+								</div>
+							</div>
+						
+							
+							<div class="clearfix"></div>
+							
+								<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+					
+							
+							<!--<h4>
+							<b>Liabilities</b>
+							</h4>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							
+								 <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                             <thead>
+                               <tr class="colorhead">
+											
+											<th rowspan="2" valign="top" class="width_3">Particular</th>
+											<th colspan="2" class="width_4"><center>Transaction</center></th>
+										
+											<th rowspan="2" valign="top" class="width_5"><center> Balance </center></th>
+											
+											
+										</tr>
+										<tr class="colorhead">
+											
+											
+											<th class="width_6 right_a">Debit</th>
+											<th class="width_6 right_a">Credit</th>
+											
+											
+											
+										</tr>
+									</thead>
+									<!--<tfoot>
+										<tr>
+										  <th>Supplier Code</th>
+										<th>Supplier Name</th>
+										
+										<th>City</th>
+										<th>Country</th>
+										<th>Action</th>
+										</tr>
+										</tfoot>-->
+									<tbody>
+										<tr>
+											<td>Opening Balance</td>
+											<td></td>
+											<td></td>
+											<td class="right_a">{{opening_balance | number : 2}}</td>
+
+										</tr>
+										<tr style="cursor:pointer;" ng-repeat="item in currentAssetsMonthWiseList" ng-click="currenasssetstDatehWise('/currentassetsdatewise/'+item.month_no+'/'+frm_date+'/'+t_date+'/'+wre_id+'/'+leg_id)">
+											<td>{{item.month}}</td>
+											<td class="right_a">{{item.debit_amount | number : 2}}</td>
+											<td class="right_a">{{item.credit_amount | number : 2}}</td>
+											<td class="right_a">{{item.closing_balance | number : 2}}</td>
+										</tr>
+										<tr>
+											<td class="right_a"><strong>Opening Balance</strong></td>
+											<td class="right_a"></td>
+											<td class="right_a"></td>
+											<td class="right_a"></td>
+										</tr>
+										<tr>
+											<td class="right_a"><strong>Current Total</strong></td>
+											<td class="right_a"></td>
+											<td class="right_a"></td>
+											<td class="right_a"></td>
+										</tr>
+										<tr>
+											<td class="right_a"><strong>Closing Balance</strong></td>
+											<td class="right_a"></td>
+											<td class="right_a"></td>
+											<td class="right_a"></td>
+										</tr>
+										<!--<tr >
+											<td><strong>Grand Total</strong></td>
+											<td class="right_a">{{debit_total | number : 2}}</td>
+											<td class="right_a">{{credit_total | number : 2}}</td>
+											<td class="right_a">{{closing_balance | number : 2}}</td>
+
+										</tr>-->
+									</tbody>
+								</table>
+							</div>
+							</div>
+							 
+					</div>
+					
+               
+               
+			     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+					 
+                        <center>
+						<button  class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-file-pdf-o " aria-hidden="true" style="color:#01a8fe;"></i> Export To PDF</button>
+                        </center>
+                     </div>
+					 </div>
+					
+					<!--<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+		
+							<center>
+								<button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+							</center>	
+					</div>	-->
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+
+ <script>
+     $('#from_date').datepicker({
+         changeMonth: true,
+         changeYear: true,
+         yearRange: '1970:2020'
+         // defaultDate: '2015-01-01',
+
+     });
+     $('#to_date').datepicker({
+         changeMonth: true,
+         changeYear: true,
+         yearRange: '1970:2020'
+         // defaultDate: '2015-01-01',
+
+     });
+     $.datepicker.setDefaults({
+         dateFormat: 'yy-mm-dd'
+     });
+ </script>
+											
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

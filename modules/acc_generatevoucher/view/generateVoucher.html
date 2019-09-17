@@ -1,0 +1,367 @@
+<style>
+    .table thead th {
+     vertical-align: top;
+    }
+ 
+ .hei{min-height: 150px;max-height: 440px !important;}
+    @media (max-width: 1920px) and (min-width: 1367px){
+         .gene1 {
+             height: 800px !important;
+         }
+     }
+ </style> 
+ <section class="page-content">
+    <div class="page-content-inner">
+       <!-- Dashboard -->
+       <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+          <div class="row">
+             <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                   <div class="panel-body">
+                      <div class="nav-tabs-horizontal margin-bottom-5">
+                         <div align="right">
+                            <div class="col-lg-10 col-md-9 col-sm-10 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/voucher.png">  Generate Voucher
+                               <div id="vou_add_success" style="color:green;font-size: 15px" class="formessage_display">{{voucher_add_success}}</div>
+                            </div>
+                         </div>
+                         <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                            <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button" ng-click="clear_voucher_modal()"><i class="fa fa-plus" aria-hidden="true"></i> Create Voucher</button>
+                         </div>
+                      </div>
+                   </div>
+                   <br/>
+                   <div class="clearfix"></div>
+                   <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                      <br/>
+                      <!--<h4>
+                         <b>Liabilities</b>
+                         </h4>-->
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                          <form name="voucher">
+                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 padd_none " style="border:1px solid #eceeef;">
+                            <div class="">&nbsp;</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text_d1">
+                               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none text_d">
+                                  <b>Voucher Type :</b>
+                               </div>
+                               <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none">
+                                  <select class="form-control border_none color_f" ng-model="voucher_type_id" id="voucher_type_id" name="vou_name" ng-required="true" ng-change="show_invoice_no(voucher_type_id)">
+                                     <option value="">Select</option>
+                                     <option ng-repeat="vou in voucher_type_list" value="{{vou.id}}">{{vou.voucher_type_name}}</option>
+                                  </select>
+                                  <div ng-messages="voucher.vou_name.$error" ng-show="voucher.vou_name.$dirty" >
+                                    <!-- <p ng-message="required" class="color_font">This field is required.</p> -->
+                                 </div>
+                               </div>
+                            </div>
+                            <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                               <div class="form-group top_wa">
+                                  <div class='input-group'>
+                                     <input class="form-control border_none"  type='text'  placeholder="Date" ng-model="voucher_date" id="voucher_date"/>
+                                     <label class="input-group-addon" for="voucher_date">
+                                     <i class="icmn-calendar"></i>
+                                     </label>
+                                  </div>
+                               </div>
+                            </div>
+                            <div class=" col-lg-3 col-md-3 col-sm-3 col-xs-12 " ng-hide="hide_invoice">
+                               <div class="form-group top_wa">
+                                  <input class="form-control border_none" placeholder="Invoice No." name="invoice_no" ng-model="invoice_no" type="text">
+                               </div>
+                            </div>
+                            <br/>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 "  align="">
+                                  <br/>
+                                  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 hghj" align="right">
+                                     &nbsp;
+                                  </div>
+                                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                     &nbsp;
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                     <b>Debit</b>
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                     <b>Credit</b>
+                                  </div> 
+                               </div>
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 "  align="center">
+                                  <div class="col-lg-1 col-md-1 col-sm-4 col-xs-12 hghj" align="">
+                                     <b>Debit :</b>
+                                  </div>
+                                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                     <div class="search-block">
+                                        <div class="form-input-icon form-input-icon-right">
+                                           <!--<i class="icmn-search"></i>
+                                           <input class="form-control form-control-sm border_none" placeholder="Search..." type="text" ng-model="search_debit_autocom" id="debit_autocom" ng-keyup="searchDebitAutocompleteService()" ng-mouseleave="searchDebitAutocompleteService()" autocomplete="off" uppercased>-->
+                                          
+                                          
+                                           <select   class="form-control border_none select" ng-model="ledger" ng-change="set_debit_ledger_data(ledger)">
+                                           <option value="">Select Ledger For Debit </option>
+                                               <option ng-repeat="data in led_listing" value="{{data}}" ng-selected="data.value == l">{{data.value}}</option>
+                                           </select>
+                                             
+                                        
+                                        </div>
+                                     </div>
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                     <input class="form-control border_none" name="debit_amount" placeholder="Amount" ng-model="debit_amount" type="text" ng-keyup="copy_debit_amt()" ng-required="true">
+                                     <div ng-messages="voucher.debit_amount.$error" ng-show="voucher.debit_amount.$dirty" >
+                                        <!-- <p ng-message="required" class="color_font">This field is required.</p> -->
+                                     </div>
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                     &nbsp;
+                                  </div>
+                                  <div class="clearfix"></div>
+                               </div>
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " align="center"> 
+                                  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 hghj" align="">
+                                     <b>Credit :</b>
+                                  </div>
+                                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                     <div class="search-block">
+                                        <div class="form-input-icon form-input-icon-right">
+                                           <!--<i class="icmn-search"></i>
+                                           <input class="form-control form-control-sm border_none" placeholder="Search..." type="text" ng-model="search_credit_autocom" id="credit_autocom" ng-keyup="searchCreditAutocompleteService()" 
+                                           ng-mouseleave="searchCreditAutocompleteService()" autocomplete="off" uppercased>-->
+                <select   class="form-control border_none select" ng-model="ledger_c" ng-change="set_credit_ledger_data(ledger_c)">
+                <option value="">Select Ledger For Credit </option>
+                                               <option ng-repeat="data in led_listing" value="{{data}}" ng-selected="data.value == l1">{{data.value}}</option>
+                                           </select>
+                                        </div>
+                                     </div>
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                  </div>
+                                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                     <input class="form-control border_none" placeholder="Amount" name="credit_amount" ng-model="credit_amount" type="text" ng-keyup="copy_credit_amt()" ng-required="true">
+                                     <div ng-messages="voucher.credit_amount.$error" ng-show="voucher.credit_amount.$dirty" >
+                                        <!-- <p ng-message="required" class="color_font">This field is required.</p> -->
+                                     </div>
+                                  </div>
+                                  <div class="clearfix"></div>
+                               </div>
+                               <div class="clearfix"></div>
+                               <br/>
+                            </div>
+                            <div class="clearfix"></div>
+							
+							 <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " >
+					 <div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12 padd_none">
+
+						<!--<div   class="label_none">Narrations</div>-->
+						<h5> Narration</h5>
+
+						<textarea class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 " ng-model="narration"></textarea>
+
+					</div>
+					</div>
+							
+                            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " align="right">
+                               <button class="btn btn-rounded btn-primary-outline margin-inline" ng-disabled="voucher.$invalid" ng-click="add_generate_voucher()"  ng-show="show_save"> Save</button>
+                               <button class="btn btn-rounded btn-primary-outline margin-inline" ng-click="update_generate_voucher()" ng-show="show_edit"> Update </button>
+                            </div>
+                         </div>
+                     </form>
+                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 " align="center">
+                            <div class="  sb-container container-example1 hei1 ">
+                               <div class="table_dis" id="fixedheader4">
+                                  <table class="table table-hover table-bordered">
+                                     <thead>
+                                        <tr class="colorhead">
+                                           <th>Sr No.</th>
+                                           <th>Date</th>
+                                           <th>Voucher Type</th>
+                                           <th>Particulars</th>
+                                           <th>Amount</th>
+                                           <th>Account Type</th>
+                                           <th>Action</th>
+                                        </tr>
+                                     </thead>
+                                     <tbody>
+                                        <tr ng-repeat="v in generate_vou_list">
+                                           <td>{{$index+1}}</td>
+                                           <td>{{v.voucher_date_new}}</td>
+                                           <td>{{v.voucher_type_name}}</td>
+                                           <td>
+                                               <span ng-if="v.subgroup_name == null">{{v.ledger_name}}</span>
+                                               <span ng-if="v.ledger_name == null">{{v.subgroup_name}}</span>
+                                           </td>                                          
+                                           <td><span ng-if="v.account_mode=='Credit'">{{v.credit_amount}}</span><span ng-if="v.account_mode=='Debit'">{{v.debit_amount}}</span></td>
+                                           <td>{{v.account_mode}}</td>
+                                           <td><a ng-show="current_module_rights[1].status" ng-hide="current_module_rights.edit_option=='no'" ng-click="check_edit(v.common_id,'edit')"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ></i></a> |
+                                              <a ng-show="current_module_rights[2].status" ng-hide="current_module_rights.delete_option=='no'" ng-click="check_delete(v.common_id)"> <i class="fa fa-trash-o font_six" title="Edit" aria-hidden="true" ></i></a>
+                                           </td>
+                                        </tr>
+                                     </tbody>
+                                  </table>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="clearfix"></div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <br/>
+       <!-- End Dashboard -->
+    </div>
+    <div class="modal fade modal-size-midium"  id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+          <div class="modal-content">
+             <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Create Voucher</h4>
+                <span id="add_voucher_success" style="color:green;font-size: 15px">{{add_voucher_success}}</span>
+             </div>
+             <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+                   <div class="tab-content ">
+                      <div class="tab-pane active" id="home1" role="tabpanel">
+                         <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                             <form  ng-keyup="$event.keyCode == 13 ? enterPressedForVoucherType() : null">
+                                 <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                         <div class="label_none">Voucher Type</div>
+                                         <!-- add for edit button click class 'label_display' -->
+                                         <input class="form-control border_none" type="text" placeholder="Voucher Type" ng-model="voucher_name" capitalize>
+                                     </div>
+                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                     <center>
+                                     
+                                         <button ng-click="create_voucher_function()" class="btn btn-success-outline margin-inline" type="button" style="position:relative;right:10px;" ng-show="show_save_voucher_type">
+                                         <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                         </button>
+                                         <button ng-click="update_voucher_function()" class="btn btn-success-outline margin-inline" type="button" style="position:relative;right:10px;" ng-show="show_update_voucher_type">
+                                                 <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                                 </button>
+                                     </center>
+                                 </div>
+                                 </div>
+                             </form>
+                           
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                               <div class="sb-container container-example1 hei">
+                                  <div id="fixedheader111">
+                                  
+                                     <table class="table table-hover table-bordered">
+                                        <thead>
+                                           <tr class="colorhead">
+                                              <th>Sr No.</th>
+                                              <th>Voucher Type</th>
+                                              <th style="width:80px;">Action</th>
+                                           </tr>
+                                          
+                                             
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr ng-repeat="li in voucher_type_list">
+                                              <td>{{$index + 1}}</td>
+                                              <td>{{li.voucher_type_name}}</td>
+                                              <td><a ng-click="edit_voucher_type($index)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> |
+                                                 <a ng-click="delete_voucher_type(li.id)"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a>
+                                                 </td>
+                                           </tr>
+                                        </tbody>
+                                     </table>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="clearfix"></div>
+                <!--   <div class="modal-footer bgcolor">
+                   <button type="button" class="btn" data-dismiss="modal">Close</button>
+                   
+                   </div>-->
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+
+ <script type="text/javascript">
+    $(function () {
+            $('#datetimepicker1').datetimepicker({
+                icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                }
+            });
+        });
+ </script>
+ <!-- header fixed -->
+ <script>
+    $(document).ready(function() {
+        $("#fixedheader").tableHeadFixer(); 
+    });
+ </script>
+ <script>
+    $(document).ready(function() {
+        $("#fixedheader4").tableHeadFixer(); 
+    });
+ </script>
+ <script>
+    $(document).ready(function() {
+        $("#fixedheader1").tableHeadFixer(); 
+    });
+ </script>
+ <script>
+    $(document).ready(function() {
+        $("#fixedheader111").tableHeadFixer(); 
+    });
+ </script>
+ <script>
+    $(document).ready(function() {
+        $("#fixedheader2").tableHeadFixer(); 
+    });
+             $('#voucher_date').datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 yearRange: '2000:2040'
+                 // defaultDate: '2015-01-01',
+    
+             });
+             $.datepicker.setDefaults({
+                 dateFormat: 'dd/mm/yy'
+             });
+ </script>
+ <style>
+    .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+ </style>
+ <!-- header fixed End-->
+
+ <div class="modal fade" id="approve_action" no-of-packets-popup tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title" id="myModalLabel">{{heading_msg}}</h4>
+</div>
+<div class="modal-body">
+  <div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div>
+  <br/>
+  <center>
+    <button type="button" ng-hide="approve_btn1" ng-click="edit_generate_voucher(edit_voucher_id)" class="btn btn-primary-outline margin-inline">Yes</button>
+
+    <button type="button" ng-hide="approve_btn2" ng-click="delete_generate_voucher(delete_voucher_id)" class="btn btn-primary-outline margin-inline">Yes</button>
+  </center>
+</div>
+</div>
+</div>
+</div>

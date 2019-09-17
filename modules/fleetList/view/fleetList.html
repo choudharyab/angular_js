@@ -1,0 +1,487 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-5 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/logistics.png"> Fleet List
+                               <div id="fleetSuccess" style="color: green;font-size: 15px" class="formessage_display">{{fleet_success}}</div>
+                           </div>
+                           <div class="right searchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_fleet_details">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" type="button" ng-click="add_btn_clicked()">
+                               <i class="fa fa-plus" aria-hidden="true"></i> Add New Fleet</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1 topupmm">
+                        <!--add after record  sb-container container-example1 hei  -->
+                        <!--<div id="warehouseError">{{warehouse_error}}</div>-->
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                     <th>Sr. No.</th>
+                                    <th>Fleet Code</th>
+                                    <th>Fleet Reg. No.</th>
+                                    <th>Make</th>
+                                    <th>Location</th>
+                                   <!-- <th>Tax</th>-->
+                                    <th>Insurance From Date</th>
+                                     <th>Insurance To Date</th>
+                                    <th>Fitness</th>
+                                    <th>State Permit</th>
+                                    <!--<th>Req.by Date</th>-->
+                                    <th>National Permit</th>
+                                    <th>Pollution</th>
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+
+                              <tbody>
+                                 <tr ng-repeat="data in fleet_details_list | filter:filter_fleet_details">
+                                     <td>{{$index+1}}</td>
+                                    <td>{{data.fleet_code}}</td>
+                                    <td>{{data.fleet_reg_no}}</td>
+                                    <td>{{data.make}}</td>
+                                    <td>{{data.company.company_address}}</td>
+                                    <!--<td>{{data.tax}}</td>-->
+                                    <td>{{data.insurance_fromdate}}</td>
+                                     <td>{{data.insurance_todate}}</td>
+                                    <td>{{data.fitness_date}}</td>
+                                    <td>{{data.state_permit_date}}</td>
+                                    <!--<td>{{data.req_by_date}}</td>-->
+                                    <td>{{data.national_permit_date}}</td>
+                                    <td>{{data.pollution_date}}</td>
+                                    <td>
+                                      <!-- <a data-toggle="modal" data-target="#add_fleet_details">
+                                          <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="edit_fleet_details(data.id)"></i></a> |
+                                                
+                                      <a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a> -->
+
+                                    <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="fleet_list_permission_popup(data.id,data.comment_status,'edit')"></i>|</a>
+                                                
+                                    <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password"><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="fleet_list_permission_popup(data.id,data.delete_status,'delete')"></i></a>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-my-modal id="add_fleet_details" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{pop_up_msg}}</h4>
+             <span id="fleetError">{{fleet_error}}</span>
+           
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="formWarehouse">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_fleet_code">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Fleet Code</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fleet Code" type="text" name="Fleet Code" ng-model="fleet_details.fleet_code" capitalize disabled>
+                                 
+                              </div>
+
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Fleet Reg. No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fleet Reg. No." type="text" name="Fleet Reg. No." ng-model="fleet_details.fleet_reg_no" capitalize>
+                                 
+                              </div>
+
+
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Make</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Make" type="text" name="Make" ng-model="fleet_details.make" capitalize>
+
+                              </div>
+
+                                   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none ">
+                                
+                                 
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Location</div>
+                                <select class="form-control border_none color_f" ng-model="fleet_details.company_id">
+                                   <option value="">Select Location</option>
+                                    <option ng-repeat="data in location_details" value="{{data.id}}" ng-selected="data.id==fleet_details.company_id">{{data.company_address}},{{data.city}}</option>
+                               </select>
+                                 
+                              </div>
+
+
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                
+                                 <div  ng-class="{label_display : active_lable}" class=" label_display">Tax</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Tax" type="text" name="Tax" ng-model="fleet_details.tax" capitalize>
+                                     <!-- <select class="form-control border_none" type="text" ng-model="fleet_details.tax_id" >
+                                         <option value="" >-Select Tax-</option>
+                                         <option   ng-repeat="tax_row in tax_list" value="{{tax_row.id}}" ng-selected="name.tax_rate == tax_row.tax_rate">{{tax_row.tax_rate}}%</option>
+                                     </select> -->
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                             
+                                 <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;">Insurance From Date</div>
+                                 <!-- <input class="form-control border_none" type="text" name="Date" placeholder="Insurance From Date" id="datetimepicker1" ng-model="fleet_details.insurance_from_date"> -->
+                                 <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input type='text' id='datetimepicker1' class="form-control border_none" placeholder="Insurance From Date" ng-model="fleet_details.insurance_from_date" style="z-index: 9999;" />
+                                        <label class="input-group-addon" for="datetimepicker1">
+                                            <i class="icmn-calendar"></i>
+                                        </label>
+                                    </div>
+                               
+                                 </div>
+                                 
+                                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;">Insurance To Date</div>
+                                 <!-- <input class="form-control border_none" type="text" name="Date" placeholder="Insurance To Date" id="datetimepicker2" ng-model="fleet_details.insurance_to_date" > -->
+
+                                 <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input type='text' id='datetimepicker2' class="form-control border_none" placeholder="Insurance To Date" ng-model="fleet_details.insurance_to_date" style="z-index: 9999;" />
+                                        <label class="input-group-addon" for="datetimepicker2">
+                                            <i class="icmn-calendar"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                 </div>
+                                 
+                              </div>
+
+                                  
+
+                            
+                        
+                           
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+                             <!-- <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;">
+                                       <div  ng-class="{label_display : active_lable}" class="label_none" >Insurance From Date</div>
+                                       <input class="form-control border_none" type="text" name="Date" placeholder="Insurance From Date" id="datetimepicker1" ng-model="fleet_details.insurance_from_date">
+
+                                       </div>
+                                       
+                                        <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right: 0px;">
+                                       <div  ng-class="{label_display : active_lable}" class="label_none" >Insurance To Date</div>
+                                       <input class="form-control border_none" type="text" name="Date" placeholder="Insurance To Date" id="datetimepicker2" ng-model="fleet_details.insurance_to_date" >
+                                       </div>
+                                       
+                                    </div> -->
+
+                               <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+
+                                   <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;">Fleet Purchase Date</div>
+                                   <!-- <input class="form-control border_none" type="text" name="Date" placeholder=" Fleet Purchase Date" id="datetimepicker7" ng-model="fleet_details.fleet_purchase_date" ng-change="set_fitness_date()"> -->
+
+                                   <div class="form-group">
+                                    <div class='input-group date'>
+                                        <input type='text' id='datetimepicker7' class="form-control border_none" placeholder="Fleet Purchase Date" style="z-index: 9999;" ng-model="fleet_details.fleet_purchase_date" ng-change="set_fitness_date()" />
+                                        <label class="input-group-addon" for="datetimepicker7">
+                                            <i class="icmn-calendar"></i>
+                                        </label>
+                                    </div>
+                                </div>
+
+                               </div>
+                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      
+                                       <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;">Fitness</div>
+                                       <!-- <input class="form-control border_none" type="text" name="Date" placeholder=" Fitness" id="datetimepicker3" ng-model="fleet_details.fitness"> -->
+                                       
+                                       <div class="form-group">
+                                        <div class='input-group date'>
+                                            <input type='text' id='datetimepicker3' class="form-control border_none" placeholder="Fitness" ng-model="fleet_details.fitness" style="z-index: 9999;" />
+                                            <label class="input-group-addon" for="datetimepicker3">
+                                                <i class="icmn-calendar"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+                                  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      
+                                       <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;" >State Permit</div>
+                                       <!-- <input class="form-control border_none" type="text" name="Date" placeholder=" State Permit" id="datetimepicker4" ng-model="fleet_details.state_permit"> -->
+                                       
+                                       <div class="form-group">
+                                        <div class='input-group date'>
+                                            <input type='text' id='datetimepicker4' class="form-control border_none" placeholder="State Permit" ng-model="fleet_details.state_permit" style="z-index: 9999;" />
+                                            <label class="input-group-addon" for="datetimepicker4">
+                                                <i class="icmn-calendar"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                      <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      
+                                       <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;">National Permit</div>
+                                       <!-- <input class="form-control border_none" type="text" name="Date" placeholder="National Permit" id="datetimepicker5" ng-model="fleet_details.national_permit"> -->
+                                       
+                                       <div class="form-group">
+                                        <div class='input-group date'>
+                                            <input type='text' id='datetimepicker5' class="form-control border_none" placeholder="National Permit" ng-model="fleet_details.national_permit" style="z-index: 9999;" />
+                                            <label class="input-group-addon" for="datetimepicker5">
+                                                <i class="icmn-calendar"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                       
+                                      
+                                       <div  ng-class="{label_display : active_lable}" class="label_display" style="z-index:99999;">Pollution</div>
+                                       <!-- <input class="form-control border_none" type="text" name="Date" placeholder="Pollution" id="datetimepicker6" ng-model="fleet_details.pollution"> -->
+                                       
+                                       <div class="form-group">
+                                        <div class='input-group date'>
+                                            <input type='text' id='datetimepicker6' class="form-control border_none" placeholder="Pollution" ng-model="fleet_details.pollution" style="z-index: 9999;"/>
+                                            <label class="input-group-addon" for="datetimepicker6">
+                                                <i class="icmn-calendar"></i>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    </div>
+                             
+                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                    
+                            <div  ng-class="{label_display : active_lable}" class=" label_display">Initial Reading</div>
+                            <!-- add for edit button click class 'label_display' -->
+                            <input class="form-control border_none uppercase " placeholder="Initial Reading" type="text" name="Initial Reading" ng-model="fleet_details.initial_reading" capitalize>
+                            
+                        </div>
+                                  
+                            
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+                              <center>
+                                 <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="save_fleet_details()">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>
+                              </center>
+                           </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit">
+                                <center>
+                                    <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="update_fleet_details()">
+                                        <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                    </button>
+                                </center>
+                            </div>
+                           
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+
+                        <input class="form-control border_none"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+
+
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+
+                        <input class="form-control border_none"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+
+                                <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="temp_date">
+<!-- modal start -->
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this ).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('#datetimepicker1').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker2').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker3').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker4').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker5').datepicker({
+     changeMonth: true,
+    changeYear: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+   
+   });
+  $('#datetimepicker6').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat:'dd/mm/yy'
+   
+   });
+   $('#datetimepicker7').datepicker({
+       changeMonth: true,
+       changeYear: true,
+       yearRange: '2000:2060' ,
+       dateFormat:'dd/mm/yy'
+
+   });
+   </script>
+<!--<script>
+    var x=document.getElementById("vehicle_purchase").value;
+    var yr=x.getFullYear();
+    var mnth=x.getMonth();
+    var day=x.getDate();
+    document.getElementById("fitness").innerHTML =new Date(yr+2,mnth,day);
+</script>-->

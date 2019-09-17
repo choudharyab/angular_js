@@ -1,0 +1,256 @@
+<style>
+    .ui-corner-all,
+    .ui-corner-bottom,
+    .ui-corner-right,
+    .ui-corner-br {
+        z-index: 999 !important;
+    }
+</style>
+<section class="page-content">
+    <div class="page-content-inner">
+
+
+
+        <!-- Dashboard -->
+        <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="panel panel-with-borders m-b-0">
+                        <div class="panel-body">
+                            <div class="nav-tabs-horizontal margin-bottom-2">
+
+                                <div align="right">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-x">
+                                        <img class="headsectionimages" src="assets/headerimages/supplier_report (2).png">Scrutiny Sheet
+                                    
+                                    </div>
+                                   
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text_d1">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                                    <b>Service Type :</b>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                                    
+        
+                                                    <select class="form-control border_none color_f ">
+                                                      <option value="" selected="selected">Flat Bed</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                                      <option value="1"></option><!-- end ngRepeat: a in ledgerTypeList -->
+                                                    </select>
+                                                </div>
+
+                                                
+                                </div>
+
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text_d1">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none text_d newwidthdefine">
+                                                    <b>Client Name :</b>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none newwidthdefine">
+                                                    
+        
+                                                    <select class="form-control border_none color_f ">
+                                                      <option value="" selected="selected">Client</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                                      <option value="1">11</option><!-- end ngRepeat: a in ledgerTypeList -->
+                                                    </select>
+                                                </div>
+
+                                                
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12 text_d1">
+                                        <input class="form-control border_none ng-pristine ng-valid" placeholder="Location" type="text" >
+                                    </div>
+                                   
+                                  
+                                  
+                                    
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                        <br/>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">&nbsp;</div>
+                                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                                            <div class="form-group">
+                                                <div class='input-group date'>
+                                                    <input type='text' id='datetimepicker1' class="form-control border_none" placeholder="From" ng-model="from_date" />
+                                                    <span class="input-group-addon">
+                                                        <i class="icmn-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                                            <div class="form-group">
+                                                <div class='input-group date'>
+                                                    <input type='text' id='datetimepicker2' class="form-control border_none" placeholder="To" ng-model="to_date" />
+                                                    <span class="input-group-addon">
+                                                        <i class="icmn-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                                            <button ng-click="customerReportlist()" class="btn btn-success">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                       <div class="pull-right">
+                                       	  <button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline " type="button">
+                                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                        Export To Excel</button>
+                                       </div>
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="table_dis sb-container container-example1 fornewpageheight" style="overflow:auto;">
+                                <!--sb-container container-example1 hei-->
+                                <table class="table table-hover table-bordered" id="table2excel">
+                                    <thead>
+                                        <tr class="colorhead">
+                                          <th><input type="checkbox" /></th>
+                                            <th>Sr No</th>
+                                            <th>CSR</th>
+                                            <th>Make</th>
+                                            <th>Model</th>
+                                            <th>Reg. No.<th>
+                                            <th>Type Of Warranty</th>
+                                            <th>ASP & Vendor Code</th>
+                                            <th>ASp Loc.</th>
+                                            <th>Service Type</th>
+                                            <th>Mech KM</th>
+                                            <th>Labour + Conveance</th>
+                                            <th>Towing KM</th>
+                                            <th>Towing Charges</th>
+                                            <th>Total Charges</th>
+                                            <th>GST</th>
+                                            <th>Other Charges</th>
+                                            <th>Total</th>
+                                            <th>Action</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox" /></td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                             <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                             <td>1</td>
+                                            <td><a><i class="fa fa-check-square-o font_six" title="Read To Bill" aria-hidden="true"></i></a></td>
+
+
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="14"></td>
+                                           
+                                            <td><b>Total</b></td>
+                                           
+                                           
+                                         
+                                            
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td></td>
+
+
+
+                                        </tr>
+
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <center>
+                                <!-- <button class="btn btn-rounded btn-primary-outline margin-inline" type="button">
+<i class="fa fa-print" aria-hidden="true"></i>
+
+Print
+</button>-->
+                            </center>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <br/>
+
+
+        <!-- End Dashboard -->
+
+    </div>
+
+</section>
+
+
+<!-- modal start -->
+
+
+
+
+<!-- modal start -->
+
+<script>
+    $('#datetimepicker1').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040',
+        // defaultDate: '2015-01-01',
+
+    });
+    $('#datetimepicker2').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040',
+        // defaultDate: '2015-01-01',
+
+    });
+    $("#tblExport").click(function () {
+
+        $("#table2excel").table2excel({
+            // exclude CSS class
+            //exclude: ".noExl",
+            name: "Worksheet Name",
+            //fileext: ".xlsx",
+            filename: "Customer_report" //do not include extension
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#table2excel").tableHeadFixer();
+    });
+</script>

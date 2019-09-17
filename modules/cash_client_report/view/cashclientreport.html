@@ -1,0 +1,169 @@
+<style>
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{    z-index: 999 !important;}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/masters.png">Cash Client Report</div>
+						<div class="right  margin-left-40 col-lg-2 col-md-2 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input ng-model="filter_cash_client_data" class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+					<button id="tblExport" class="btn btn-rounded btn-primary-outline margin-inline" type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+						<div class="col-lg-3 col-md-1 col-sm-3 col-xs-12 ">&nbsp;</div>
+						<div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' >
+                                <input type='text' class="form-control border_none" id='datetimepicker1' ng-model="from_date" placeholder="From"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-4 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date'>
+                                <input type='text' class="form-control border_none"  id='datetimepicker2' ng-model="to_date" placeholder="To"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+					<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                         <button ng-click="CashClientReportData()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                       </div>
+                       
+				<!-- 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 repor_p"><b>Total Amount :</b> <i class="fa fa-inr"></i> &nbsp;54111.0</div> -->
+						</div>
+				
+                        </div>
+                        </div>
+                        
+                      
+                        <div class="clearfix"></div>
+                    <div class="table_dis sb-container container-example1 hei1"><!--sb-container container-example1 hei-->
+                        <table class="table table-hover table-bordered" id="table2excel">
+                            <thead>
+                                    <tr class="colorhead">
+                                        <th>Sr. No.</th>
+                                            <th>Customer Name</th>
+                                            <th>Case No</th>
+                                            <th>Case Punch Date</th>
+                                            <th>Ticket ID</th>
+                                            <th>Mobile No</th>
+                                            <th>Vehicle No</th>
+                                            <th>Vehicle Make</th>
+                                             <th>Case Closing Date</th>
+                                             <th>Service</th>
+                                             <th>Location</th>
+                                             <th>Total Amount<span class="c_g1" style="font-weight:normal; text-align:center">{{total_amount}}</span></th>
+                                           
+                                            </tr>
+                            </thead>
+                            
+                            <tbody>
+                                 <tr ng-repeat='listing in cash_client_data | filter: filter_cash_client_data'>
+                                     <td>{{$index+1}}</td>
+                                        <td>{{listing.case_customer.customer_name}}</td>
+                                        <td>{{listing.case_no}}</td>
+                                        <td>{{listing.casedate}}</td>
+                                         <td>{{listing.ticket_no }}</td>
+                                         <td>{{listing.case_customer.mobile_no }}</td>
+                                         <td>{{listing.case_customer.vehicle_reg_no}}</td>
+                                         <td>{{listing.case_customer.vehicle_make}}</td>
+                                         <td>{{listing.case_closing_date }}</td>
+                                         <td>{{listing.service[0].service_name}}</td>
+                                         <td>{{listing.company_location.city}}</td>
+                                         <td>{{listing.total}}</td>
+                                        
+                                </tr>
+							
+                            </tbody>
+                        </table>
+                    </div>
+               <center>
+			  <!-- <button class="btn btn-rounded btn-primary-outline margin-inline" type="button">
+<i class="fa fa-print" aria-hidden="true"></i>
+
+Print
+</button>-->
+			   </center>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+
+
+<!-- modal start -->
+	<script>
+    $('#datetimepicker1').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat:'dd/mm/yy'
+     // defaultDate: '2015-01-01',
+
+});
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+ changeYear: true,
+  yearRange: '2000:2040' ,
+  dateFormat:'dd/mm/yy'
+     // defaultDate: '2015-01-01',
+
+});
+$("#tblExport").click(function(){
+
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    //exclude: ".noExl",
+    name: "Worksheet Name",
+    //fileext: ".xlsx",
+    filename: "cash_client_report" //do not include extension
+  }); 
+});
+</script>
+<script>
+            $(document).ready(function() {
+                $("#table2excel").tableHeadFixer(); 
+            });
+        </script>

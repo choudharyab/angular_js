@@ -1,0 +1,109 @@
+
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 text-x tt"><img class="headsectionimages" src="assets/headerimages/opt_list.png">OTP List</div>
+						<div class="right serchlist margin-left-60 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_otp_list">
+												<button class="search-block-submit  " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+			
+                        </div>
+                        </div>
+						<div class="clearfix"></div>
+                   <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+								 <th>Date & Time</th>
+                                <th>User Name</th>
+                                <th>Email Id</th>
+                                <th>OTP From</th>
+                                <th>Type</th>
+                                <th>Password</th>
+                                <th>Comments</th>
+                                <th>Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="otp in otp_list | filter:filter_otp_list">
+                                <td>{{$index+1}}</td>
+                                <td>{{otp.created_at}}</td>
+                                <td>{{otp.user.uname | uppercase}}</td>
+                                <td>{{otp.email_id}}</td>
+                                <td>{{otp.module | uppercase}}</td>
+                               <td>{{otp.type | uppercase}}</td>
+                                <td>{{otp.password}}</td>
+                                <td>{{otp.comments | uppercase}}</td>
+                                <td>{{otp.status | uppercase}}</td>
+
+                               
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+               
+                     
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

@@ -1,0 +1,154 @@
+
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/backup.png">Backup Database </div>
+                        <div id="logistic_success_msg" style="font-size: 15px;color: green" class="">{{logistic_success_msg}}</div>
+						  <div id="delete_logistic" style="font-size: 15px;color: red">{{delete_logistic_msg}}</div>
+                        <div class="right margin-left-40 col-lg-2 col-md-2 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+					<button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline " type="button" data-ng-click="backup_database()"><i class="fa fa-database" aria-hidden="true"></i>
+   Get Backup  </button>
+							<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">&nbsp;</div>
+						<div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control border_none" placeholder="From"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker'>
+                                <input type='text' class="form-control border_none" placeholder="To"/>
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+					<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 repor_p"><b>Total Amount :</b> <i class="fa fa-inr"></i> &nbsp;54111.0</div>
+						</div>
+				
+                        </div> -->
+                        </div>
+						<div class="clearfix"></div><br/>
+                      <div class="sb-container container-example1 hei1">
+                                 <div class="table_dis" id="fixedheader1">
+                                    <table class="table table-hover table-bordered">
+                                       <thead>
+                                          <tr class="colorhead">
+                           
+                              <th>Sr. No.</th>
+                                 <th style="width:20%;">Date</th>
+								 <th>File Name</th>
+								<th style="width:10%;"> Action</th>	
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="data in backup_listing">
+                                     <td>{{$index+1}}</td>
+                                <td>{{data.created_date}}</td>                                
+                                    <td>{{data.file_name}}</td>
+                                <td>
+                                    <!-- <a> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> -->
+                                    <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete" ng-click="backup_permission_popup(data.id,data.delete_status,'delete')"></i>|</a>
+                                    
+                                    <!-- <a> <i class="fa fa-download font_six" aria-hidden="true" title="Download"  ng-click="download_file(data.file_name)"></i></a> -->
+                                    <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password"> <i class="fa fa-download font_six" aria-hidden="true" title="Download"  ng-click="backup_permission_popup(data.id,data.comment_status,'edit',data.file_name)"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby=""  aria-hidden="true" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+                </div>
+                <div class="modal-body">
+                <form name="formvalidation" ng-submit="generateOTP ? generate_password() : verify_otp()"  novalidate>
+                    <!--<form name="form-validation" ng-submit="generateOTP ? logistics_generate_password() : logistics_verify_otp()">-->
+                        <div class="form-group" ng-hide="gen_pass_div">
+                            <label class="form-label">Comments</label>
+                            <input class="form-control border_none"
+                                   placeholder="Comment"
+                                   type="text"
+                                   ng-model="comment.comment" name="comments" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true">
+                                   <div ng-messages="formvalidation.comments.$error" ng-show="formvalidation.comments.$dirty">
+                                                    
+                                                    <p ng-message="pattern" class="color_font" class="color_font">Enter Alphabet only.</p>
+                                    </div>
+                        </div>
+                        <div class="form-group" ng-show="otp_div">
+                            <label class="form-label">Enter OTP</label>
+                            <input class="form-control border_none"
+                                   placeholder="OTP"
+                                   type="text"
+                                   ng-model="otp_object.otp">
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                                <div class="col-md-6">
+                                    <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                                    <button type="submit" ng-hide="gen_pass_btn" class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                    <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary" >Verify OTP</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader1").tableHeadFixer(); 
+   });
+</script>

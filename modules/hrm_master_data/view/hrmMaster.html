@@ -1,0 +1,689 @@
+ 
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/masters.png">  General Details
+                                    <span id="generalDetailSuccess" style="font-size: 15px;color: green">{{general_detail_success}}</span>
+                                    <span id="generalDetailError" style="font-size: 15px;color: green">{{general_detail_error}}</span>
+                                    </div>
+									<br/>
+									<!--<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+										<div class="search-block">
+											<div class="form-input-icon form-input-icon-right">
+												<i class="icmn-search"></i>
+												<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+											</div>
+										</div>
+									</div>-->
+									<!--<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>-->
+								</div>
+							</div>
+							<br/>
+							<div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Department</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Department Name</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_department()">
+											<input class="form-control border_none uppercase" placeholder="Department Name" type="text" ng-model="department_name" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_department()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+									
+									<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+							
+                                <th>Department</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat="hrm_general_department_list in hrm_general_department_lists">
+                                <td>{{$index + 1}}</td>
+                                <td>{{hrm_general_department_list.department}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_department_lists,$index,'department')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+               
+			   <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+							<h4>
+							<b>Designation</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Designation</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_designation()">
+											<input class="form-control border_none uppercase" placeholder="Designation" type="text" ng-model="designation_name" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_designation()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+						<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader1">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Designation</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat="hrm_general_designation_list in hrm_general_designation_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_designation_list.designation}}</td>
+                               
+                               
+                                
+                                <td>
+								
+									<a href=""  ng-click="delete_hrm_general_master(hrm_general_designation_lists,$index,'designation')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					
+					 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" >
+							<h4>
+							<b>Category</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Category</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_category()">
+											<input class="form-control border_none uppercase" placeholder="Category" type="text" ng-model="category_name" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_category()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader2">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Category</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                <tr ng-repeat="hrm_general_category_list in hrm_general_category_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_category_list.category}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_category_lists,$index,'category')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					 <div class="clearfix"></div>
+					 <div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Probation Period</b>
+							</h4>
+							<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="label_none">Probation Period</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_probation_period()">
+											<input class="form-control border_none" placeholder="Probation Period" type="text" ng-model="probation_period" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12">
+											<div class="prob_p">Month(s)</div>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_probation_period()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader3">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Probation Period</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                  <tr ng-repeat="hrm_general_probation_period_list in hrm_general_probation_period_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_probation_period_list.probation_name}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_probation_period_lists,$index,'probation_period')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					
+					<div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Notice Period</b>
+							</h4>
+							<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="label_none">Notice Period</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_notice_period()">
+											<input class="form-control border_none" placeholder="Notice Period" type="text" ng-model="notice_period" capitalize>
+											</form>
+										</div>
+										<div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12">
+											<div class="prob_p">Month(s)</div>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_notice_period()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader4">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Notice Period</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                  <tr ng-repeat="hrm_general_notice_period_list in hrm_general_notice_period_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_notice_period_list.notice_period}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_notice_period_lists,$index,'notice_period')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					
+					
+					<div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Company Email</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Company Email</div><!-- add for edit button click class 'label_display' -->
+											<form ng-submit="save_hrm_company_email()">
+											<input class="form-control border_none homelower" placeholder="Company Email" type="text" ng-model="company_email">
+											</form>
+										</div>
+                                        <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+                                        <button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_company_email()">
+                                        <!--<span class="top_p">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </span>-->
+                                        Save
+                                        </button>
+                                    </div>  
+							<!-- <div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">&nbsp;</div>
+							<br/>
+							<div class="clearfix"></div> -->
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader5">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Company Email</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                 <tr ng-repeat="hrm_general_company_email_list in hrm_general_company_email_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_company_email_list.company_email}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_company_email_lists,$index,'company_email')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					<div class="clearfix"></div>
+					<div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Marital Status</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Marital Status</div><!-- add for edit button click class 'label_display' -->
+											<!-- <select class="form-control border_none select">
+									   <option value="">Select Marital Status</option>
+									   <option value="">Married</option>
+									   <option value="">UnMarried</option>
+								</select> -->
+								<form ng-submit="save_hrm_marital_status()">
+								<input class="form-control border_none uppercase" placeholder="Marital Status" type="text" ng-model="marital_status" capitalize>
+								</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_marital_status()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="clearfix"></div>
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader6">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Marital Status</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                  <tr ng-repeat="hrm_general_marital_status_list in hrm_general_marital_status_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_marital_status_list.marital_status}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_marital_status_lists,$index,'marital_status')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					<div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Blood Group</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Blood Group</div><!-- add for edit button click class 'label_display' -->
+										<!-- 	<select class="form-control border_none select">
+									   <option value="">Select Blood Group</option>
+									   <option value="">1</option>
+								</select> -->
+								<form ng-submit="save_hrm_blood_group()">
+								<input class="form-control border_none" placeholder="Blood Group" type="text" ng-model="blood_group" capitalize>
+								</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_blood_group()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="clearfix"></div>
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader7">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Blood Group</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                   <tr ng-repeat="hrm_general_blood_group_list in hrm_general_blood_group_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_blood_group_list.blood_group}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_blood_group_lists,$index,'blood_group')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					<div class=" col-lg-4 col-md-6 col-sm-6 col-xs-12">
+							<h4>
+							<b>Reason Type</b>
+							</h4>
+							<div class="top_t col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<div class="label_none">Reason Type</div><!-- add for edit button click class 'label_display' -->
+											<!-- <select class="form-control border_none select">
+									   <option value="">Select</option>
+									   <option value="">Retire</option>
+									   <option value="">Resign</option>
+									   <option value="">Terminate</option>
+								</select> -->
+								<form ng-submit="save_hrm_reason_type()">
+								<input class="form-control border_none uppercase" placeholder="Reason Type" type="text" ng-model="reason_type" capitalize>
+								</form>
+										</div>
+										<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none">
+										<button class="btn btn-rounded btn-primary-outline margin-inline " type="button" ng-click="save_hrm_reason_type()">
+										<!--<span class="top_p">
+										<i class="fa fa-paper-plane" aria-hidden="true"></i>
+										</span>-->
+										Save
+										</button>
+									</div>	
+							<div class="clearfix"></div>
+							<div class="sb-container container-example1 heinew">
+						<div class="table_dis" id="fixedheader8">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th class="width_ad">Sr No.</th>
+                                <th>Reason Type</th>
+                                
+                               
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <!--<tfoot>
+                                <tr>
+                                  <th>Supplier Code</th>
+                                <th>Supplier Name</th>
+                                
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                                </tr>
+                            </tfoot>-->
+                            <tbody>
+                                  <tr ng-repeat="hrm_general_reason_type_list in hrm_general_reason_type_lists">
+                               <td>{{$index + 1}}</td>
+                               <td>{{hrm_general_reason_type_list.reason_type}}</td>
+                               
+                                
+                                <td>
+								
+									<a href="" ng-click="delete_hrm_general_master(hrm_general_reason_type_lists,$index,'reason_type')"> <i class="fa fa-trash-o font_six" aria-hidden="true" title="Delete"></i></a> 
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+					
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+											
+
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader2").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader3").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader4").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader5").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader6").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader7").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader8").tableHeadFixer(); 
+			});
+		</script>
+		<!-- header fixed End-->

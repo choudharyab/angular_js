@@ -1,0 +1,642 @@
+<section class="page-content">
+   <div class="page-content-inner">
+    <div style="display:none" class="loading">Loading&#8230;</div>
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/voucher.png" style=" width: 37px;margin: -7px 2px 0px 0px">  GSTR - 3B
+                            
+                           </div>
+						     <div class="top_t col-lg-3 col-md-4 col-sm-3 col-xs-12 padd_none">
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 sercho">
+                                 <b>  Company  </b>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                 <select class="form-control border_none select" ng-model="warehouse_id" ng-change="get_po_warehouse()">
+									<option value="" ng-selected="selected">Select Company</option>
+									<option ng-repeat="warehouse in warehouse_list" value="{{warehouse.id}}" ng-selected="{{warehouse.id==selected_warehouse}}">{{warehouse.company_name}}</option>
+								</select>
+                              </div>
+                           </div>
+						    <div class="col-lg-6 col-md-8 col-sm-4 col-xs-12 text-x">
+						    <button id="genrJson" class="btn btn-rounded btn-primary-outline margin-inline" ng-click="generate_json_gstr3b()"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate JSON file</button>
+                           <a id="dowJson" style="display:none" class="btn btn-rounded btn-success-outline margin-inline" href="wheelsonroadserver/public/json_files/{{jsonfileName}}" id="clickJson" download> Downolad JSON file </a>
+						   <button class="btn btn-rounded btn-primary-outline margin-inline" ng-click="generate_excel_gstr3b()"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export to excel</button>
+						   </div>
+						   <div class="clearfix"></div>
+                          <br/><br/>
+                        </div>
+                     </div>
+                     <div>
+                        <div class="" align="right">
+                           <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none">
+                              <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 sercho">
+                                 <b> GSTIN  </b>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                 <!--<select ng-hide="hide_sale_order" class="form-control border_none color_f">
+                                    <option value="" ng-selected="selected">Select Sale Invoice&nbsp;&nbsp;</option>
+                                    </select>-->
+                                 <input class="form-control border_none" type="text" ng-model="gst_no_value" placeholder="" >
+                              </div>
+                           </div>
+                           <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 sercho">
+                                 <b> Year  </b>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                 <select ng-model="year" ng-change="changeAllData()" class="form-control border_none color_f">
+									 <option value="" ng-selected="selected">Select Year</option>
+									 <option value="2018">2018</option>
+									 <option value="2019">2019</option>
+									 <option value="2020">2020</option>
+									 <option value="2021">2021</option>
+									 <option value="2022">2022</option>
+									 <option value="2023">2023</option>
+									 <option value="2024">2024</option>
+									 <option value="2025">2025</option>
+								  </select>
+                              </div>
+                           </div>
+                           <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none">
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 sercho">
+                                 <b> Sheet Status  </b>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                 <input class="form-control border_none" type="text" placeholder="" >
+                              </div>
+                           </div>
+                           <div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none">
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 sercho" style="top:0px;">
+                                 <b> Warehouse Name  </b>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                 <input class="form-control border_none" type="text" ng-model="warehouse_name_value" placeholder="" >
+                              </div>
+                           </div>
+                           <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none">
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 sercho">
+                                 <b>  Month  </b>
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                 <select ng-model="month" ng-change="changeAllData()" class="form-control border_none color_f">
+									 <option value="" ng-selected="selected">Select Month</option>
+									 <option value="01">January</option>
+									 <option value="02">Febraury</option>
+									 <option value="03">March</option>
+									 <option value="04">April</option>
+									 <option value="05">May</option>
+									 <option value="06">June</option>
+									 <option value="07">July</option>
+									 <option value="08">August</option>
+									 <option value="09">September</option>
+									 <option value="10">October</option>
+									 <option value="11">November</option>
+									 <option value="12">December</option>
+								  </select>
+                              </div>
+                           </div>
+						   
+						 
+						   
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-x">3.1 Details of outward supplies and inward liable to reverse charge
+                        </div>
+                        <br/>
+                     </div>
+					 
+					 <style>
+						.newwidt{width:450px !important;}
+					 </style>
+                     <div class="sb-container container-example1 ">
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th class="newwidt">Name of supplier</th>
+                                    <th>Total taxable value</th>
+                                    <th>Integrated tax</th>
+                                    <th>Central tax</th>
+                                    <th>State/UT Tax</th>
+                                    <th>Cess</th>
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+							  <!--
+												 <tr>
+                                    <td>(a)Outward taxable supplies( other than zero rated, nil rated and expanded )</td>
+                                    <td>(b)Outward taxable supllies( zero rated )</td>
+                                    <td>(c)Other outward taxable supplies( Nil rated, expanded )</td>
+                                    <td>(d)Inward supplies(liable to reverse charge )</td>
+                                    <td>(e)Non-GST outward supplies</td>
+                                    <td>1</td>
+                                 </tr>
+							  -->
+							  
+                                 <tr>
+                                   <td>(a)Outward taxable supplies( other than zero rated, nil rated and expanded )</td>
+                                    <td>{{total_taxable_value}}</td>
+                                    <td>{{integrated_tax}}</td>
+                                    <td>{{central_tax}}</td>
+                                    <td>{{state_tax}}</td>
+                                    <td>{{cess}}</td>
+                                 </tr>
+								 <tr>
+                                  <td>(b)Outward taxable supllies( zero rated )</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								 <tr>
+                                  <td>(c)Other outward taxable supplies( Nil rated, expanded )</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								 
+								  <tr>
+                                  <td>(d)Inward supplies(liable to reverse charge )</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								  <tr>
+                                  <td>(e)Non-GST outward supplies</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								 <tr>
+                                    <td><b>Total</b></td>
+                                    <td><b>{{total_taxable_value}}</b></td>
+                                    <td><b>{{integrated_tax}}</b></td>
+                                    <td><b>{{central_tax}}</b></td>
+                                    <td><b>{{state_tax}}</b></td>
+                                    <td><b>{{cess}}</b></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+					 
+					 <!--2 -->
+						<div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-x">4. Eligible ITC 
+                        </div>
+                        <br/>
+                     </div>
+                     <div class="sb-container container-example1" >
+                        <div class="table_dis" id="fixedheader1">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th>Details</th>
+                                    <th>Integrated tax</th>
+                                    <th>Central tax</th>
+                                    
+                                    <th>State/UT Tax</th>
+                                    <th>Cess</th>
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 <tr>
+                                    <td colspan="5"><b>A) ITC Available(Whether in full or part)</b></td>
+                                    
+                                    
+                                 </tr>
+								   <tr>
+                                    <td class="newwidt">1)Import of goods</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    
+                                 </tr>
+								  <tr>
+                                    <td class="newwidt">2)Import of services</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    
+                                 </tr>
+								 <tr>
+                                    <td class="newwidt">3)Inward supplies liable to reverse charge ( other than 1&2 above )</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    
+                                 </tr>
+								  <tr>
+                                    <td class="newwidt">4)Inward supplies from ISD</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								  <tr>
+                                    <td class="newwidt">5)All other ITC</td>
+                                    <td>{{integrated_tax_itc}}</td>
+                                    <td>{{central_tax_itc}}</td>
+                                    <td>{{state_tax_itc}}</td>
+                                    <td>{{cess_itc}}</td>
+                                    
+                                 </tr>
+								  <tr>
+                                    <td colspan="5"><b>B) ITC Reversed</b></td>
+                                    
+                                    
+                                 </tr>
+								 
+								  <tr>
+                                    <td class="newwidt">1)As per Rule 42 & 43 of SGST/CGST rules</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								 <tr>
+                                    <td class="newwidt">2)Others</td>
+                                    <td>{{other_integrated_tax}}</td>
+                                    <td>{{other_central_tax}}</td>
+                                    <td>{{other_state_tax}}</td>
+                                    <td>{{other_cess}}</td>
+                                 </tr>
+								 <tr>
+                                    <td class="newwidt"><b>C)Net ITC Available (A) - (B)</b></td>
+                                    <td>{{integrated_tax_available}}</td>
+                                    <td>{{central_tax_available}}</td>
+                                    <td>{{state_tax_available}}</td>
+                                    <td>{{cess_available}}</td>
+                                 </tr>
+								 <tr>
+                                    <td colspan="5"><b>D) Ineligible ITC</b></td>
+                                    
+                                    
+                                 </tr>
+								  <tr>
+                                    <td class="newwidt">1)As per section 17(5) of CGST/SGST Act</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+								   <tr>
+                                    <td class="newwidt">2)Others</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+					 
+					 
+					  <!--2 -->
+						<div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-x">5. Values of exempt,Nil-rated and Non-Gst inward Supplies
+                        </div>
+                        <br/>
+                     </div>
+                     <div class="sb-container container-example1 " >
+                        <div class="table_dis" id="fixedheader2">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th class="newwidt">Nature of supplies</th>
+                                    <th>Inter-State supplies</th>
+                                    <th>Intra-State supllies</th>
+                                    
+                                   
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 
+								   <tr>
+                                    <td>From a supplies under composition scheme,Exempt and Nil rated supply</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    
+                                    
+                                 </tr>
+								  <tr>
+                                    <td>Non GST supply</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    
+                                    
+                                 </tr>
+								 <tr>
+                                    <td><b>Total<b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    
+                                    
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+					 
+					 
+					  <!--2 -->
+						<div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-x">5.1 Interest & Late fee payable 
+                        </div>
+                        <br/>
+                     </div>
+                     <div class="sb-container container-example1 ">
+                        <div class="table_dis" id="fixedheader22">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th class="newwidt">Description</th>
+                                    <th>Integrated tax</th>
+                                    <th>Central Tax</th>
+                                    <th>Sate/UT Tax</th>
+                                    <th>Cess</th>
+                                    
+                                   
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+								 <tr>
+                                    <td><b>Interest<b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+					 
+					 	 
+					  <!--2 -->
+						<div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="text-x">3.2 of the supplies Shown in 3.1(a), details of inter-state supplies madeto unregistered person, composition taxable person
+                        </div>
+                        <br/>
+                     </div>
+                     <div class="sb-container container-example1 hei1">
+                        <div class="table_dis" id="fixedheader3">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                               <tr class="colorhead">
+                                    <th rowspan="2">Place of Supply( State/UT )</th>
+                                    <th colspan="2" style="text-align:center;">Supplies made to unregistered persons</th>
+                                   
+                                    <th colspan="2" style="text-align:center;">Supplies made to composition taxable persons</th>
+                                    <th colspan="2" style="text-align:center;">Supplies made to UIN holders</th>
+                                   
+                                    
+                                   
+                                 </tr>
+								 
+								 <tr class="colorhead">
+                                    
+                                    <th>Total taxable value</th>
+                                    <th>Amount of integrated tax</th>
+                                    <th>Total taxable value</th>
+                                    <th>Amount of integrated tax</th>
+                                    <th>Total taxable value</th>
+                                    <th>Amount of integrated tax</th>
+                                   
+                                    
+                                   
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 
+								   <tr>
+                                    <td class="newwidt">0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    
+                                    
+                                 </tr>
+								 <tr>
+                                    <td class="newwidt"><b>Total<b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    <td><b>0</b></td>
+                                    
+                                    
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+					 
+					 
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- hover Details  -->
+<style type="text/css">
+   .stylenew{width: 53em;background-color: #fff;border:2px solid #BEB9B5 !important;padding: 10px;}
+   .tblhover{cursor: pointer;}
+   .fontsize12{font-size: 12px !important;}
+</style>
+<!-- hower details js -->
+<script type="text/javascript">
+   $.widget("ui.tooltip", $.ui.tooltip, {
+       options: {
+           content: function () {
+               return $(this).prop('title');
+           }
+       }
+   });
+   
+   $(function () {
+       $('.tblhover').attr('title', $('.tblcontentnew').remove('').html())
+       $(document).tooltip();
+   });
+   $(document).tooltip({
+       //tooltipClass: 'top',
+       position: {
+           my: 'right-25 bottom-25',
+           at: 'right-25 top',
+           using: function(position, feedback) {
+               console.log(feedback);
+               $(this).css(position);
+               $(this).addClass(feedback.vertical);
+           }
+       },
+     
+   });
+</script>
+<script>
+   $(document).ready(function(){
+   //alert("hii")
+   
+   setTimeout(function(){
+     $(".tblhover").removeAttr('style');
+   },1000);
+   })
+</script>
+<!-- hower details js end-->
+<!-- hover Details -->
+<!-- modal start -->
+<!-- modal start -->
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader1").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader2").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader3").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader22").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('select').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>

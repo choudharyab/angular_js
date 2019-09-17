@@ -1,0 +1,334 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/stockexit1.png"> Fleet Fuel Record
+                            <div id="fleetSuccess" style="color: green;font-size: 15px" class="formessage_display">{{fleet_success}}</div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_fuel_data">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" ng-click="add_btn_clicked()" data-toggle="modal" type="button" data-target="#example3">
+                           <i class="fa fa-plus" aria-hidden="true"></i> Add Details</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1 topupmm">
+                        <!--add after record  sb-container container-example1 hei  -->
+                        <!--<div id="warehouseError">{{warehouse_error}}</div>-->
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th>Sr. No.</th>
+                                    <th>Fleet</th>
+                                    <th>Make</th>
+                                    <th>Previous Reading</th>
+                                    <th>Fuel Time Reading</th>
+                                    <th>Travelled Km</th>
+                                    <th>Fuel Type</th>
+                                    <th>Fuel Quantity</th>
+                                    <th>Fuel Amount</th>
+                                    <th>Fleet Average</th>
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="data in fleet_diesel_record_list | filter: filter_fuel_data">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{data.fleet_code}} - {{data.make}}</td>
+                                    <td>{{data.make}}</td>
+                                    <td>{{data.previous_reading}}</td>
+                                    <td>{{data.diesel_time_reading}}</td>
+                                    <td>{{data.travelled_km}}</td>
+                                    <td>{{data.fuel_type}}</td>
+                                    <td>{{data.diesel_quantity}}</td>
+                                    <td>{{data.diesel_amount}}</td>
+                                    <td>{{data.fleet_average}}</td>
+                                    <!-- <td>
+                                       <a data-toggle="modal" data-target="#example3" ng-click="edit_fleet_diesel_details(data.id)"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a>|
+                                       <a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ></i></a>
+                                    </td> -->
+                                    <td>
+                                            <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password" ng-click="fleet_list_permission_popup(data.id,data.comment_status,'edit')"><i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i>|</a>
+                                            <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password" ng-click="fleet_list_permission_popup(data.id,data.delete_status,'delete')"><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ></i></a>
+                                         </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-my-modal id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{pop_up_msg}}</h4>
+            <span id="fleetError">{{fleet_error}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="formWarehouse">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                  <div  ng-class="{label_display : active_lable}" class="label_display"> Date</div>
+                                  <input class="form-control border_none" type="text" name="invoicedate" placeholder="Date" id="datetimepicker2" ng-model="diesel.date">
+                                </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none" >Fleet Select</div>
+                                 <select class="form-control border_none color_f" ng-model="diesel.fleet_id" ng-change="get_previous_reading()">
+                                    <option value="">Select Fleet</option>
+                                    <option ng-repeat="data in fleet_data" value="{{data.id}}">{{data.fleet_code}}-{{data.make}}</option>
+                                 </select>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Previous Reading</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Previous Reading" type="text" name="Previous Reading" ng-model="diesel.previous_reading" disabled >
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Travelled Km</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Travelled Km" type="text" name="Travelled Km" ng-model="diesel.travelled_km" disabled >
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Fuel Amount</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fuel Amount" type="text" name="Previous Reading" ng-model="diesel.diesel_amount">
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                  <div  ng-class="{label_display : active_lable}" class="label_none" >Fuel Type</div>
+                                  <select class="form-control border_none color_f" ng-model="diesel.fuel_type">
+                                     <option value="">Select Type</option>
+                                     <option value="petrol">Petrol</option>
+                                     <option value="diesel">Diesel</option>
+                                  </select>
+                               </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                  <div  ng-class="{label_display : active_lable}" class="label_none" >Payment Mode</div>
+                                  <select class="form-control border_none color_f" ng-model="diesel.payment_mode">
+                                     <option value="">Select Mode</option>
+                                     <option value="cash">Cash</option>
+                                     <option value="paytm">Paytm</option>
+                                     <option value="online_banking">Online Banking</option>
+                                     <option value="others">Others</option>
+                                  </select>
+                               </div>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Make</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Make" type="text" name="Make" capitalize ng-model="diesel.make" disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                  <div  ng-class="{label_display : active_lable}" class=" label_none">Location</div>
+                                  <!-- add for edit button click class 'label_display' -->
+                                  <input class="form-control border_none uppercase " placeholder="Location" type="text" name="location" capitalize ng-model="diesel.location" disabled>
+                               </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Fuel Time Reading</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fuel Time Reading" type="text" name="Fuel Time Reading" capitalize ng-model="diesel.diesel_time_reading" ng-keyup="set_travelled_km()">
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Fuel Quantity</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fuel Quantity" type="text" name="Fuel Quantity" capitalize ng-model="diesel.diesel_quantity" ng-keyup="set_travelled_km()">
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class=" label_none">Fleet Average</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none uppercase " placeholder="Fleet Average" type="text" name="Fleet Average" capitalize ng-model="diesel.fleet_average" disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                  <div  ng-class="{label_display : active_lable}" class=" label_none">Bill No.</div>
+                                  <!-- add for edit button click class 'label_display' -->
+                                  <input class="form-control border_none uppercase " placeholder="Bill No." type="text" name="Bill No. Average" capitalize ng-model="diesel.bill_no">
+                               </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_save">
+                              <center>
+                                 <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="save_fleet_diesel_details()" >
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>
+                              </center>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit">
+                            <center>
+                               <button  class="btn btn-success-outline margin-inline" type="submit" ng-click="update_fleet_diesel_details()" >
+                               <span class="top_p"><i class="icmn-share2"></i></span> Update
+                               </button>
+                            </center>
+                         </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+               <div class="form-group" ng-hide="gen_pass_div">
+                  <input class="form-control border_none"
+                     placeholder="Comment"
+                     type="text"
+                     ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+               </div>
+               <div class="form-group" ng-show="otp_div">
+                  <input class="form-control border_none"
+                     placeholder="OTP"
+                     type="text"
+                     ng-model="otp_object.otp">
+               </div>
+               <div class="modal-footer">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <h5>{{pending_msg}}</h5>
+                     </div>
+                     <div class="col-md-6">
+                        <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                        <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- modal start -->
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this ).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('#datetimepicker1').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker2').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+     dateFormat: 'dd/mm/yy'
+      
+   
+   });
+     $('#datetimepicker3').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker4').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+     $('#datetimepicker5').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+   $('#datetimepicker6').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2060' ,
+      
+   
+   });
+</script>

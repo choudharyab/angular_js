@@ -1,0 +1,414 @@
+
+
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<style>
+   .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-3 col-md-6 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/leave-management.png"> Leave Details<br/>
+                              <span id="leavesuccess" style="color: green;font-size: 15px">{{leave_success}}</span>
+                           </div>
+                           <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 text_d1">
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+                                 <b>Status :</b>
+                              </div>
+                              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 padd_none">
+                                 <select class="form-control border_none color_f" ng-model="status_type" ng-change="statustypeleave()">
+                                    <option  ng-selected="selected" value="">-- Select --</option>
+                                    <option value="Submitted">Submitted</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="right hidden-md-down col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_leave_list">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example1" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Apply Leave</button>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button">Leave Status</button>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                           <br/>
+                           <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12 ">&nbsp;</div>
+                           <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                              <div class="form-group">
+                                 <div class='input-group date'>
+                                    <input type='text' class="form-control border_none" id='exp_del_date5' placeholder="From" ng-model="select_from"  />
+                                    <span class="input-group-addon" >
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                              <div class="form-group">
+                                 <div class='input-group date'>
+                                    <input type='text' class="form-control border_none"  id='exp_del_date4' placeholder="To" ng-model="select_to" />
+                                    <span class="input-group-addon">
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                              <button ng-click="statusdateleave()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                           </div>
+                           <!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 repor_p"><b>Total Amount :</b> <i class="fa fa-inr"></i> &nbsp;54111.0</div>-->
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1">
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th>Employee ID</th>
+                                    <th>Employee Name</th>
+                                    <th>Leave Type</th>
+                                    <th>Date Of Application</th>
+                                    <th>No. Of Days</th>
+                                    <th>Leave From</th>
+                                    <th>Leave To</th>
+                                    <th>Approver</th>
+                                    <th>Status</th>
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 <tr ng-repeat='leave in leave_list  | filter:filter_leave_list'>
+                                    <td>{{leave.user.emp_details.employee_id}}</td>
+                                    <td>{{leave.user.uname}}</td>
+                                    <td>{{leave.leave_type.leave_type}}</td>
+                                    <td>{{leave.created_at}}</td>
+                                    <td>{{leave.no_of_days}}</td>
+                                    <td>{{leave.from}}</td>
+                                    <td>{{leave.to}}</td>
+                                    <td>{{leave.approver}}</td>
+                                    <td><span class="c_b1">{{leave.leave_status}}</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-modal-two id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="click_leave()">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Apply Leave</h4>
+            <span id="leaveError">{{leave_error}}</span>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content padding-vertical-20">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                <div  ng-class="{label_display : active_lable}" class="label_display">Date</div>
+                              <!-- add for edit button click class 'label_display' -->
+                              <div class="top_t">
+                                 <div class='input-group date' >
+                                    <input type='text' class="form-control border_none" placeholder="Date"  ng-model="current_date"/>
+                                    <span class="input-group-addon">
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                               <div  ng-class="{label_display : active_lable}" class="label_none">Employee Id</div>
+                              <!-- add for edit button click class 'label_display' -->
+                              <input class="form-control border_none" type="text" placeholder="Employee Id" id="auto_emp_id" ng-model="auto_employee_id" ng-keyup="searchEmployee()" ng-mouseleave="searchEmployee()" capitalize>
+                           </div>
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                               <div  ng-class="{label_display : active_lable}" class="label_display">Employee Name</div>
+                              <!-- add for edit button click class 'label_display' -->
+                              <input class="form-control border_none" type="text" placeholder="Employee Name" ng-model="emp_name" disabled>
+                           </div>
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                              <div  ng-class="{label_display : active_lable}" class="label_display">Category</div>
+                              <!-- add for edit button click class 'label_display' -->
+                              <input class="form-control border_none" type="text" placeholder="Category" ng-model="emp_category" disabled>
+                           </div>
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                               <div  ng-class="{label_display : active_lable}" class="label_display">Department</div>
+                              <!-- add for edit button click class 'label_display' -->
+                              <input class="form-control border_none" type="text" placeholder="Department"
+                                 ng-model="emp_deparment" disabled>
+                           </div>
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                               <div  ng-class="{label_display : active_lable}" class="label_display">Designation</div>
+                              <!-- add for edit button click class 'label_display' -->
+                              <input class="form-control border_none" type="text" placeholder="Designation" ng-model="emp_designation" disabled>
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                           <div class="bottomupmargin"> 
+                              Dear <b>Sir / Mam</b>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottomupmargin">
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hgdg">Kindly grant </div>
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none">
+                                 <select class="form-control border_none select" ng-selected="selected" ng-model="add_leave.leave_type_id">
+                                    <option value="">Leave Type</option>
+                                    <option ng-repeat=" type in type_list" value="{{type.id}}">{{type.leave_type}} </option>
+                                 </select>
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 hgdg">
+                                 for 
+                              </div>
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none">
+                                 <input class="form-control border_none" placeholder="days" type="text" ng-model="add_leave.no_of_days"> 
+                              </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottomupmargin">
+                              <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12 hgdg">
+                                 days from
+                              </div>
+                              <div class="input-group date col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none">
+                                 <input type='text' class="form-control border_none" placeholder="Date" id='exp_del_date2' ng-model="add_leave.from"/>
+                                 <span class="input-group-addon">
+                                 <i class="icmn-calendar"></i>
+                                 </span>
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 hgdg">
+                                 to 
+                              </div>
+                              <div class="input-group date col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none" id='datetimepicker5'>
+                                 <input type='text' class="form-control border_none" placeholder="Date" id='exp_del_date3' ng-model="add_leave.to" />
+                                 <span class="input-group-addon">
+                                 <i class="icmn-calendar"></i>
+                                 </span>
+                              </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottomupmargin">
+                              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 hgdg">				
+                                 for following reason 
+                              </div>
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none">
+                                 <input class="form-control border_none" placeholder="reason" type="text" ng-model="add_leave.reason"> 
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 hgdg">				
+                              <b>Approver :</b>
+                           </div>
+                           <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none">
+                              <input class="form-control border_none" placeholder="ab@tecture.in" type="text" ng-model="add_leave.approver"> 
+                           </div>
+                        </div>
+                        <div class="clearfix"></div>
+                     </div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <center>
+                           <button class="btn btn-success-outline margin-inline" type="button" ng-click="applyleave()">
+                           <span class="top_p"><i class="icmn-share2"></i></span> Apply
+                           </button>
+                        </center>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+      <!--   <div class="modal-footer bgcolor">
+         <button type="button" class="btn" data-dismiss="modal">Close</button>
+         
+         </div>-->
+   </div>
+</div>
+<div class="modal fade modal-size-medium" id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Leave Status</h4>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content ">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 sb-container container-example1 overfl">
+                        <!--add after record  sb-container container-example1 hei  -->
+                        <div class="table_dis" id="fixedheader2">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th >Leave Type</th>
+                                    <th>Total Allowed</th>
+                                    <th>Remaining</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="data in leave_status">
+                                    <td>{{data.leave_type}}</td>
+                                    <td>{{data.leave_allowd}}</td>
+                                    <td>{{data.remeaning_leave}}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <!--<div class="modal-footer bgcolor">
+                        <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        
+                        </div>-->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- modal start --><!-- 
+   <script type="text/javascript">
+    $(function () {
+   			$('#datetimepicker1').datetimepicker({
+   				icons: {
+   					time: "fa fa-clock-o",
+   					date: "fa fa-calendar",
+   					up: "fa fa-arrow-up",
+   					down: "fa fa-arrow-down"
+   				}
+   			});
+   		});
+   </script>
+   
+   
+   -->
+<script type="text/javascript">
+   $('#exp_del_date').datepicker({
+     changeMonth: true,
+     changeYear: true,
+     yearRange: '2000:2040' ,
+       //defaultDate: '01-10-2017',
+   });
+</script>
+<script type="text/javascript">
+   $('#exp_del_date2').datepicker({
+     changeMonth: true,
+     changeYear: true,
+     yearRange: '2000:2040' ,
+       //defaultDate: '01-10-2017',
+   });
+</script>
+<script type="text/javascript">
+   $('#exp_del_date3').datepicker({
+     changeMonth: true,
+     changeYear: true,
+     yearRange: '2000:2040' ,
+       //defaultDate: '01-10-2017',
+   });
+</script>
+<script type="text/javascript">
+   $('#exp_del_date5').datepicker({
+     changeMonth: true,
+     changeYear: true,
+     yearRange: '2000:2040' ,
+       //defaultDate: '01-10-2017',
+   });
+</script>
+<script type="text/javascript">
+   $('#exp_del_date4').datepicker({
+     changeMonth: true,
+     changeYear: true,
+     yearRange: '2000:2040' ,
+       //defaultDate: '01-10-2017',
+   });
+</script>
+<script type="text/javascript">
+   $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd',
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader2").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!-- header fixed -->

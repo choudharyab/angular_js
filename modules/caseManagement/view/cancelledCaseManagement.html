@@ -1,0 +1,2540 @@
+<style>
+	.approve_color{
+		color:#0088ff
+	}
+	.cancel_color{
+		color:#A7270C
+	}
+</style>
+
+<section class="page-content">
+<div class="page-content-inner">
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div  class="col-lg-6 col-md-5 col-sm-5 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/customer sevice bill.png">Cancelled Bucket Listing
+						<div id="caseSuccess" style="color: green;font-size: 15px;" class="formessage_display">{{case_success}}</div>
+						</div>
+				
+						
+						<div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_case_details_list">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+							</div>
+						<div class="clearfix"></div>
+						<br/>
+						<br/>
+                   <div class="sb-container container-example1 hei1 topupmm">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+								   <th>Sr. No.</th>
+								<th>Case No.</th>
+								<th>Case Date</th>
+								<th>Ticket ID</th>
+								<th>Client Name</th>
+								<th>Service Type</th>
+                                <th>Customer Name</th>
+								 <th>Vehicle No.</th>
+								 <th>Vehicle Name</th>
+								 <th>Fleet Allotted</th>
+								 <th>Driver Name</th>
+								 <th>Case Activation Time</th>
+								 <th>ETA Time</th>
+								 <th>Travelled KM</th>
+								 <th>Status</th>
+								 <th>Cancel Time </th>
+                             <!--   <th>Action</th>-->
+                                </tr>
+                            </thead>
+                         
+                            <tbody>
+                          <tr ng-repeat="data in cancel_case_details_list | filter: filter_case_details_list">
+								 <td>{{$index+1}}</td>
+							   <td>{{data.case_no}}</td>
+							   <td>{{data.case_date}}</td>
+                                <td>{{data.ticket_no }}</td>
+								<td>{{data.client_name }}</td>
+								<td>{{data.servicedata.service_name}}</td>
+                                <td>{{data.case_customer.customer_name }}</td>
+								<td>{{data.case_customer.vehicle_reg_no }}</td>
+								<td>{{data.case_customer.vehicle_make }}</td>
+								<td>{{data.fleet.fleet_code}}-{{data.fleet.make}}</td>
+								<td>{{data.driver_name }}</td>
+								<td>{{data.case_activation_time}}</td>
+								<td>{{data.eta_date}}-{{data.eta_time}}</td>
+								<td>{{data.travelled_km}}</td>
+								<td ng-if="data.process_status==''">{{data.process_status}}</td>
+							
+								<td ng-if="data.process_status=='Cancel'" style="color:rgb(150, 26, 67);font-size: 15px"><b>CANCELED</b></td>
+								
+								<td  ><b>{{data.case_cancel_time}}</b></td>
+							<!--	<td>
+					<a ng-if="data.process_status=='closed' || data.process_status=='Approved' || data.process_status=='Disputed' || data.process_status=='Bill' || data.process_status=='Cancel'" ng-show="current_module_rights[0].status">
+							<i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="case_permission_popup(data.id,data.comment_status,'edit',data.process_status)"></i>|</a>
+				 
+						 <a ng-show="current_module_rights[1].status">
+							 <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="case_permission_popup(data.id,data.delete_status,'delete',data.process_status)"></i>|</a>
+							 
+
+							 <a ng-show="current_module_rights[2].status">
+									<i class="fa fa-eye font_six" title="Edit" aria-hidden="true" data-toggle="modal" data-target="#edit_case_details" ng-click="edit_case_details(data.id,'view')"></i>|</a>
+									
+									<a title="Reopen" aria-hidden="true" ng-click="case_permission_popup(data.id,data.reopen_status,'Reopen',data.process_status)" >  <i class="fa fa-folder-open"></i>
+							</a>	
+ 
+								 </td>-->
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+   </div>
+<br/>
+    <!-- End Dashboard -->
+</div>
+</section>
+
+<!-- modal start -->
+
+  <div class="modal fade modal-size-large" id="add_case_details" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="loading"></div>	
+	<div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Case Management</h4>
+								<span id="caseError">{{case_error}}</span>
+                            </div> 
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                            <ul class="nav nav-tabs" role="tablist">
+								<li class=" nav-item"  role="presentation">
+									<a class="nav-link active" role="tab" data-target="#home1" data-toggle="tab" id="1">General Details</a>
+								</li>
+                           
+								<li class="nav-item">
+									<a class="nav-link " role="tab" data-target="#profile1" data-toggle="tab" id="2">Fleet Details</a>
+								</li>
+                              
+								<!-- <li class="nav-item" >
+									<a class="nav-link" role="tab" data-target="#messages1" data-toggle="tab" id="3">Case Closing</a>
+								</li> -->
+                              
+                            </ul>
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active"  id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                   	 <form name="details">
+								  <div class="hh">
+                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+									
+										<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											
+											   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+	   
+												<br>
+												<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													
+												  
+													<div  ng-class="{label_display : active_lable}" class="label_display"> Date</div>
+													<input class="form-control border_none" type="text" name="invoicedate" placeholder=" Date" id="datetimepicker31" ng-model="case_details.case_date">
+													
+													
+												</div>
+											
+												<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_case_no">
+												<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Case No</div>
+												
+													  <input class="form-control border_none" type="text" placeholder="Case No"  name="caseno" ng-model="case_details.case_no" disabled>
+												  
+												   
+											   </div>
+
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								  
+												<div  ng-class="{label_display : active_lable}" class="label_display">Case Time</div>
+											<input class="form-control border_none uppercase" id="timepickerc4" type="text" placeholder="Case Time" ng-model="case_details.case_time">
+											
+											 
+											</div>
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											 <div  ng-class="{label_display : active_lable}" class="label_display">Case Activation Time</div>
+									   <!--  <input class="form-control border_none uppercase" type="text" placeholder="Time" ng-model="case_details.case_time">-->
+									   <div class='input-group date' id='datetimepicker112'>
+										 <input type='text' id="case_activation_time" class="form-control border_none" placeholder="Case Activation Time" ng-model="case_details.case_activation_time"/>
+										 <span class="input-group-addon">
+											 <span class="glyphicon glyphicon-calendar"></span>
+										 </span>
+									 </div>
+										
+										 </div>
+											
+	   
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												    <div  ng-class="{label_display : active_lable}" class="label_display">Ticket No</div>
+													<input class="form-control border_none" type="text" placeholder="Ticket No"  name="ticketno" ng-model="case_details.ticket_no" capitalize autocomplete="off">
+											
+											   </div>	
+											   
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												
+												   <div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Customer Name</div>
+											 
+												   <input class="form-control border_none" type="text" placeholder=" Customer Name"  name="customername" ng-model="case_details.customer_name" ng-keyup="check_customer_status()" capitalize autocomplete="off">
+
+											   </div>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												  
+												 
+												<div  ng-class="{label_display : active_lable}" class="label_display">Mobile No</div>
+												<input class="form-control border_none" type="text" placeholder="Mobile No"  name="mobileno" ng-model="case_details.mobile_no" ng-keyup="check_customer_status()" onkeypress="return isNumber(event)">
+											   </div>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												<div  ng-class="{label_display : active_lable}" class="label_display">Vehicle Make</div>
+												<input class="form-control border_none" type="text" placeholder="Vehicle Make" name="vehiclemake" ng-model="case_details.vehicle_make" capitalize>
+											   </div>
+
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													<div  ng-class="{label_display : active_lable}" class="label_display">Vehicle No.</div>
+													<input class="form-control border_none" type="text" placeholder="Vehicle Reg. No." name="vehiclemake" ng-model="case_details.vehicle_reg_no" capitalize autocomplete="off">
+												   </div>
+											   
+											  
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												
+												   <div  ng-class="{label_display : active_lable}" class="label_display">Breakdown Location</div>
+											   <input class="form-control border_none uppercase" type="text" placeholder="Breakdown Location"  name="breakdownlocation" ng-model="case_details.breakdown_location" capitalize autocomplete="off">
+											
+											   </div>
+
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+									<div class="star">*</div>
+								   <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+								   
+		                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Company</div>
+		                                 <select class="form-control border_none color_f" name="company" data-ng-model="case_details.company_id" ng-required="true">
+		                             <option value="">Select Company</option>
+		                             <option ng-repeat="data in location_details" value="{{data.id}}" ng-selected="case_details.company_id == data.id">{{data.company_address}},{{data.city}}</option>
+		                           </select>
+								   <div ng-messages="details.company.$error" ng-show="details.company.$dirty">
+										<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+									 </div>
+							   </div>
+							   <style>
+								.approve_color{
+									color:#0088ff
+								}
+							</style>
+											   
+										   </div>
+	   
+										   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+											   <br>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Client Company</div>
+												 
+												   <select class="form-control border_none color_f" ng-model="client" ng-change="get_tax_name(client)">
+													<option value="">Select Client</option>
+													<!-- <option value="cash">Cash Client</option> -->
+													<option ng-repeat="data in client_company" value="{{data}}" ng-selected="data.id==case_details.client_company">{{data.client_name}}</option>
+												</select>
+												
+											   </div>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Client Location</div>
+												 
+												<select class="form-control border_none color_f" name="client_location" ng-model="client_location" ng-change="set_location_id(client_location)">
+													<option value="" ng-selected="selected" >Client Location</option>
+													<option ng-repeat="data in client_location_details" value="{{data}}" ng-selected="case_details.client_location_id==data.id">{{data.city}},{{data.state_name}}</option>
+													
+												</select>
+												
+											   </div>
+
+											   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-if="client=='cash'">
+												   
+													<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Tax Type</div>
+													 
+													   <select class="form-control border_none color_f" ng-model="case_details.tax_type">
+														<option value="">Select Tax Type</option>
+														<option value="inclusive">Inclusive</option>
+														<option value="exclusive">Exclusive</option>
+													</select>
+													
+												   </div> -->
+
+												   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-if="client=='cash'">
+									   
+													<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Tax Type</div>
+													 
+													   <select class="form-control border_none color_f" ng-model="case_details.tax_type" ng-click="check_tax_type(case_details.tax_type)">
+														<option value="">Select Tax Type</option>
+														<option value="inclusive">Inclusive</option>
+														<option value="exclusive">Exclusive</option>
+													</select>
+													
+												   </div>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												   
+													<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Service Type</div>
+													
+													  <select class="form-control border_none color_f" ng-model="case_details.service_id">
+													   <option value="">Select Service</option>
+													   <option ng-repeat="data in service_data" value="{{data.servicedata[0].id}}" ng-selected="data.id==case_details.service_id">{{data.servicedata[0].service_name}}</option>
+												   </select>
+											   </div>
+
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												<div  ng-class="{label_display : active_lable}" class="label_display">ASP Contact no</div>
+										  <input class="form-control border_none uppercase" type="text" placeholder="ASP Contact no"  name="aspcontactno" ng-model="case_details.asp_contact_no" onkeypress="return isNumber(event)">
+										  
+									   
+										  </div>
+
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												
+												   
+												   <div  ng-class="{label_display : active_lable}" class="label_display">Nature of Breakdown</div>
+											   <input class="form-control border_none" type="text" placeholder="Nature of breakdown"  name="natureofbreakdown" ng-model="case_details.nature_of_breakdown"  capitalize>
+												
+											   </div>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												<div  ng-class="{label_display : active_lable}" class="label_display">Dealership name</div>
+												<input class="form-control border_none" type="text" placeholder="Dealership name"  name="dealershipname:" ng-model="case_details.dealership_name" capitalize >
+										   </div>
+				
+										   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																   
+																
+											<div  ng-class="{label_display : active_lable}" class="label_display">Dealership address</div>
+									  
+											<input class="form-control border_none" type="text" placeholder=" Dealership Address"  name="dealershipaddress" ng-model="case_details.dealership_address" capitalize autocomplete="off">
+										 
+										   
+				
+										</div>
+
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												 <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+											   
+													<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Dealership City</div>
+													
+														<input class="form-control border_none" type="text" placeholder="Dealership City"  name="asploc" ng-model="case_details.asp_location" capitalize>
+											   </div>
+									   
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   <div  ng-class="{label_display : active_lable}" class="label_display">Dealership State</div>
+												   
+											   <select class="form-control border_none color_f" ng-model="case_details.asp_state_id">
+													   <option value="">Select State</option>
+												   <option ng-repeat="data in state_list" value="{{data.id}}" ng-selected="data.id==case_details.asp_state_id">{{data.state_with_code}}</option>
+												   </select>
+											   </div>
+											   
+										   </div>
+									   </div>
+						          </div>
+
+								
+									<div class="clearfix"></div>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+										
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(2)" ng-disabled="details.$invalid">Next
+												<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+											</button>		
+											</center>
+									</div>
+									</form>
+
+								  
+                                </div>
+                                </div>
+
+						<!--------------ADDRESS------------>
+
+
+                                <div class="tab-pane" id="profile1" role="tabpanel" >
+								 <form name="address">
+								  <div class="hh">
+                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+									
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+													
+														<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+															
+															   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+																   <br>
+																
+																<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																	
+																		<div  ng-class="{label_display : active_lable}" class="label_display" >Fleet Code</div>
+																		
+																			  <input class="form-control border_none" type="text" id="vehicle_code_id" placeholder="Fleet Code"  name="fleetcode" ng-model="case_details.fleet_code" ng-keyup="search_vehicle_code()" list="vehicle_code_datalist" autocomplete="off" capitalize>
+																			  <span id="f_msg">{{fleet_msg}}</span>
+																			  <datalist id="vehicle_code_datalist" >
+																					<select >
+																						<option ng-repeat="d in all_fleet_code">{{d.value}}</option>
+																					</select>
+																				</datalist>
+																
+																	
+																</div>
+															
+																<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																<div  ng-class="{label_display : active_lable}" class="label_display">Driver Name</div>
+																
+																	  <input class="form-control border_none" type="text" placeholder="Driver Name"  name="drivername" ng-model="case_details.driver_name" capitalize>
+																  
+																   
+															   </div>
+															
+					   
+															   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																	<div  ng-class="{label_display : active_lable}" class="label_display">Service end time</div>
+																	<input class="form-control border_none" type="text" placeholder="Service end time"  name="serviceendtime"  ng-model="case_details.service_end_time">
+															
+															   </div>	 -->
+														   </div>
+					   
+														   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+															   <br>
+															   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																   <div  ng-class="{label_display : active_lable}" class="label_display">Fleet Make</div>
+															   <input class="form-control border_none uppercase" type="text" placeholder="Fleet make" ng-model="case_details.fleet_make" disabled >
+															   </div>
+
+															   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																<div  ng-class="{label_display : active_lable}" class="label_display">Driver Contact</div>
+														  
+																<input class="form-control border_none" type="text" placeholder=" Driver Contact"  name="dealershipaddress" ng-model="case_details.driver_contact" capitalize>
+															</div>
+																   
+															   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																   
+																	<div  ng-class="{label_display : active_lable}" class="label_display">Service Reached on</div>
+																	<input class="form-control border_none" type="text" placeholder="Service Reached on"  name="servicereachedon:" ng-model="case_details.service_reached_on">
+															
+																
+															   </div> -->
+
+															   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																<div  ng-class="{label_display : active_lable}" class="label_display">ETA</div>
+																<input class="form-control border_none" type="text" id="timepickerc3" placeholder="ETA"  name="eta" ng-model="case_details.eta" capitalize>
+															   </div> -->
+					   
+															   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																<div  ng-class="{label_display : active_lable}" class="label_display">Handover To</div>
+																<input class="form-control border_none" type="text" placeholder="Handover to"  name="handoverto" ng-model="case_details.handover_to" capitalize>
+															   </div> -->
+														   </div>
+													   </div>
+													   
+													  
+												  </div>
+												  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+														<div ng-class="{label_display : active_lable}" class="label_display">Comments</div>
+													
+														<textarea placeholder="Comments"  class="form-control" ng-model="case_details.comments" capitalize></textarea>
+													</div>
+
+						          </div>
+								  	
+								
+									<div class="clearfix"></div>
+									</div>
+									<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(3)" >Next
+												<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+											</button>	
+											</center>
+									</div> -->
+
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_case_management_data()" >
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										</center>
+									</div>
+									 
+									</form>
+                                </div>
+								
+								<!--------------ADDRESS END------------>
+
+								<!--------------CONTACT------------>
+
+								<!-- <div class="tab-pane" id="messages1" role="tabpanel">
+								<form name="contact">
+								 <div class="hh">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+												
+											
+											<div  ng-class="{label_display : active_lable}" class="label_none">Total Service </div>
+											<input class="form-control border_none" type="text" placeholder="KMS"  name="total service" ng-model="case_details.total_service" ng-keyup="calculate_towing_charges()">
+										
+										</div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+														
+											<div  ng-class="{label_display : active_lable}" class="label_none">Towing Charges </div>
+											<input class="form-control border_none" type="text" placeholder="Towing charges"  name="towingcharges" ng-model="case_details.towing_charges">
+										
+													
+												</div>
+										</div>
+										<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+														
+												
+										<div style="margin-top: 7px;">Route Map :</div>
+									
+										<textarea placeholder="Route Map"  class="form-control" capitalize ng-model="case_details.route_map"></textarea>
+									
+										
+													
+												</div>
+												</div>
+								
+                                </div>
+								<br/>
+								
+									 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+										 <div ng-repeat="name in data.transportaion track by $index" >
+											 <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+												 <div  ng-class="{label_display : active_lable}" class="label_display">Charge</div>
+												 <select class="form-control border_none" type="text"  ng-model="data.transportaion[$index].charge_id" >
+													 <option value="" >-Select Charge-</option>
+													 <option ng-repeat="tr_charge in transportation_charges" value="{{tr_charge.id}}"   ng-selected="name.charge_id == tr_charge.id">{{tr_charge.transportation_name}}</option>
+												 </select>
+											 </div>
+
+											 <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+												 <div  ng-class="{label_display : active_lable}" class="label_display">Charges Amount</div>
+												 <input class="form-control border_none" ng-keyup="add_charge_amt($index)" ng-model="data.transportaion[$index].charge_amt" type="text" placeholder="Charges Amount">
+											 </div>
+
+											 <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+												 <div  ng-class="{label_display : active_lable}"  class="label_display">Tax rate </div>
+												 <select class="form-control border_none" type="text" ng-change="add_charge_amt($index)" ng-model="data.transportaion[$index].tax_rate" >
+													 <option value="" >-Select Tax-</option>
+													 <option   ng-repeat="tax_row in tax_list" value="{{tax_row.tax_rate}}" ng-selected="name.tax_rate == tax_row.tax_rate">{{tax_row.tax_rate}}%</option>
+												 </select>
+											 </div>
+
+
+											 <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+												 <div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount</div>
+												 <input class="form-control border_none " ng-model="data.transportaion[$index].tax_total" type="text" placeholder="Tax Total" disabled>
+											 </div>
+
+											 <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+												 <div  ng-class="{label_display : active_lable}" class="label_display">Total Charge</div>
+												 <input class="form-control border_none total_taxes"  type="text" placeholder="Total Charge" ng-model="data.transportaion[$index].total_charge" disabled>
+											 </div>
+
+
+											 <div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+												 <button ng-click="deleteRow($event,name)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;" ng-show="$index != 0">
+													 <i class="fa fa-minus" aria-hidden="true"></i>
+												 </button>
+											 </div>
+
+											 <div style="float:right" class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 " ng-show="$last">
+												 <button ng-click="addRow($index)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;">
+													 <i class="fa fa-plus" aria-hidden="true"></i>
+												 </button>
+											 </div>
+										 </div>
+									 </div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div ng-class="{label_display : active_lable}" class="label_none">Notes</div>
+									
+										<textarea placeholder="Notes"  class="form-control" capitalize ng-model="case_details.note"></textarea>
+									</div>
+
+									<div class="clearfix"></div>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_case_management_data()" >
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										</center>
+									</div>
+								
+									</form>
+                                </div> -->
+				<!---------------------PRODUCT------------------>
+                     
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                          
+                        </div>
+                    </div>
+                </div>
+<input type="hidden" id="total_amt">
+<input type="hidden" id="edit_total_val">
+<input type="hidden" id="hidden_total_val">
+
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+			</div>
+			<div class="modal-body">
+			
+				<form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+					<div class="form-group" ng-hide="gen_pass_div">
+					
+						<input class="form-control border_none"
+							   placeholder="Comment"
+							   type="text"
+							   ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+							  
+								
+					</div>
+					<div class="form-group" ng-show="otp_div">
+					
+						<input class="form-control border_none"
+							   placeholder="OTP"
+							   type="text"
+							   ng-model="otp_object.otp">
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+							<div class="col-md-6">
+							
+								<button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+								<button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="approve_msg" close-add-product tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">{{heading_msg}}</h4>
+			</div>
+			<div class="modal-body">
+				<div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div>
+				<br/>
+				<center ng-show="approve_btn">
+					<button type="button" ng-click="approve_ok_click()" class="btn btn-primary-outline margin-inline">Yes</button>
+				</center>
+				<center ng-hide="hide_app">
+					<button type="button" ng-click="approve()" class="btn btn-primary-outline margin-inline">Yes</button>
+				</center>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="enter_eta" close-otp-supp-return-update tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Enter ETA</h4>
+			</div>
+			<div class="modal-body">
+				<!-- <div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div> -->
+				<!-- <div  ng-class="{label_display : active_lable}" class="label_display">ETA</div>id="timepickerc3" -->
+					<!-- <input class="form-control border_none total_taxes" ng-model="eta" type="time" placeholder="ETA"> -->
+
+					<div class='input-group date' id='datetimepicker111'>
+                    <input type='text' id="eta" class="form-control" placeholder="ETA" ng-model="eta"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+				<br/>
+				<center>
+					<button type="button" ng-click="approve(heyyy)" ng-show="approve_btn" class="btn btn-primary-outline margin-inline">Yes</button></center>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="enter_case_cancel" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Enter Case Cancel Time</h4>
+			</div>
+			<div class="modal-body">
+				<!-- <div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div> -->
+				<!-- <div  ng-class="{label_display : active_lable}" class="label_display">ETA</div>id="timepickerc3" -->
+					<!-- <input class="form-control border_none total_taxes" ng-model="eta" type="time" placeholder="ETA"> -->
+					<input class="form-control border_none total_taxes" ng-model="travelled_km" type="text" placeholder="Travelled KM">
+		<br/>
+					<div class='input-group date' id='datetimepicker114'>
+                    <input type='text' id="case_cancel_id" class="form-control" placeholder="Case Cancel Time" ng-model="eta"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+				<br/>
+				<center>
+					<button type="button" ng-click="cancel_case()" ng-show="approve_btn" class="btn btn-primary-outline margin-inline">Yes</button></center>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker111').datetimepicker({
+                	format: 'DD/MM/YYYY HH:mm'
+                });
+            });
+</script>
+<script type="text/javascript">
+	$(function () {
+		$('#datetimepicker112').datetimepicker({
+			format: 'DD/MM/YYYY HH:mm'
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(function () {
+		$('#datetimepicker1121').datetimepicker({
+			format: 'DD/MM/YYYY HH:mm'
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(function () {
+		$('#datetimepicker113').datetimepicker({
+			format: 'DD/MM/YYYY HH:mm'
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(function () {
+		$('#datetimepicker114').datetimepicker({
+			format: 'DD/MM/YYYY HH:mm'
+		});
+	});
+</script>
+<div class="modal fade" id="cancel_msg" no-of-packets-popup tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">{{heading_msg}}</h4>
+			</div>
+			<div class="modal-body">
+				<div><span id="add_edit_success" style="font-size: 15px;">{{check_approve_msg}}</span></div>
+				<br/>
+				<center>
+					<button type="button" ng-show="approve_btn" ng-click="ok_cancel_clicked()" class="btn btn-primary-outline margin-inline">Yes</button></center>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade modal-size-large" id="add_case_closing" close-modal-three tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="loading"></div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Case Closing</h4>
+				<span id="caseError">{{case_error}}</span>
+			</div>
+			<div class="modal-body">
+
+				<form name="contact1">
+					<div class="hh">
+						<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+
+
+									<div  ng-class="{label_display : active_lable}" class="label_display">Total Service KM </div><!-- add for edit button click class 'label_display' -->
+									<input class="form-control border_none" type="text" placeholder="KMS"  name="total_service" ng-model="case_closing.close_total_service_km" ng-keyup="calculate_towing_charges(case_closing.close_total_service_km)" ng-required="true" onkeypress="return isNumber(event)" autocomplete="off">
+									<span ng-show="contact1.total_service.$invalid && !contact1.total_service.$pristine" style="color: red;font-size: 12px">
+											This field is required
+										</span>
+
+								</div>
+
+								<!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+									<div  ng-class="{label_display : active_lable}" class="label_display">Towing Charges </div>
+									<input class="form-control border_none" type="text" placeholder="Towing charges"  name="towingcharges" ng-model="case_closing.close_towing_charges" disabled>
+
+
+								</div> -->
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																   
+									<div  ng-class="{label_display : active_lable}" class="label_display">Service Reached on</div>
+									<input class="form-control border_none" type="text" placeholder="Service Reached on" id="timepickerc1"  name="servicereachedon" ng-model="case_closing.service_reached_on">
+									<div ng-messages="contact1.servicereachedon.$error" ng-show="contact1.servicereachedon.$dirty">
+										<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+									 </div>
+								
+							   </div>
+							   
+						   
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_tax_name">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display">Tax Name</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Tax Name"  name="tax_name" ng-model="case_details.tax_name" disabled ng-required="true">
+										<div ng-messages="contact1.tax_name.$error" ng-show="contact1.tax_name.$dirty">
+											<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										 </div>
+	
+									</div>
+								<div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none" ng-hide="hide_tax_rate">
+										<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+											<select class="form-control border_none" name="tax_rate" type="text" ng-model="tax" ng-change="calculate_tax_amount(tax,tax.id)" ng-required="true" disabled>
+												<option value="" >-Select Tax-</option>
+												<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="data.id == 31">{{data.tax_rate}}%</option>
+											</select>
+											<div ng-messages="contact1.tax_rate.$error" ng-show="contact1.tax_rate.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+											 </div>
+										</div>
+								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 padd_none"></div>
+								<!-- <div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none" ng-hide="hide_tax_amount">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount </div>
+										<input class="form-control border_none" type="text" placeholder="Tax Amount"  name="tax_amount" ng-model="case_closing.tax_amount" disabled>
+	
+	
+								</div> -->
+							</div>
+							<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div class="star" ng-if="case_closing.close_total_service_km > 150">*</div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+									
+									<div style="margin-top: 7px;">Route Map :</div>
+
+									<textarea placeholder="Route Map" name="routemap"  class="form-control" ng-model="case_closing.close_route_map" ng-required="route_validate()" ></textarea>
+									<span ng-show="contact1.routemap.$invalid && !contact1.routemap.$pristine">
+											<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+									</span>
+								</div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Service end time</div>
+									<input class="form-control border_none" type="text" placeholder="Service end time" id="timepickerc2"  name="serviceendtime"  ng-model="case_closing.service_end_time">
+									<div ng-messages="contact1.serviceendtime.$error" ng-show="contact1.serviceendtime.$dirty">
+										<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+									 </div>
+							   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<div  ng-class="{label_display : active_lable}" class="label_display">Handover To</div>
+								<input class="form-control border_none" type="text" placeholder="Handover to"  name="handoverto" ng-model="case_closing.handover_to" capitalize ng-required="true">
+								<div ng-messages="contact1.handoverto.$error" ng-show="contact1.handoverto.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								 </div>
+							   </div>
+
+								<!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+										<div  ng-class="{label_display : active_lable}" class="label_display">Subtotal </div>
+										<input class="form-control border_none" type="text" placeholder="Subtotal"  name="subtotal" ng-model="case_closing.subtotal" disabled>
+								</div> -->
+							</div>
+
+						</div>
+						<br/>
+							
+						<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+						<div style="font-size: 17px;font-weight: 600;margin-bottom: 10px;">Other Charges :</div>
+						<div>
+								<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:right;position:relative;top:8px;">
+                                 <b>Waiting :</b>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> No. Of Hour </div>
+								 <input class="form-control border_none uppercase" name="no_of_hour" type="text" placeholder="No. Of Hour" ng-model="case_closing.waiting_no_of_hour" ng-keyup="calc_other_total('waiting',waiting_tax)" ng-required="true">
+								 <div ng-messages="contact1.no_of_hour.$error" ng-show="contact1.no_of_hour.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								 </div>
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:40px;">*</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Base Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" name="base_amount" placeholder="Base Amount" ng-model="case_closing.waiting_base_amount" disabled ng-required="true">
+								 <div ng-messages="contact1.base_amount.$error" ng-show="contact1.base_amount.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								 </div>
+								</div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:33px;">=</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Total Amount </div>
+								 <input class="form-control border_none uppercase" name="total_amount" type="text" placeholder="Total Amount" ng-model="case_closing.waiting_total_amount" disabled ng-required="true">
+								 <div ng-messages="contact1.total_amount.$error" ng-show="contact1.total_amount.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								 </div>
+                              </div>
+							   <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+											<select class="form-control border_none" type="text" name="waiting_tax" ng-model="waiting_tax_rate" ng-change="calc_other_total('waiting',waiting_tax_rate)" ng-required="true" disabled>
+												<option value="" >Tax</option>
+												<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="case_closing.waiting_tax_id == data.id">{{data.tax_rate}}%</option>
+											</select>
+									<div ng-messages="contact1.waiting_tax.$error" ng-show="contact1.waiting_tax.$dirty">
+										<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+									</div>
+								</div>
+								 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Waiting Amount </div>
+								 <input class="form-control border_none uppercase" name="waiting_Amount" type="text" placeholder="Waiting Amount" ng-model="case_closing.waiting_total" disabled ng-required="true">
+								 <div ng-messages="contact1.waiting_Amount.$error" ng-show="contact1.waiting_Amount.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								</div>
+                              </div>
+							  <div class="clearfix"></div>
+							  </div>
+							  
+							  <div>
+								<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:right;position:relative;top:8px;">
+                                 <b>Custody :</b>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> No. Of Hour </div>
+                                 <input class="form-control border_none uppercase" type="text" name="custody_no_of_hr" placeholder="No. Of Hour" ng-model="case_closing.custody_no_of_hour" ng-keyup="calc_other_total('custody',custody_tax)" ng-required="true">
+								 <div ng-messages="contact1.custody_no_of_hr.$error" ng-show="contact1.custody_no_of_hr.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								</div>
+								</div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:40px;">*</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Base Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" name="custody_base_amount" placeholder="Base Amount" ng-model="case_closing.custody_base_amount" disabled ng-required="true">
+								 <div ng-messages="contact1.custody_base_amount.$error" ng-show="contact1.custody_base_amount.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								</div>
+								</div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:33px;">=</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Total Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" name="custody_total_amount" placeholder="Total Amount" ng-model="case_closing.custody_total_amount" disabled ng-required="true">
+								 <div ng-messages="contact1.custody_total_amount.$error" ng-show="contact1.custody_total_amount.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								</div>
+								</div>
+							   <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+											<select class="form-control border_none" type="text" name="custody_tax_rate" ng-model="custody_tax_rate" ng-change="calc_other_total('custody',custody_tax_rate)" ng-required="true" disabled>
+												<option value="" >Tax</option>
+												<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="case_closing.custody_tax_id == data.id">{{data.tax_rate}}%</option>
+											</select>
+											<div ng-messages="contact1.custody_tax_rate.$error" ng-show="contact1.custody_tax_rate.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+											</div>
+								</div>
+								 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Custody Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" name="custody_amount" placeholder="Custody Amount" ng-model="case_closing.custody_total" disabled ng-required="true">
+								 <div ng-messages="contact1.custody_amount.$error" ng-show="contact1.custody_amount.$dirty">
+									<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+								</div>
+								</div>
+							  <div class="clearfix"></div>
+							  </div>
+							  
+                           </div>
+						<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+						<div style="font-size: 17px;font-weight: 600;margin-bottom: 10px;">Additional Services :</div>
+							<div ng-repeat="name in data.transportaion track by $index" >
+								<div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Add. Services</div>
+									<select class="form-control border_none" type="text"  ng-model="data.transportaion[$index].transportation_charge_id" disabled>
+										<option value="" >-Select Add. Service-</option>
+										<option ng-repeat="tr_charge in transportation_charges" value="{{tr_charge.id}}"   ng-selected="name.transportation_charge_id == tr_charge.id">{{tr_charge.transportation_name}}</option>
+									</select>
+								</div>
+
+								<div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Add. Services Amount</div>
+									<input class="form-control border_none" ng-keyup="add_charge_amt($index)" ng-model="data.transportaion[$index].charge_amount" type="text" placeholder="Add. Service Amount" onkeypress="return isNumber(event)" ng-required="true">
+								</div>
+
+								<div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+									<div  ng-class="{label_display : active_lable}"  class="label_display">Tax rate </div>
+									<select class="form-control border_none" type="text" ng-change="add_charge_amt($index)" ng-model="data.transportaion[$index].tax_rate" disabled>
+										<option value="" >-Select Tax-</option>
+										<option   ng-repeat="tax_row in tax_list" value="{{tax_row}}" ng-selected="name.tax_id[0].id == tax_row.id">{{tax_row.tax_rate}}%</option>
+									</select>
+								</div>
+								
+								<!-- <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount</div>
+									<input class="form-control border_none " ng-model="data.transportaion[$index].tax_total" type="text" placeholder="Tax Total" disabled>
+								</div>
+
+								<div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Total Charge</div>
+									<input class="form-control border_none total_taxes"  type="text" placeholder="Total Charge" ng-model="data.transportaion[$index].total_charge_amount" disabled>
+								</div> -->
+
+
+								<div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+									<button ng-click="deleteRow($event,name)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;" ng-show="$index != 0">
+										<i class="fa fa-minus" aria-hidden="true"></i>
+									</button>
+								</div>
+
+								<div style="float:right" class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 " ng-show="$last">
+									<button ng-click="addRow($index)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div>Grand Total : {{total}}</div>
+						<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div ng-class="{label_display : active_lable}" class="label_display">Notes</div>
+
+							<textarea placeholder="Notes"  class="form-control" capitalize ng-model="case_closing.close_notes"></textarea>
+						</div>
+
+						<div class="clearfix"></div>
+						
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<center>
+								<button class="btn btn-success-outline margin-inline" type="button" ng-disabled="contact1.$invalid" ng-click="save_case_closing_data()">
+									<span class="top_p"><i class="icmn-share2"></i></span> Save
+								</button>
+							</center>
+						</div>
+					<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_edit">
+						<center>
+							<button class="btn btn-success-outline margin-inline" type="button" ng-click="update_case_management_data()" >
+								<span class="top_p"><i class="icmn-share2"></i></span> Update
+							</button>
+						</center>
+					</div>-->
+					<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <center>
+
+                            <button class="btn btn-success-outline margin-inline" type="button" ng-click="ShowTab(3)" ng-disabled="address.$invalid">Save
+                                <span class="top_p"> </span>
+                            </button>
+                            </center>
+                    </div>-->
+				</form>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade modal-size-large" id="edit_case_details" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="loading"></div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bgcolor">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="reload_modal()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Case Management</h4>
+				<span id="caseError">{{case_error}}</span>
+			</div> 
+			<div class="modal-body">
+				<div class="nav-tabs-horizontal">
+			<ul class="nav nav-tabs" role="tablist">
+				<li class=" nav-item"  role="presentation">
+					<a class="nav-link active" role="tab" data-target="#home11" data-toggle="tab" id="11">General Details</a>
+				</li>
+		   
+				<li class="nav-item">
+					<a class="nav-link " role="tab" data-target="#profile11" data-toggle="tab" id="21">Fleet Details</a>
+				</li>
+			  
+				<li class="nav-item" ng-hide="hide_case_closing" >
+					<a class="nav-link" role="tab" data-target="#messages11" data-toggle="tab" id="31">Case Closing</a>
+				</li>
+			  
+			</ul>
+			<div class="tab-content padding-vertical-20">
+				<div class="tab-pane active"  id="home11" role="tabpanel">
+				   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<form name="details">
+				  <div class="hh">
+					 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+					
+						<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							
+							   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+								   <br>
+								
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									
+								  
+									<div  ng-class="{label_display : active_lable}" class="label_display"> Date</div>
+									<input class="form-control border_none" type="text" name="invoicedate" placeholder=" Date" id="datetimepicker3" ng-model="case_details.case_date">
+									
+									
+								</div>
+							
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_case_no">
+								<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Case No</div>
+								
+									  <input class="form-control border_none" type="text" placeholder="Case No"  name="caseno" ng-model="case_details.case_no" disabled>
+								  
+								   
+							   </div>
+
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<div  ng-class="{label_display : active_lable}" class="label_display">Case Time</div>
+						  <!--  <input class="form-control border_none uppercase" type="text" placeholder="Time" ng-model="case_details.case_time">-->
+							<input class="form-control border_none" type="text" placeholder="Case Time" id="timepickerc" ng-model="case_details.case_time" onblur="test()">
+						   
+							</div>
+
+						 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+							 <div  ng-class="{label_display : active_lable}" class="label_display">Case Activation Time</div>
+					   <!--  <input class="form-control border_none uppercase" type="text" placeholder="Time" ng-model="case_details.case_time">-->
+					   <div class='input-group date' id='datetimepicker1121'>
+						 <input type='text' id="case_activation_time1" class="form-control border_none" placeholder="Case Activation Time" ng-model="case_details.case_activation_time"/>
+						 <span class="input-group-addon">
+							 <span class="glyphicon glyphicon-calendar"></span>
+						 </span>
+					 </div>
+						
+						 </div>
+							
+
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Ticket No</div>
+									<input class="form-control border_none" type="text" placeholder="Ticket No"  name="ticketno" ng-model="case_details.ticket_no" capitalize autocomplete="off">
+							
+							   </div>	
+							   
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								
+								   <div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Customer Name</div>
+							 
+								   <input class="form-control border_none" type="text" placeholder=" Customer Name"  name="customername" ng-model="case_details.customer_name" ng-keyup="check_customer_status()" capitalize autocomplete="off">
+
+							   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								  
+								 
+								<div  ng-class="{label_display : active_lable}" class="label_display">Mobile No</div>
+								<input class="form-control border_none" type="text" placeholder="Mobile No"  name="mobileno" ng-model="case_details.mobile_no" ng-keyup="check_customer_status()" onkeypress="return isNumber(event)" autocomplete="off">
+							   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<div  ng-class="{label_display : active_lable}" class="label_display">Vehicle Make</div>
+								<input class="form-control border_none" type="text" placeholder="Vehicle Make" name="vehiclemake" ng-model="case_details.vehicle_make" capitalize >
+							   </div>
+							   
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Vehicle No.</div>
+									<input class="form-control border_none" type="text" placeholder="Vehicle Reg. No." name="vehiclemake" ng-model="case_details.vehicle_reg_no" capitalize autocomplete="off">
+								   </div>
+							  
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								
+								   <div  ng-class="{label_display : active_lable}" class="label_display">Breakdown Location</div>
+							   <input class="form-control border_none uppercase" type="text" placeholder="Breakdown Location"  name="breakdownlocation" ng-model="case_details.breakdown_location" capitalize>
+							
+							   </div>	
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								
+								   <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+								   <div class="star">*</div>
+		                                 <div  ng-class="{label_display : active_lable}" class=" label_display ">Company</div>
+		                                 <select class="form-control border_none color_f" name="company" data-ng-model="case_details.company_id" ng-required="true">
+		                             <option value="">Select Company</option>
+		                             <option ng-repeat="data in location_details" value="{{data.id}}">{{data.company_address}},{{data.city}}</option>
+								   </select>
+								   <div ng-messages="details.company.$error" ng-show="details.company.$dirty">
+										<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+									 </div>
+							
+							   </div>
+						   </div>
+
+						   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+							   <br>
+							   	<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+									<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Client Company</div>
+									 
+									   <select class="form-control border_none color_f" ng-model="client" ng-change="get_tax_name(client)">
+										<option value="">Select Client</option>
+										<!-- <option value="cash" ng-selected="case_details.client_id=='cash'">Cash Client</option> -->
+										<option ng-repeat="data in client_company" value="{{data}}" ng-selected="data.id==case_details.client_id">{{data.client_name}}</option>
+									</select>
+									
+								</div>
+
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+									<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Client Location</div>
+									 
+									<select class="form-control border_none color_f" name="client_location" ng-model="client_location" ng-change="set_location_id(client_location)">
+										<option value="" ng-selected="selected" >Client Location</option>
+										<option ng-repeat="data in client_location_details" value="{{data}}" ng-selected="case_details.client_location_id==data.id">{{data.city}},{{data.state_name}}</option>
+										
+									</select>
+									
+								   </div>
+
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-if="case_details.client_id=='cash'">
+									   
+										<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Tax Type</div>
+										 
+										   <select class="form-control border_none color_f" ng-model="case_details.tax_type" ng-click="check_tax_type(case_details.tax_type)">
+											<option value="">Select Tax Type</option>
+											<option value="inclusive">Inclusive</option>
+											<option value="exclusive">Exclusive</option>
+										</select>
+										
+									   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								   
+									<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Service Type</div>
+									
+									  <select class="form-control border_none color_f" ng-model="case_details.service_id" ng-change="check_tax_type(case_details.tax_type)">
+									   <option value="">Select Service</option>
+									   <option ng-repeat="data in service_data" value="{{data.servicedata[0].id}}" ng-selected="data.servicedata[0].id==case_details.service_id">{{data.servicedata[0].service_name}}</option>
+								   </select>
+							   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   
+								<div  ng-class="{label_display : active_lable}" class="label_display">ASP Contact no</div>
+						  <input class="form-control border_none uppercase" type="text" placeholder="ASP Contact no"  name="aspcontactno" ng-model="case_details.asp_contact_no" capitalize onkeypress="return isNumber(event)">
+						  
+					   
+						  </div>
+
+							   
+
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								
+								   
+								   <div  ng-class="{label_display : active_lable}" class="label_display">Nature of Breakdown</div>
+							   <input class="form-control border_none" type="text" placeholder="Nature of breakdown"  name="natureofbreakdown" ng-model="case_details.nature_of_breakdown" capitalize >
+								
+							   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<div  ng-class="{label_display : active_lable}" class="label_display">Dealership name</div>
+								<input class="form-control border_none" type="text" placeholder="Dealership name"  name="dealershipname:" ng-model="case_details.dealership_name" capitalize >
+						   </div>
+
+						   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												
+							<div  ng-class="{label_display : active_lable}" class="label_display">Dealership address</div>
+					  
+							<input class="form-control border_none" type="text" placeholder=" Dealership Address"  name="dealershipaddress" ng-model="case_details.dealership_address" capitalize autocomplete="off">
+						 
+						   
+
+						</div>
+
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								 <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+							   
+									<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Dealership City</div>
+									
+										<input class="form-control border_none" type="text" placeholder="Dealership City"  name="asploc" ng-model="case_details.asp_location" capitalize autocomplete="off">
+							   </div>
+					   
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								   <div  ng-class="{label_display : active_lable}" class="label_display">Dealership State</div>
+								   
+							   <select class="form-control border_none color_f" ng-model="case_details.asp_state_id">
+									   <option value="">Select State</option>
+								   <option ng-repeat="data in state_list" value="{{data.id}}" ng-selected="data.id==case_details.asp_state_id">{{data.state_with_code}}</option>
+								   </select>
+							   </div>
+							   
+						   </div>
+					   </div>
+				  </div>
+
+				
+					<div class="clearfix"></div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<center>
+						
+							<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(21)" ng-disabled="details.$invalid">Next
+								<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+							</button>		
+							</center>
+					</div>
+					</form>
+
+				  
+				</div>
+				</div>
+
+		<!--------------ADDRESS------------>
+
+
+				<div class="tab-pane" id="profile11" role="tabpanel" >
+				 <form name="address">
+				  <div class="hh">
+					 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+					
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+									
+										<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											
+											   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+	   
+												<br>
+												<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													
+														<div  ng-class="{label_display : active_lable}" class="label_display" >Fleet Code</div>
+														
+															  <input class="form-control border_none" type="text" id="vehicle_code_id1" placeholder="Fleet Code"  name="fleetcode" ng-model="case_details.fleet_code" ng-keyup="search_vehicle_code1()" capitalize list="vehicle_code_datalist" autocomplete="off">
+															  <datalist id="vehicle_code_datalist" >
+																	<select >
+																		<option ng-repeat="d in all_fleet_code">{{d.value}}</option>
+																	</select>
+																</datalist>
+												
+													
+												</div>
+											
+												<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												<div  ng-class="{label_display : active_lable}" class="label_display">Driver Name</div>
+												
+													  <input class="form-control border_none" type="text" placeholder="Driver Name"  name="drivername" ng-model="case_details.driver_name" capitalize autocomplete="off">
+												  
+												   
+											   </div>
+											
+	   
+											   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													<div  ng-class="{label_display : active_lable}" class="label_display">Service end time</div>
+													<input class="form-control border_none" type="text" placeholder="Service end time"  name="serviceendtime"  ng-model="case_details.service_end_time" capitalize>
+											
+											   </div>	 -->
+										   </div>
+	   
+										   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+											   <br>
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												  
+												   <div  ng-class="{label_display : active_lable}" class="label_display">Fleet Make</div>
+											   <input class="form-control border_none uppercase" type="text" placeholder="Fleet make" ng-model="case_details.fleet_make" disabled capitalize>
+											   
+												
+											   </div>
+												   
+											   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+													<div  ng-class="{label_display : active_lable}" class="label_display">Service Reached on</div>
+													<input class="form-control border_none" type="text" placeholder="Service Reached on"  name="servicereachedon:" ng-model="case_details.service_reached_on" capitalize>
+											
+												
+											   </div> -->
+											   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												   
+												 
+													<div  ng-class="{label_display : active_lable}" class="label_display">Driver Contact</div>
+													<input class="form-control border_none" type="text" placeholder="Driver Contact"  name="dealershipname:" ng-model="case_details.driver_contact" capitalize autocomplete="off">
+											   </div>
+
+											   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												<div  ng-class="{label_display : active_lable}" class="label_display">ETA</div>
+												<input class="form-control border_none" type="text" id="timepickerc7" placeholder="ETA"  name="eta" ng-model="case_details.eta" capitalize>
+											   </div> -->
+											   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+												   
+												  
+												 
+												<div  ng-class="{label_display : active_lable}" class="label_display">Handover To</div>
+												<input class="form-control border_none" type="text" placeholder="Handover to"  name="handoverto" ng-model="case_details.handover_to" capitalize>
+											   </div> -->
+										   </div>
+									   </div>
+									   
+									  
+								  </div>
+								  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div ng-class="{label_display : active_lable}" class="label_display">Comments</div>
+									
+										<textarea placeholder="Comments"  class="form-control" capitalize ng-model="case_details.comments"></textarea>
+									</div>
+
+				  </div>
+					  
+				
+					<div class="clearfix"></div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_next">
+							<center>
+							
+							<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(31)" >Next
+								<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+							</button>	
+							</center>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_update">
+						<center>
+							<button class="btn btn-success-outline margin-inline" type="button" ng-click="update_case_management_data()" >
+								<span class="top_p"><i class="icmn-share2"></i></span> Update
+							</button>
+						</center>
+					</div>
+					<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_ok_1">
+							<center>
+								<button class="btn btn-success-outline margin-inline" type="button" data-dismiss="modal">
+									<span class="top_p"><i class="icmn-share2"></i></span> Ok
+								</button>
+							</center>
+						</div> -->
+					 
+					</form>
+				</div>
+				
+				<!--------------ADDRESS END------------>
+
+				<!--------------CONTACT------------>
+
+				<div class="tab-pane" id="messages11" role="tabpanel">
+				<form name="contact">
+				 <div class="hh">
+				   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+								
+							
+							<div  ng-class="{label_display : active_lable}" class="label_display">Total Service KM </div><!-- add for edit button click class 'label_display' -->
+							<input class="form-control border_none" type="text" placeholder="KMS"  name="total service" ng-model="case_closing.close_total_service_km" ng-keyup="calculate_towing_charges(case_closing.close_total_service_km)" onkeypress="return isNumber(event)" autocomplete="off">
+						
+						</div>
+						
+						<!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										
+							<div  ng-class="{label_display : active_lable}" class="label_display">Towing Charges </div>
+							<input class="form-control border_none" type="text" placeholder="Towing charges"  name="towingcharges" ng-model="case_closing.close_towing_charges" disabled>
+						
+									
+								</div> -->
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Service end time</div>
+									<input class="form-control border_none" type="text" placeholder="Service end time" id="timepickerc5"  name="serviceendtime"  ng-model="case_closing.service_end_time">
+							
+							   </div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_tax_name">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display">Tax Name</div><!-- add for edit button click class 'label_display' -->
+										<input class="form-control border_none" type="text" placeholder="Tax Name"  name="tax_name" ng-model="case_details.tax_name" disabled>
+	
+	
+									</div>
+								<div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none" ng-hide="hide_tax_rate">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+											<select class="form-control border_none" type="text" ng-model="tax" ng-change="calculate_tax_amount(tax)" disabled >
+												<option value="" >-Select Tax-</option>
+												<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="service_tax_id == data.id">{{data.tax_rate}}%</option>
+											</select>
+	
+	
+								</div>
+								
+
+								<!-- <div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none" ng-hide="hide_tax_amount">
+
+										<div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount </div>
+										<input class="form-control border_none" type="text" placeholder="Tax Amount"  name="tax_amount" ng-model="case_closing.tax_amount" disabled>
+	
+	
+								</div> -->
+						</div>
+						<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+										
+								
+						<div style="margin-top: 7px;">Route Map :</div>
+					
+						<textarea placeholder="Route Map" name="routemap"  class="form-control" ng-model="case_closing.close_route_map" ng-required="route_validate()" ></textarea>
+									<span ng-show="contact1.routemap.$invalid && !contact1.routemap.$pristine">
+										This field is required
+									</span>
+					
+						
+									
+								</div>
+								<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																   
+									<div  ng-class="{label_display : active_lable}" class="label_display">Service Reached on</div>
+									<input class="form-control border_none" type="text" placeholder="Service Reached on" id="timepickerc6"  name="servicereachedon:" ng-model="case_closing.service_reached_on">
+							
+								
+							   </div>
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<div  ng-class="{label_display : active_lable}" class="label_display">Handover To</div>
+								<input class="form-control border_none" type="text" placeholder="Handover to"  name="handoverto" ng-model="case_closing.handover_to" capitalize autocomplete="off">
+							   </div>
+							   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+								<div  ng-class="{label_display : active_lable}" class="label_display">Subtotal </div>
+								<input class="form-control border_none" type="text" placeholder="Subtotal"  name="subtotal" ng-model="case_closing.subtotal" disabled>
+							</div> -->
+								</div>
+
+								
+				
+				</div>
+				<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+						<div style="font-size: 17px;font-weight: 600;margin-bottom: 10px;">Other Charges :</div>
+						<div>
+								<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:right;position:relative;top:8px;">
+                                 <b>Waiting :</b>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> No. Of Hour </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="No. Of Hour" ng-model="case_closing.waiting_no_of_hour" ng-keyup="calc_other_total('waiting',waiting_tax)">
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:40px;">*</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Base Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="Base Amount" ng-model="case_closing.waiting_base_amount" disabled>
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:33px;">=</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Total Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="Total Amount" ng-model="case_closing.waiting_total_amount" disabled>
+                              </div>
+							  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+								<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+									<select class="form-control border_none" type="text" ng-model="waiting_tax_rate" ng-change="calc_other_total('waiting',waiting_tax_rate)" disabled>
+										<option value="" >Tax</option>
+										<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="case_closing.waiting_tax_id == data.id">{{data.tax_rate}}%</option>
+									</select>
+
+
+						</div>
+								 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Waiting Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="Waiting Amount" ng-model="case_closing.waiting_total" disabled>
+                              </div>
+							  <div class="clearfix"></div>
+							  </div>
+							  
+							  <div>
+								<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:right;position:relative;top:8px;">
+                                 <b>Custody :</b>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> No. Of Hour </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="No. Of Hour" ng-model="case_closing.custody_no_of_hour" ng-keyup="calc_other_total('custody',custody_tax)">
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:40px;">*</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Base Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="Base Amount" ng-model="case_closing.custody_base_amount" disabled>
+                              </div>
+                              <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+                                 <span style="font-size:33px;">=</span>
+                              </div>
+                              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							  <div  ng-class="{label_display : active_lable}" class="label_display"> Total Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="Total Amount" ng-model="case_closing.custody_total_amount" disabled>
+                              </div>
+							  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+								<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+									<select class="form-control border_none" type="text" ng-model="custody_tax_rate" ng-change="calc_other_total('custody',custody_tax_rate)" disabled>
+										<option value="" >Tax</option>
+										<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="case_closing.custody_tax_id == data.id">{{data.tax_rate}}%</option>
+									</select>
+
+
+						</div>
+								 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Custody Amount </div>
+                                 <input class="form-control border_none uppercase" type="text" placeholder="Custody Amount" ng-model="case_closing.custody_total" disabled>
+                              </div>
+							  <div class="clearfix"></div>
+							  </div>
+							  
+                           </div>
+
+					 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+					 <div style="font-size: 17px;font-weight: 600;margin-bottom: 10px;">Additional Services :</div>
+					 
+						 <div ng-repeat="name in data.transportaion track by $index" >
+							 <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+								 <div  ng-class="{label_display : active_lable}" class="label_display">Add. Services</div>
+								 <select class="form-control border_none" type="text"  ng-model="data.transportaion[$index].transportation_charge_id" >
+									 <option value="" >-Select Add. Service-</option>
+									 <option ng-repeat="tr_charge in transportation_charges" value="{{tr_charge.id}}"   ng-selected="name.transportation_charge_id == tr_charge.id">{{tr_charge.transportation_name}}</option>
+								 </select>
+							 </div>
+
+							 <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+								 <div  ng-class="{label_display : active_lable}" class="label_display">Add. Service Amount</div>
+								 <input class="form-control border_none" ng-keyup="add_charge_amt($index)" ng-model="data.transportaion[$index].charge_amount" type="text" placeholder="Add. Service Amount" onkeypress="return isNumber(event)" autocomplete="off">
+							 </div>
+
+							 <!-- <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+								 <div  ng-class="{label_display : active_lable}"  class="label_display">Tax rate </div>
+								 <select class="form-control border_none" type="text" ng-change="add_charge_amt($index)" ng-model="data.transportaion[$index].tax_id" >
+									 <option value="" >-Select Tax-</option>
+									 <option   ng-repeat="tax_row in tax_list" value="{{tax_row}}" ng-selected="name.tax_id == tax_row.id">{{tax_row.tax_rate}}%</option>
+								 </select>
+							 </div> -->
+							 <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+									<div  ng-class="{label_display : active_lable}"  class="label_display">Tax rate </div>
+									<select class="form-control border_none" type="text" ng-change="add_charge_amt($index)" ng-model="data.transportaion[$index].tax_id" >
+										<option value="" >-Select Tax-</option>
+										<option   ng-repeat="tax_row in tax_list" value="{{tax_row}}" ng-selected="name.tax_id == tax_row.id">{{tax_row.tax_rate}}%</option>
+									</select>
+								</div>
+
+							 <!-- <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+								 <div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount</div>
+								 <input class="form-control border_none " ng-model="data.transportaion[$index].tax_total" type="text" placeholder="Tax Total" disabled>
+							 </div>
+
+							 <div class="top_t col-lg-2 col-md-2 col-sm-2 col-xs-12 ">
+								 <div  ng-class="{label_display : active_lable}" class="label_display">Total Charge</div>
+								 <input class="form-control border_none total_taxes"  type="text" placeholder="Total Charge" ng-model="data.transportaion[$index].total_charge_amount" disabled>
+							 </div> -->
+
+
+							 <div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+								 <button ng-click="deleteRow($event,name)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;" ng-show="$index != 0">
+									 <i class="fa fa-minus" aria-hidden="true"></i>
+								 </button>
+							 </div>
+
+							 <div style="float:right" class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 " ng-show="$last">
+								 <button ng-click="addRow($index)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;">
+									 <i class="fa fa-plus" aria-hidden="true"></i>
+								 </button>
+							 </div>
+						 </div>
+					 </div>
+					 <!-- <div>Grand Total : {{total}}</div> -->
+				<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div ng-class="{label_display : active_lable}" class="label_display">Notes</div>
+					
+						<textarea placeholder="Notes"  class="form-control" capitalize ng-model="case_closing.close_notes"></textarea>
+					</div>
+					
+
+					<div class="clearfix"></div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_last_update" >
+						<center>
+							<button class="btn btn-success-outline margin-inline" type="button" ng-click="update_case_management_data()" >
+								<span class="top_p"><i class="icmn-share2"></i></span> Update
+							</button>
+						</center>
+					</div>
+					<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_ok">
+							<center>
+								<button class="btn btn-success-outline margin-inline" type="button" ng-click="reload_modal()">
+									<span class="top_p"><i class="icmn-share2"></i></span> Ok
+								</button>
+							</center>
+						</div> -->
+				
+			<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<center>
+					
+					<button class="btn btn-success-outline margin-inline" type="button" ng-click="ShowTab(3)" ng-disabled="address.$invalid">Save
+						<span class="top_p"> </span>
+					</button>	
+					</center>
+			</div>-->
+					</form>
+				</div>
+<!---------------------PRODUCT------------------>
+	 
+			</div>
+		</div>
+			</div>
+		<div class="clearfix"></div>
+		  
+		</div>
+	</div>
+</div>
+<style>
+.ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+			
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+         
+        }
+    });
+</script>
+	
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+	$('select').on('blur', function(){
+	   $(this).prev('div').removeClass('label_none').addClass('label_display');
+	}).on('focus', function(){
+	  $(this).prev('div').removeClass('label_none').addClass('label_display');
+	});
+	
+	</script>
+	<script type="text/javascript">
+		$('textarea').on('blur', function(){
+		   $(this).prev('div').removeClass('label_none').addClass('label_display');
+		}).on('focus', function(){
+		  $(this).prev('div').removeClass('label_none').addClass('label_display');
+		});
+		
+		</script>
+<script type="text/javascript">
+	$('#datetimepicker1').datepicker({
+	  changeMonth: true,
+	 changeYear: true,
+	  yearRange: '2000:2060' ,
+	  dateFormat:'dd/mm/yy'
+	
+	});
+	$('#datetimepicker2').datepicker({
+	  changeMonth: true,
+	 changeYear: true,
+	  yearRange: '2000:2060' ,
+	  dateFormat:'dd/mm/yy'
+	
+	});
+	$('#datetimepicker3').datepicker({
+	  changeMonth: true,
+	 changeYear: true,
+	  yearRange: '2000:2060' ,
+	  dateFormat:'dd/mm/yy'
+	
+	});
+	$('#datetimepicker31').datepicker({
+	  changeMonth: true,
+	 changeYear: true,
+	  yearRange: '2000:2060' ,
+	  dateFormat:'dd/mm/yy'
+	
+	});
+	// $('#timepickerc').datepicker({
+	//   dateFormat:'hh:mm:ss'
+	
+	// });
+	</script>
+	<script type="text/javascript">
+		$(function() {
+		  $('#timepickerc').timepicker({
+			//format: 'LT'
+			//language: 'en',
+			pick24HourFormat: true
+		  });
+		});
+		$(function() {
+		  $('#timepickerc1').timepicker({
+			//format: 'LT'
+			//language: 'en',
+			pick24HourFormat: true
+		  });
+		});
+		$(function() {
+		  $('#timepickerc2').timepicker({
+			//format: 'LT'
+			//language: 'en',
+			pick24HourFormat: true
+		  });
+		});
+		// $(function() {
+		//   $('#timepickerc3').timepicker({
+		// 	//format: 'LT'
+		// 	//language: 'en',
+		// 	pick12HourFormat: true
+		//   });
+		// });
+		$(function() {
+		  $('#timepickerc4').timepicker({
+			//format: 'LT'
+			//language: 'en',
+			pick24HourFormat: true
+		  });
+		});
+		$(function() {
+		  $('#timepickerc5').timepicker({
+			//format: 'LT'
+			//language: 'en',
+			pick24HourFormat: true
+		  });
+		});
+		$(function() {
+		  $('#timepickerc6').timepicker({
+			//format: 'LT'
+			//language: 'en',
+			pick24HourFormat: true
+		  });
+		});
+		// $(function() {
+		//   $('#timepickerc7').timepicker({
+		// 	//format: 'LT'
+		// 	//language: 'en',
+		// 	pick12HourFormat: true
+		//   });
+		// });
+
+	  </script>
+	  <script>
+	 
+	//  $(function() {
+	// 	  $('#pagal').timepicker({
+	// 		//format: 'LT'
+	// 		//language: 'en',
+	// 		pick12HourFormat: true
+	// 	  });
+	// 	});
+
+		 
+	  </script>
+	 <style>
+	  .timepicker .title{display: none;margin-top:10px;}
+	</style> 
+
+
+<div class="modal fade modal-size-large" id="view_case_details" close-modal-one tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+		<div class="loading"></div>
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header bgcolor">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Case Management</h4>
+					
+				</div> 
+				<div class="modal-body">
+					<div class="nav-tabs-horizontal">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class=" nav-item"  role="presentation">
+						<a class="nav-link active" role="tab" data-target="#home111" data-toggle="tab" id="111">General Details</a>
+					</li>
+			   
+					<li class="nav-item">
+						<a class="nav-link " role="tab" data-target="#profile111" data-toggle="tab" id="211">Fleet Details</a>
+					</li>
+				  
+					<li class="nav-item" ng-hide="hide_case_closing" >
+						<a class="nav-link" role="tab" data-target="#messages111" data-toggle="tab" id="311">Case Closing</a>
+					</li>
+				  
+				</ul>
+				<div class="tab-content padding-vertical-20">
+					<div class="tab-pane active"  id="home111" role="tabpanel">
+					   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<form name="details">
+					  <div class="hh">
+						 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+						
+							<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+								   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+									   <br>
+									
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										
+									  
+										<div  ng-class="{label_display : active_lable}" class="label_display"> Date</div>
+										<input class="form-control border_none" type="text" name="invoicedate" placeholder=" Date" id="datetimepicker3" ng-model="case_details.case_date">
+										
+										
+									</div>
+								
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_case_no">
+									<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Case No</div>
+									
+										  <input class="form-control border_none" type="text" placeholder="Case No"  name="caseno" ng-model="case_details.case_no" disabled>
+									  
+									   
+								   </div>
+	
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Case Time</div>
+							  <!--  <input class="form-control border_none uppercase" type="text" placeholder="Time" ng-model="case_details.case_time">-->
+								<input class="form-control border_none" type="text" placeholder="Case Time" id="timepickerc" ng-model="case_details.case_time" onblur="test()">
+							   
+								</div>
+	
+							 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								 <div  ng-class="{label_display : active_lable}" class="label_display">Case Activation Time</div>
+						   <!--  <input class="form-control border_none uppercase" type="text" placeholder="Time" ng-model="case_details.case_time">-->
+						   <div class='input-group date' id='datetimepicker112'>
+							 <input type='text' id="case_activation_time" class="form-control border_none" placeholder="Case Activation Time" ng-model="case_details.case_activation_time"/>
+							 <span class="input-group-addon">
+								 <span class="glyphicon glyphicon-calendar"></span>
+							 </span>
+						 </div>
+							
+							 </div>
+								
+	
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										<div  ng-class="{label_display : active_lable}" class="label_display">Ticket No</div>
+										<input class="form-control border_none" type="text" placeholder="Ticket No"  name="ticketno" ng-model="case_details.ticket_no" capitalize autocomplete="off">
+								
+								   </div>	
+								   
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   
+									
+									   <div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Customer Name</div>
+								 
+									   <input class="form-control border_none" type="text" placeholder=" Customer Name"  name="customername" ng-model="case_details.customer_name" ng-keyup="check_customer_status()" capitalize autocomplete="off">
+	
+								   </div>
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   
+									  
+									 
+									<div  ng-class="{label_display : active_lable}" class="label_display">Mobile No</div>
+									<input class="form-control border_none" type="text" placeholder="Mobile No"  name="mobileno" ng-model="case_details.mobile_no" ng-keyup="check_customer_status()" onkeypress="return isNumber(event)" autocomplete="off">
+								   </div>
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Vehicle Make</div>
+									<input class="form-control border_none" type="text" placeholder="Vehicle Make" name="vehiclemake" ng-model="case_details.vehicle_make" capitalize >
+								   </div>
+								   
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										<div  ng-class="{label_display : active_lable}" class="label_display">Vehicle No.</div>
+										<input class="form-control border_none" type="text" placeholder="Vehicle Reg. No." name="vehiclemake" ng-model="case_details.vehicle_reg_no" capitalize autocomplete="off">
+									   </div>
+								  
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   
+									
+									   <div  ng-class="{label_display : active_lable}" class="label_display">Breakdown Location</div>
+								   <input class="form-control border_none uppercase" type="text" placeholder="Breakdown Location"  name="breakdownlocation" ng-model="case_details.breakdown_location" capitalize>
+								
+								   </div>	
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   
+									
+									   <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+									   <div class="star">*</div>
+											 <div  ng-class="{label_display : active_lable}" class=" label_display ">Company</div>
+											 <select class="form-control border_none color_f" name="company" data-ng-model="case_details.company_id" ng-required="true">
+										 <option value="">Select Company</option>
+										 <option ng-repeat="data in location_details" value="{{data.id}}">{{data.company_address}},{{data.city}}</option>
+									   </select>
+									   <div ng-messages="details.company.$error" ng-show="details.company.$dirty">
+											<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										 </div>
+								
+								   </div>
+							   </div>
+	
+							   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+								   <br>
+									   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+										<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Client Company</div>
+										 
+										   <select class="form-control border_none color_f" ng-model="client" ng-change="get_tax_name(client)">
+											<option value="">Select Client</option>
+											<!-- <option value="cash" ng-selected="case_details.client_id=='cash'">Cash Client</option> -->
+											<option ng-repeat="data in client_company" value="{{data}}" ng-selected="data.id==case_details.client_id">{{data.client_name}}</option>
+										</select>
+										
+									</div>
+	
+									   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+										<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Client Location</div>
+										 
+										<select class="form-control border_none color_f" name="client_location" ng-model="client_location" ng-change="set_location_id(client_location)">
+											<option value="" ng-selected="selected" >Client Location</option>
+											<option ng-repeat="data in client_location_details" value="{{data}}" ng-selected="case_details.client_location_id==data.id">{{data.city}},{{data.state_name}}</option>
+											
+										</select>
+										
+									   </div>
+	
+									   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-if="case_details.client_id=='cash'">
+										   
+											<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Tax Type</div>
+											 
+											   <select class="form-control border_none color_f" ng-model="case_details.tax_type" ng-click="check_tax_type(case_details.tax_type)">
+												<option value="">Select Tax Type</option>
+												<option value="inclusive">Inclusive</option>
+												<option value="exclusive">Exclusive</option>
+											</select>
+											
+										   </div>
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   
+									   
+										<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Service Type</div>
+										
+										  <select class="form-control border_none color_f" ng-model="case_details.service_id" ng-change="check_tax_type(case_details.tax_type)">
+										   <option value="">Select Service</option>
+										   <option ng-repeat="data in service_data" value="{{data.servicedata[0].id}}" ng-selected="data.servicedata[0].id==case_details.service_id">{{data.servicedata[0].service_name}}</option>
+									   </select>
+								   </div>
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   
+									<div  ng-class="{label_display : active_lable}" class="label_display">ASP Contact no</div>
+							  <input class="form-control border_none uppercase" type="text" placeholder="ASP Contact no"  name="aspcontactno" ng-model="case_details.asp_contact_no" capitalize onkeypress="return isNumber(event)">
+							  
+						   
+							  </div>
+	
+								   
+	
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									
+									   
+									   <div  ng-class="{label_display : active_lable}" class="label_display">Nature of Breakdown</div>
+								   <input class="form-control border_none" type="text" placeholder="Nature of breakdown"  name="natureofbreakdown" ng-model="case_details.nature_of_breakdown" capitalize >
+									
+								   </div>
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Dealership name</div>
+									<input class="form-control border_none" type="text" placeholder="Dealership name"  name="dealershipname:" ng-model="case_details.dealership_name" capitalize >
+							   </div>
+	
+							   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+													
+								<div  ng-class="{label_display : active_lable}" class="label_display">Dealership address</div>
+						  
+								<input class="form-control border_none" type="text" placeholder=" Dealership Address"  name="dealershipaddress" ng-model="case_details.dealership_address" capitalize autocomplete="off">
+							 
+							   
+	
+							</div>
+	
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									 <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location" style="position: absolute;margin-top: 11px;"></i>
+								   
+										<div  ng-class="{label_display : active_lable}" class="label_display" ng-required="true">Dealership City</div>
+										
+											<input class="form-control border_none" type="text" placeholder="Dealership City"  name="asploc" ng-model="case_details.asp_location" capitalize autocomplete="off">
+								   </div>
+						   
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									   <div  ng-class="{label_display : active_lable}" class="label_display">Dealership State</div>
+									   
+								   <select class="form-control border_none color_f" ng-model="case_details.asp_state_id">
+										   <option value="">Select State</option>
+									   <option ng-repeat="data in state_list" value="{{data.id}}" ng-selected="data.id==case_details.asp_state_id">{{data.state_with_code}}</option>
+									   </select>
+								   </div>
+								   
+							   </div>
+						   </div>
+					  </div>
+	
+					
+						<div class="clearfix"></div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<center>
+							
+								<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(211)" ng-disabled="details.$invalid">Next
+									<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+								</button>		
+								</center>
+						</div>
+						</form>
+	
+					  
+					</div>
+					</div>
+	
+			<!--------------ADDRESS------------>
+	
+	
+					<div class="tab-pane" id="profile111" role="tabpanel" >
+					 <form name="address">
+					  <div class="hh">
+						 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+						
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+										
+											<div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+												
+												   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+		   
+													<br>
+													<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+														
+															<div  ng-class="{label_display : active_lable}" class="label_display" >Fleet Code</div>
+															
+																  <input class="form-control border_none" type="text" id="vehicle_code_id1" placeholder="Fleet Code"  name="fleetcode" ng-model="case_details.fleet_code" ng-keyup="search_vehicle_code1()" capitalize list="vehicle_code_datalist" autocomplete="off">
+																  <datalist id="vehicle_code_datalist" >
+																		<select >
+																			<option ng-repeat="d in all_fleet_code">{{d.value}}</option>
+																		</select>
+																	</datalist>
+													
+														
+													</div>
+												
+													<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													<div  ng-class="{label_display : active_lable}" class="label_display">Driver Name</div>
+													
+														  <input class="form-control border_none" type="text" placeholder="Driver Name"  name="drivername" ng-model="case_details.driver_name" capitalize autocomplete="off">
+													  
+													   
+												   </div>
+												
+		   
+												   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+														<div  ng-class="{label_display : active_lable}" class="label_display">Service end time</div>
+														<input class="form-control border_none" type="text" placeholder="Service end time"  name="serviceendtime"  ng-model="case_details.service_end_time" capitalize>
+												
+												   </div>	 -->
+											   </div>
+		   
+											   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+												   <br>
+												   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+													  
+													   <div  ng-class="{label_display : active_lable}" class="label_display">Fleet Make</div>
+												   <input class="form-control border_none uppercase" type="text" placeholder="Fleet make" ng-model="case_details.fleet_make" disabled capitalize>
+												   
+													
+												   </div>
+													   
+												   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+														<div  ng-class="{label_display : active_lable}" class="label_display">Service Reached on</div>
+														<input class="form-control border_none" type="text" placeholder="Service Reached on"  name="servicereachedon:" ng-model="case_details.service_reached_on" capitalize>
+												
+													
+												   </div> -->
+												   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+													   
+													 
+														<div  ng-class="{label_display : active_lable}" class="label_display">Driver Contact</div>
+														<input class="form-control border_none" type="text" placeholder="Driver Contact"  name="dealershipname:" ng-model="case_details.driver_contact" capitalize autocomplete="off">
+												   </div>
+	
+												   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													<div  ng-class="{label_display : active_lable}" class="label_display">ETA</div>
+													<input class="form-control border_none" type="text" id="timepickerc7" placeholder="ETA"  name="eta" ng-model="case_details.eta" capitalize>
+												   </div> -->
+												   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+													   
+													  
+													 
+													<div  ng-class="{label_display : active_lable}" class="label_display">Handover To</div>
+													<input class="form-control border_none" type="text" placeholder="Handover to"  name="handoverto" ng-model="case_details.handover_to" capitalize>
+												   </div> -->
+											   </div>
+										   </div>
+										   
+										  
+									  </div>
+									  <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div ng-class="{label_display : active_lable}" class="label_display">Comments</div>
+										
+											<textarea placeholder="Comments"  class="form-control" capitalize ng-model="case_details.comments"></textarea>
+										</div>
+	
+					  </div>
+						  
+					
+						<div class="clearfix"></div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="hide_next">
+								<center>
+								
+								<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(311)" >Next
+									<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+								</button>	
+								</center>
+						</div>
+						
+						 
+						</form>
+					</div>
+					
+					<!--------------ADDRESS END------------>
+	
+					<!--------------CONTACT------------>
+	
+					<div class="tab-pane" id="messages111" role="tabpanel">
+					<form name="contact">
+					 <div class="hh">
+					   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+									
+								
+								<div  ng-class="{label_display : active_lable}" class="label_display">Total Service KM </div><!-- add for edit button click class 'label_display' -->
+								<input class="form-control border_none" type="text" placeholder="KMS"  name="total service" ng-model="case_closing.close_total_service_km" ng-keyup="calculate_towing_charges(case_closing.close_total_service_km)" onkeypress="return isNumber(event)" autocomplete="off">
+							
+							</div>
+							
+							<!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											
+								<div  ng-class="{label_display : active_lable}" class="label_display">Towing Charges </div>
+								<input class="form-control border_none" type="text" placeholder="Towing charges"  name="towingcharges" ng-model="case_closing.close_towing_charges" disabled>
+							
+										
+									</div> -->
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										<div  ng-class="{label_display : active_lable}" class="label_display">Service end time</div>
+										<input class="form-control border_none" type="text" placeholder="Service end time" id="timepickerc5"  name="serviceendtime"  ng-model="case_closing.service_end_time">
+								
+								   </div>
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_tax_name">
+	
+											<div  ng-class="{label_display : active_lable}" class="label_display">Tax Name</div><!-- add for edit button click class 'label_display' -->
+											<input class="form-control border_none" type="text" placeholder="Tax Name"  name="tax_name" ng-model="case_details.tax_name" disabled>
+		
+		
+										</div>
+									<div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none" ng-hide="hide_tax_rate">
+	
+											<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+												<select class="form-control border_none" type="text" ng-model="tax" ng-change="calculate_tax_amount(tax)" >
+													<option value="" >-Select Tax-</option>
+													<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="service_tax_id == data.id">{{data.tax_rate}}%</option>
+												</select>
+		
+		
+									</div>
+									
+	
+									<!-- <div class="top_t col-lg-5 col-md-5 col-sm-5 col-xs-12 padd_none" ng-hide="hide_tax_amount">
+	
+											<div  ng-class="{label_display : active_lable}" class="label_display">Tax Amount </div>
+											<input class="form-control border_none" type="text" placeholder="Tax Amount"  name="tax_amount" ng-model="case_closing.tax_amount" disabled>
+		
+		
+									</div> -->
+							</div>
+							<div	class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+											
+									
+							<div style="margin-top: 7px;">Route Map :</div>
+						
+							<textarea placeholder="Route Map" name="routemap"  class="form-control" ng-model="case_closing.close_route_map" ng-required="route_validate()" ></textarea>
+										<span ng-show="contact1.routemap.$invalid && !contact1.routemap.$pristine">
+											This field is required
+										</span>
+						
+							
+										
+									</div>
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+																	   
+										<div  ng-class="{label_display : active_lable}" class="label_display">Service Reached on</div>
+										<input class="form-control border_none" type="text" placeholder="Service Reached on" id="timepickerc6"  name="servicereachedon:" ng-model="case_closing.service_reached_on">
+								
+									
+								   </div>
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Handover To</div>
+									<input class="form-control border_none" type="text" placeholder="Handover to"  name="handoverto" ng-model="case_closing.handover_to" capitalize autocomplete="off">
+								   </div>
+								   <!-- <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+									<div  ng-class="{label_display : active_lable}" class="label_display">Subtotal </div>
+									<input class="form-control border_none" type="text" placeholder="Subtotal"  name="subtotal" ng-model="case_closing.subtotal" disabled>
+								</div> -->
+									</div>
+	
+									
+					
+					</div>
+					<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+							<div style="font-size: 17px;font-weight: 600;margin-bottom: 10px;">Other Charges :</div>
+							<div>
+									<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:right;position:relative;top:8px;">
+									 <b>Waiting :</b>
+								  </div>
+								  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> No. Of Hour </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="No. Of Hour" ng-model="case_closing.waiting_no_of_hour" ng-keyup="calc_other_total('waiting',waiting_tax)">
+								  </div>
+								  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+									 <span style="font-size:40px;">*</span>
+								  </div>
+								  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Base Amount </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="Base Amount" ng-model="case_closing.waiting_base_amount" disabled>
+								  </div>
+								  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+									 <span style="font-size:33px;">=</span>
+								  </div>
+								  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Total Amount </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="Total Amount" ng-model="case_closing.waiting_total_amount" disabled>
+								  </div>
+								  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+	
+									<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+										<select class="form-control border_none" type="text" ng-model="waiting_tax_rate" ng-change="calc_other_total('waiting',waiting_tax_rate)" >
+											<option value="" >Tax</option>
+											<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="case_closing.waiting_tax_id == data.id">{{data.tax_rate}}%</option>
+										</select>
+	
+	
+							</div>
+									 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+									  <div  ng-class="{label_display : active_lable}" class="label_display"> Waiting Amount </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="Waiting Amount" ng-model="case_closing.waiting_total" disabled>
+								  </div>
+								  <div class="clearfix"></div>
+								  </div>
+								  
+								  <div>
+									<div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:right;position:relative;top:8px;">
+									 <b>Custody :</b>
+								  </div>
+								  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> No. Of Hour </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="No. Of Hour" ng-model="case_closing.custody_no_of_hour" ng-keyup="calc_other_total('custody',custody_tax)">
+								  </div>
+								  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+									 <span style="font-size:40px;">*</span>
+								  </div>
+								  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Base Amount </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="Base Amount" ng-model="case_closing.custody_base_amount" disabled>
+								  </div>
+								  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo" style="text-align:center;">
+									 <span style="font-size:33px;">=</span>
+								  </div>
+								  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+								  <div  ng-class="{label_display : active_lable}" class="label_display"> Total Amount </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="Total Amount" ng-model="case_closing.custody_total_amount" disabled>
+								  </div>
+								  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+	
+									<div  ng-class="{label_display : active_lable}" class="label_display"> Tax Rate </div><!-- add for edit button click class 'label_display' -->
+										<select class="form-control border_none" type="text" ng-model="custody_tax_rate" ng-change="calc_other_total('custody',custody_tax_rate)" >
+											<option value="" >Tax</option>
+											<option   ng-repeat="data in tax_list" value="{{data}}" ng-selected="case_closing.custody_tax_id == data.id">{{data.tax_rate}}%</option>
+										</select>
+	
+	
+							</div>
+									 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+									  <div  ng-class="{label_display : active_lable}" class="label_display"> Custody Amount </div>
+									 <input class="form-control border_none uppercase" type="text" placeholder="Custody Amount" ng-model="case_closing.custody_total" disabled>
+								  </div>
+								  <div class="clearfix"></div>
+								  </div>
+								  
+							   </div>
+	
+						 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+						 <div style="font-size: 17px;font-weight: 600;margin-bottom: 10px;">Additional Services :</div>
+						 
+							 <div ng-repeat="name in data.transportaion track by $index" >
+								 <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+									 <div  ng-class="{label_display : active_lable}" class="label_display">Add. Services</div>
+									 <select class="form-control border_none" type="text"  ng-model="data.transportaion[$index].transportation_charge_id" >
+										 <option value="" >-Select Add. Service-</option>
+										 <option ng-repeat="tr_charge in transportation_charges" value="{{tr_charge.id}}"   ng-selected="name.transportation_charge_id == tr_charge.id">{{tr_charge.transportation_name}}</option>
+									 </select>
+								 </div>
+	
+								 <div class="top_t col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+									 <div  ng-class="{label_display : active_lable}" class="label_display">Add. Service Amount</div>
+									 <input class="form-control border_none" ng-keyup="add_charge_amt($index)" ng-model="data.transportaion[$index].charge_amount" type="text" placeholder="Add. Service Amount" onkeypress="return isNumber(event)" autocomplete="off">
+								 </div>
+								 <div class="top_t col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+										<div  ng-class="{label_display : active_lable}"  class="label_display">Tax rate </div>
+										<select class="form-control border_none" type="text" ng-change="add_charge_amt($index)" ng-model="data.transportaion[$index].tax_id" >
+											<option value="" >-Select Tax-</option>
+											<option   ng-repeat="tax_row in tax_list" value="{{tax_row}}" ng-selected="name.tax_id == tax_row.id">{{tax_row.tax_rate}}%</option>
+										</select>
+									</div>
+	
+	
+								 <div class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+									 <button ng-click="deleteRow($event,name)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;" ng-show="$index != 0">
+										 <i class="fa fa-minus" aria-hidden="true"></i>
+									 </button>
+								 </div>
+	
+								 <div style="float:right" class="top_t col-lg-1 col-md-1 col-sm-1 col-xs-12 " ng-show="$last">
+									 <button ng-click="addRow($index)" class="btn btn-rounded btn-primary-outline margin-inline " type="button" style="float: right;">
+										 <i class="fa fa-plus" aria-hidden="true"></i>
+									 </button>
+								 </div>
+							 </div>
+						 </div>
+						 <!-- <div>Grand Total : {{total}}</div> -->
+					<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div ng-class="{label_display : active_lable}" class="label_display">Notes</div>
+						
+							<textarea placeholder="Notes"  class="form-control" capitalize ng-model="case_closing.close_notes"></textarea>
+						</div>
+						
+	
+						<div class="clearfix"></div>
+						</div>
+						<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<center>
+									<button class="btn btn-success-outline margin-inline" type="button" ng-click="reload_modal()">
+										<span class="top_p"><i class="icmn-share2"></i></span> Ok
+									</button>
+								</center>
+							</div> -->
+					
+				<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<center>
+						
+						<button class="btn btn-success-outline margin-inline" type="button" ng-click="ShowTab(3)" ng-disabled="address.$invalid">Save
+							<span class="top_p"> </span>
+						</button>	
+						</center>
+				</div>-->
+						</form>
+					</div>
+	<!---------------------PRODUCT------------------>
+		 
+				</div>
+			</div>
+				</div>
+			<div class="clearfix"></div>
+			  
+			</div>
+		</div>
+	</div>

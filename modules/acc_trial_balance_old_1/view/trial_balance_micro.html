@@ -1,0 +1,300 @@
+<style>
+   .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+   .bgcolor{background-color:#F2F4F8;}
+   .padd_left{padding-left:21px !important;}
+   .padd_left a{color:#514d6a !important;}
+   .padd_left1{padding-left:30px !important;}
+   .padd_left1 a{color:#514d6a !important;}
+   .vis{
+   display:none;
+   }
+</style>
+<section class="page-content">
+   <div class="page-content-inner">
+   <div style="display:none" class="loading">Loading&#8230;</div>
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/balancesheet.png">Trial Balance</div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+                              <span class="font_nw">{{selected_warehouse_name}} </span><br/>
+                              <span class="font_1"><b>CIN :</b> {{selected_warehouse_cin_no}} &nbsp; </span><br/>
+                              <span class="font_1"><b>Period </b>{{from_date | date :  "dd-MM-yyyy"}} To {{to_date | date :  "dd-MM-yyyy"}}</span>
+                           </div>
+                           <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+                              <b>Financial Year :</b> {{finance_from_year}}-{{finance_from_year + 1}}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                           <br/>
+                           <!--  <div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+                              <div class="col-lg-4 col-md-5 col-sm-4 col-xs-12 padd_none text_d">
+                                 <b>Division :</b>
+                              </div>
+                              <div class="col-lg-8 col-md-7 col-sm-8 col-xs-12 padd_none">
+                                 <select class="form-control border_none select" data-ng-model="warehouse_id" data-ng-change="get_wh()">
+                                    <option value="" ng-selected="selected">Select Division</option>
+                                    <option ng-repeat="warehouse in warehouse_list" value="{{warehouse.id}}">{{warehouse.warehouse_name}}</option>
+                                 </select>
+                              </div>
+                              </div>-->
+                           <div class=" col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+                              <div class="form-group">
+                                 <div class='input-group date' >
+                                    <input type='text' class="form-control border_none" id='datetimepicker1' ng-model="from_date" placeholder="From"/>
+                                    <label class="input-group-addon" for="datetimepicker1">
+                                    <i class="icmn-calendar"></i>
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class=" col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+                              <div class="form-group">
+                                 <div class='input-group date' >
+                                    <input type='text' class="form-control border_none" id='datetimepicker2' ng-model="to_date" placeholder="To"/>
+                                    <label class="input-group-addon" for="datetimepicker2">
+                                    <i class="icmn-calendar"></i>
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+                              <button ng-click="get_ledger_data_by_date()" class="btn btn-success"><i class="fa fa-search"></i></button>
+                           </div>
+                           <div class="right pull-right col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="searchKeyword" >
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="right pull-right col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+                              <select class="form-control border_none select" ng-change="change_view_type()" ng-model="view_type">
+                                 <option value="">Select View</option>
+                                 <option value="Compacted">Compacted</option>
+                                 <option value="Details">Details</option>
+                                 <option value="Micro">Micro</option>
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;">
+					  <div class="divclass">
+                        <div class="table_dis  container-example1 ">
+						
+                           <table class="table table-hover" id="table2excel">
+                              <tr>
+                                 <!--left-->
+                                 <td class="">
+                                    <div class="table_dis  container-example1 ">
+                                       <style>
+                                          .class1{padding-left:10px;width:40%;float:left;line-height: 1.5;padding: .75rem;border-right:1px solid #eceeef;}
+                                          .class2{text-align:right;width:15%;float:left;line-height: 1.5;padding: .75rem;border-right:1px solid #eceeef;}
+                                          .class3{text-align:right;float:left;padding-left:50px;width:15%;line-height: 1.5;padding: .75rem;}
+                                       </style>
+									  
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                          <!-- <tr class="colorhead">
+                                             <td  colspan="3" class="colorhead" style="background-color:#F2F4F8;">
+                                                <h4 style="margin:0px;">
+                                                   <b>Particulars</b>
+                                                </h4>
+                                             </td>
+                                             </tr>-->
+                                          <tr>
+                                             <td colspan="3" class="padd_none" >
+                                                <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                                   <tr class="first_row" style="background-color:#ccc">
+                                                      <th colspan="3" class="padd_none">
+                                                         <div class="class1">	<b>Particulars  </b> </div>
+                                                         <div class="class2"><b>Opening Balance</b></div>
+                                                         <div class="class2"><b>Debit</b></div>
+                                                         <div class="class2"><b>Credit </b></div>
+                                                         <div class="class3"><b>Closing Balance  </b></div>
+                                                      </th>
+                                                   </tr>
+                                                   <tr style="cursor:pointer;" ng-repeat="data in ledger_balance_list track by $index | filter:searchKeyword" ng-init="objectIndex1 = $index" >
+                                                      <td colspan="5" class="padd_none">
+                                                         <div ng-click="getSubGroupData(objectIndex1)" class="class1">	<b>{{data.account_name}}  </b> </div>
+                                                         <div class="class2"><b>{{data.opening_balance | INR}} </b></div>
+                                                         <div class="class2"><b>{{data.debit_total | INR}} </b></div>
+                                                         <div class="class2"><b>{{data.credit_total | INR}} </b></div>
+                                                         <div class="class3"><b>{{data.total_amt | INR}}</b></div>
+                                                         <table  ng-show="state_{{$index}}"  class="table table-hover table-bordered type" >
+                                                            <tr ng-repeat="sub_data in data.details" ng-init="objectIndex2 = $index" >
+                                                               <td colspan="5" class="padd_none">
+                                                                  <div  ng-if="sub_data.ledger_type == 'Group'" ng-click="getSubSubGroupData(objectIndex1,objectIndex2)" class="class1">
+                                                                     <span style="margin-left:5px">
+                                                                     <b>{{sub_data.ledger_name}}</b>
+                                                                     </span>
+                                                                  </div>
+                                                                  <div  ng-if="sub_data.ledger_type == 'Ledger'" ng-click="get_month_details(data.account_name,sub_data.ledger_id,sub_data.route_type,sub_data.check_supplier,sub_data.type,sub_data.tax_type,sub_data.ledger_type,sub_data.income_type)" class="class1">
+                                                                     <span style="margin-left:5px">
+                                                                     {{sub_data.ledger_name}}  
+                                                                     </span>
+                                                                  </div>
+																  <div class="class2">
+                                                                    {{sub_data.opening_balance | INR}} 
+                                                                  </div>
+                                                                  <div class="class2">
+                                                                     {{sub_data.debit_total | INR}} 
+                                                                  </div>
+                                                                  <div class="class2">
+                                                                     {{sub_data.credit_total | INR}} 
+                                                                  </div>
+																   <div class="class3">
+                                                                   {{sub_data.total_amt | INR}} 
+                                                                  </div>
+                                                                  <table ng-show="sub_{{objectIndex1}}_{{objectIndex2}}" style="width:100%" cellspacing="0" cellpadding="0">
+                                                                    
+                                                                     <tr ng-show="details_ledger_for_micro" ng-repeat="sub_sub_data in sub_data.ledger_data"   ng-click="get_month_details(data.account_name,sub_sub_data.ledger_id,sub_data.route_type,sub_sub_data.check_supplier,sub_sub_data.type,sub_sub_data.tax_type,sub_sub_data.ledger_type,sub_sub_data.income_type)" >
+                                                                        <td colspan="3" class="padd_none">
+                                                                           <div class="class1" ><span style="margin-left:5px">{{sub_sub_data.ledger_name}}</span> </div>
+                                                                           <div class="class2">{{sub_sub_data.opening_balance | INR}}</div>
+                                                                           <div class="class2">{{sub_sub_data.debit_total | INR}} </div>
+                                                                           <div class="class2">{{sub_sub_data.credit_total | INR}} </div>
+                                                                           <div class="class3">{{sub_sub_data.total_amt | INR}} </div>
+                                                                        </td>
+                                                                     </tr>
+                                                                  </table>
+                                                               </td>
+                                                            </tr>
+                                                         </table>
+                                                      </td>
+                                                   </tr>
+                                                </table>
+                                             </td>
+                                          </tr>
+                                       </table>
+                                    </div>
+                                   
+                                 </td>
+                                 <!--left-->
+                                 <!--right-->
+                                 <!--right-->
+                              </tr>
+							   <tr>
+                                 <!--left-->
+                                 <td class="">
+                                    <div class="table_dis  container-example1 ">
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                          <tr>
+										  <td colspan="3" class="padd_none">
+													   <div class="class1">	<b>Total  </b> </div>
+													   <div class="class2"><b><b>{{total_opening_balance | INR}}</b></div>
+															<div class="class2"><b>{{debit_total | INR}}</b></div>
+															<div class="class2"><b>{{credit_total | INR}}</b></div>
+															<div class="class3"><b>{{total_closing_balance | INR}}</b></div>
+													   </td>
+										  
+                                            
+                                          </tr>
+                                       </table>
+                                    </div>
+                                 </td>
+                                 <!--left-->
+                                 <!--right-->
+                                 <!--right-->
+                              </tr>
+                           </table>
+                              </div>
+                         
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                        <center>
+                           <button  ng-click="generate_excel_trial_balance_micro()" id="tblExport12" class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                           Export To Excel</button>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-file-pdf-o " aria-hidden="true" style="color:#01a8fe;"></i> Export To PDF</button>
+                        </center>
+                     </div>
+                     <div class="clearfix"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <!-- End Dashboard -->
+   </div>
+</section>
+<!-- modal start -->
+<style>
+   @media(min-width: 768px)  and 	(max-width: 1023px){
+   .formessage_display {position: absolute;right: 0;width: 400px;top: 0;}
+   }
+</style>
+<!-- modal start -->
+<script type="text/javascript">
+   $('#datetimepicker1').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+   
+   });
+   $('#datetimepicker2').datepicker({
+     changeMonth: true,
+    changeYear: true,
+     yearRange: '2000:2040' ,
+     // defaultDate: '2015-01-01',
+   
+   });
+   $.datepicker.setDefaults({
+          dateFormat: 'yy-mm-dd'
+      });
+</script>									
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+   
+   $("#tblExport").click(function(e) {
+  let file = new Blob([$('.divclass').html()], {type:"application/vnd.ms-excel"});
+ let url = URL.createObjectURL(file);
+let a = $("<a />", {
+  href: url,
+  download: "trial_balance_micro.xls"}).appendTo("body").get(0).click();
+  e.preventDefault();
+});
+/*$("#tblExport").click(function(){
+
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    //exclude: ".noExl",
+    name: "Worksheet Name",
+    //fileext: ".xlsx",
+    filename: "ledger_account_report" //do not include extension
+  }); 
+});*/
+</script>
+<!-- header fixed End-->

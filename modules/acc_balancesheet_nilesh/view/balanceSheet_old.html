@@ -1,0 +1,783 @@
+<style>
+   .bgcolor{background-color:#F2F4F8;}
+   .padd_left{padding-left:21px !important;}
+   .padd_left a{color:#514d6a !important;}
+   .padd_left1{padding-left:30px !important;}
+   .padd_left1 a{color:#514d6a !important;}
+</style>
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/balancesheet.png"> Balance Sheet</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<div class="col-lg-4 col-md-5 col-sm-4 col-xs-12 padd_none text_d">
+											<b>Warehouse :</b>
+										</div>
+										<div class="col-lg-8 col-md-7 col-sm-8 col-xs-12 padd_none">
+											<select class="form-control border_none select" data-ng-model="warehouse_id" data-ng-change="get_wh()">
+                                                <option value="" ng-selected="selected">Select Warehouse</option>
+                                                <option ng-repeat="warehouse in warehouse_list" value="{{warehouse.id}}">{{warehouse.warehouse_name}}</option>
+											</select>
+										</div>
+									</div>
+									<div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                        <div class="form-group top_wa">
+                            <div class="input-group date">
+                                <input ng-model="from_date" ng-model="from_date" id="from_date" type="text" class="form-control border_none" placeholder="From">
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-3 col-sm-2 col-xs-12 ">
+                        <div class="form-group top_wa">
+                            <div class="input-group date">
+                                <input ng-model="to_date" id="to_date" type="text" class="form-control border_none" placeholder="To">
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+					 
+					 <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 ">
+                         <button  class="btn btn-success" ng-click="allbalancesheetlist()"><i class="fa fa-search"></i></button>
+                       </div>
+								
+									
+								</div>
+							</div>
+							<br/>
+							<div class="clearfix"></div>
+								
+								<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1 pull-right" style="margin-bottom:15px;">
+									 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+										<b>View :</b>
+									 </div>
+									 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none">
+										<select class="form-control border_none select" ng-change="change_view_type()" ng-model="view_type">
+										   <option value="">Select View</option>
+										   <option value="Compacted">Compact View</option>
+										   <option value="Detailed">Details View</option>
+										</select>
+									 </div>
+								</div>
+								
+								<div class="table_dis  container-example1 ">
+                          
+                           <table class="table table-hover">
+                              <tr>
+                                 <!--left-->
+                                 <td class="h_n_w">
+										<div class="table_dis  container-example1 ">
+										
+										<table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                    <tr class="colorhead">
+                                       <td  colspan="3" class="colorhead" style="background-color:#F2F4F8;">
+                                          <h4 style="margin:0px;">
+                                             <b>Liabilities</b>
+                                          </h4>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Capital Account</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{capital_acc_total}}</td>
+                                             </tr>
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="c in capital_acc_list" ng-click="capitalcheck(c.ledger_type,c.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{c.ledger_name}}</td>
+                                                         <td class="wiii">{{c.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in c.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a >{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Loan(Liability)</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{loan_total}}</td>
+                                             </tr>
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="l in loan_list" ng-click="loancheck(l.ledger_type,l.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{l.ledger_name}}</td>
+                                                         <td class="wiii">{{l.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in l.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Current(Liabilities)</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{current_liab_total_amt | number : 2}}</td>
+                                             </tr>
+											 
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="current in current_list" ng-click="currentcheck(current.ledger_type,current.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr ng-click="sundry_creditors_acc(current.route_type)">
+                                                         <td class="wiii cur padd_left">{{current.ledger_name}}</td>
+                                                         <td class="wiii">{{current.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in current.ledger_data" ng-click="current_liab(sub_ledger_list.type,sub_ledger_list.ledger_id,current.route_type,sub_ledger_list.tax_type,sub_ledger_list.check_supplier)">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                             </tr>
+											 
+											 <!--<tr style="cursor:pointer; display:none;" class="second_row" ng-click="taxcall()">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">Tax Duties</td>
+                                                         <td class="wiii">{{tax_duties_total}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in current.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                             </tr>-->
+											 
+											 <!--<tr style="cursor:pointer; display:none;" class="second_row" ng-click="sundry_creditors_acc()">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">Sundry creditors</td>
+                                                         <td class="wiii">{{total_credit_sundry_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in current.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                             </tr>-->
+											 
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Suspense A/c</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{suspense_acc_total}}</td>
+                                             </tr>
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="suspense in suspense_acc_list" ng-click="suspencecheck(suspense.ledger_type,suspense.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{suspense.ledger_name}}</td>
+                                                         <td class="wiii">{{suspense.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in suspense.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Profit & Loss</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{profitlosstotal}}</td>
+                                             </tr>
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="profit in profitlossdatalist" ng-click="profitcheck(profit.ledger_type,profit.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{profit.ledger_name}}</td>
+                                                         <td class="wiii">{{profit.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in profit.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									
+                                 </table>
+                                   
+                                       <!--<table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                          <tr>
+                                             <td  colspan="3" style="background-color:#F2F4F8;">
+												<h4 style="margin:0px;">
+													<b>Liabilities</b>
+												</h4>
+											 </td>
+                                            
+                                          </tr>
+										   
+										    <tr>
+	                                             <td class="size_font wiii">Capital Account</td>
+	                                             <td class="size_font wiii">&nbsp;</td>
+	                                             <td class="size_font wiii">{{capital_acc_total}}</td>
+                                            </tr>
+											
+											<tr style="cursor:pointer;" ng-repeat="c in capital_acc_list" ng-click="capitalcheck(c.ledger_type,c.ledger_id)">
+												 <td class="wiii cur">{{c.ledger_name}}</td>
+												 <td class="wiii">{{c.total_amt}}</td>
+												 <td class="wiii">&nbsp;</td
+												<table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+													<tr>
+														<td class="wiii cur">{{c.ledger_name}}</td>
+														<td class="wiii">{{c.total_amt}}</td>
+														<td class="wiii">&nbsp;</td>
+													</tr>
+                                                    <tr>
+                                                        <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in c.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a >{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+											</tr>
+											
+											<tr>
+												<td class="size_font wiii">Loan(Liability)</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">{{loan_total}}</td>
+											</tr>
+											
+											<tr style="cursor:pointer;" ng-repeat="l in loan_list" ng-click="loancheck(l.ledger_type,l.ledger_id)">
+												<td class="wiii cur">{{l.ledger_name}}</td>
+												<td class="wiii">{{l.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+											
+											<tr>
+												<td class="size_font wiii">Current(Liabilities)</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii"><span>{{total_credit_sundry_amt}}</span></td>
+                            
+											</tr>
+											
+											<tr style="cursor:pointer;" ng-repeat="current in current_list" ng-click="currentcheck(current.ledger_type,current.ledger_id)">
+												<td class="wiii cur">{{current.ledger_name}}</td>
+												<td class="wiii">{{current.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+
+											<tr style="cursor:pointer;" ng-click="taxcall()" >
+												<td class="wiii cur">Tax Duties</td>
+												<td class="wiii">{{tax_duties_total}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+
+											<tr style="cursor:pointer;" ng-click="sundry_creditors_acc()"> 
+												<td >Sundry creditors</td>
+												<td class="wiii cur">{{sundry_credit_amt}}</td>
+												<td class="wiii cur"> </td>
+											</tr>
+											
+											<tr>
+												<td class="size_font wiii">Suspense A/c</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">{{suspense_acc_total}}</td>
+											</tr>
+
+											<tr style="cursor:pointer;" ng-repeat="suspense in suspense_acc_list" ng-click="suspencecheck(suspense.ledger_type,suspense.ledger_id)">
+												<td class="wiii cur">{{suspense.ledger_name}}</td>
+												<td class="wiii">{{suspense.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+											
+											<tr>
+												<td class="size_font wiii">Profit & Loss </td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">Rs.{{profitlosstotal}}</td>
+											</tr>
+										
+											
+											 <tr style="cursor:pointer;" ng-repeat="profit in profitlossdatalist" ng-click="profitcheck(profit.ledger_type,profit.ledger_id)">
+												<td class="wiii cur">{{profit.ledger_name}}</td>
+												<td class="wiii">{{profit.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+
+											
+											
+										 </table>-->
+										 
+
+										</div>		
+								 </td>
+								 <input type="hidden" ng-model="tax_duties_total">
+								 <input type="hidden" ng-model="sundry_credit_amt">
+								   <!--left-->
+								    <!--right-->
+								 <td class="h_n_w">
+										<div class="table_dis  container-example1 ">
+										
+										<table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                    <tr class="colorhead">
+                                       <td  colspan="3" class="colorhead" style="background-color:#F2F4F8;">
+                                          <h4 style="margin:0px;">
+                                             <b>Assets</b>
+                                          </h4>
+                                       </td>
+                                    </tr>
+									
+                                    <tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Fixed Assets</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{fixedassesttotal}}</td>
+                                             </tr>
+											 
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="fixed in fixedassestlist" ng-click="fixedcheck(fixed.ledger_type,fixed.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{fixed.ledger_name}}</td>
+                                                         <td class="wiii">{{fixed.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in fixed.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Investments</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{investmenttotal}}</td>
+                                             </tr>
+											 
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="inv in investmentdatalist" ng-click="invcheck(inv.ledger_type,inv.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{inv.ledger_name}}</td>
+                                                         <td class="wiii">{{inv.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in inv.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Current Assets</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{total_current_asset_data | number : 2}}</td>
+                                             </tr>
+
+                                             <tr style="cursor:pointer; display:none;" class="second_row"> 
+                                                <td class=" wiii padd_left">Closing Stock</td>
+                                                <td class=" wiii">{{closingstockdata_total | number : 2}}</td>
+                                                <td class=" wiii">&nbsp;</td>
+                                              
+                                             </tr>
+											 
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="cs in currentassestlist" ng-click="currentassetscheck(cs.route_type,cs.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr ng-click="sundry_debitor_acc()">
+                                                         <td class="wiii cur padd_left"><b>{{cs.ledger_name}}</b></td>
+                                                         <td class="wiii">{{cs.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in cs.ledger_data" ng-click="current_asset(sub_ledger_list.type,sub_ledger_list.ledger_id,cs.route_type)">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+													 <!--  <tr >
+                                                         <td class="wiii cur padd_left"><b>Bank Accounts</b></td>
+                                                         <td class="wiii"></td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>-->
+													 
+                                                   </table>
+                                                </td>
+                                             </tr>
+											 
+											<!--<tr style="cursor:pointer; display:none;" class="second_row" ng-click="sundry_debitor_acc()">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">Sundry debtors</td>
+                                                         <td class="wiii">{{sundry_debit_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in cs.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                             </tr>-->
+											 
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+									<tr>
+                                       <td colspan="3" class="padd_none" >
+                                          <table class="table table-hover table-bordered type" style="margin-bottom:0px;cursor:pointer;" >
+                                             <tr class="first_row"> 
+                                                <td class="size_font wiii">Branch / Divisions</td>
+                                                <td class="size_font wiii">&nbsp;</td>
+                                                <td class="size_font wiii">{{branchtotal}}</td>
+                                             </tr>
+											 
+                                             <tr style="cursor:pointer; display:none;" class="second_row" ng-repeat="branch in branchdatalist" ng-click="branchcheck(branch.ledger_type,branch.ledger_id)">
+                                                <td colspan="3" class="padd_none">
+                                                   <table class="table table-hover table-bordered ledger_type" style="margin-bottom:0px;cursor:pointer;">
+                                                      <tr>
+                                                         <td class="wiii cur padd_left">{{branch.ledger_name}}</td>
+                                                         <td class="wiii">{{branch.total_amt}}</td>
+                                                         <td class="wiii">&nbsp;</td>
+                                                      </tr>
+                                                      <tr style="display:none;">
+                                                         <td colspan="3" class="padd_none">
+                                                            <table class="table table-hover table-bordered " style="margin-bottom:0px;cursor:pointer;">
+                                                               <tr ng-repeat="sub_ledger_list in branch.ledger_data">
+                                                                  <td class="wiii cur padd_left1"><a>{{sub_ledger_list.ledger_name}}</a></td>
+                                                                  <td class="wiii">{{sub_ledger_list.total_amt | number}}</td>
+                                                                  <td class="wiii">&nbsp;</td>
+                                                               </tr>
+                                                            </table>
+                                                         </td>
+                                                      </tr>
+                                                   </table>
+                                                </td>
+                                              
+                                             </tr>
+                                          </table>
+                                       </td>
+                                    </tr>
+									
+                                 </table>
+                                   
+                                       <!--<table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                          <tr>
+                                             <td  colspan="3" style="background-color:#F2F4F8;">
+												<h4 style="margin:0px;">
+													<b>Assets</b>
+												</h4>
+											 </td>
+                                            
+                                          </tr>
+										    
+											<tr>
+												<td class="size_font wiii">Fixed Assets</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">Rs.{{fixedassesttotal}}</td>
+											 </tr>
+											 
+											 <tr style="cursor:pointer;" ng-repeat=" fixed in fixedassestlist" ng-click="fixedcheck(fixed.ledger_type,fixed.ledger_id)">
+												<td class="wiii cur">{{fixed.ledger_name}}</td>
+												<td class="wiii">{{fixed.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="size_font wiii">Investments</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">Rs.{{investmenttotal}}</td>
+											</tr>
+											 
+											 <tr style="cursor:pointer;" ng-repeat="inv in investmentdatalist" ng-click="invcheck(inv.ledger_type,inv.ledger_id)">
+												<td class="wiii cur">{{inv.ledger_name}}</td>
+												<td class="wiii">{{inv.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+											
+											 <tr>
+												<td class="size_font wiii">Current Assets</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">Rs.{{total_debit_sundry_amt}}</td>
+											</tr>
+											
+											 <tr style="cursor:pointer;" ng-repeat="cs in currentassestlist" ng-click="currentassetscheck(cs.ledger_type,cs.ledger_id)">
+												<td class="wiii cur">{{cs.ledger_name}}</td>
+												<td class="wiii">{{cs.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+											</tr>
+
+											<tr style="cursor:pointer;" ng-click="sundry_debitor_acc()">
+												<td>Sundry debtors </td>
+												<td class="wiii cur">{{sundry_debit_amt}}</td>
+												<td class="wiii cur"></td>
+											</tr>
+											
+											<tr>
+												<td class="size_font wiii">Branch / Divisions</td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">{{branchtotal}}</td>
+											</tr>
+											
+											<tr style="cursor:pointer;" ng-repeat="branch in branchdatalist" ng-click="branchcheck(branch.ledger_type,branch.ledger_id)">
+												<td class="wiii cur">{{branch.ledger_name}}</td>
+												<td class="wiii">{{branch.total_amt}}</td>
+												<td class="wiii">&nbsp;</td>
+										    </tr>
+											
+											
+
+											
+										 </table>-->
+
+										</div>		
+								 </td>
+								  <!--right-->
+								</tr>
+								
+								<tr>
+                                 <!--left-->
+                                 <td class="h_n_w">
+										<div class="table_dis  container-example1 ">
+                                   
+                                       <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+                                          <tr>
+												<td class="size_font wiii"><b>Total</b></td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">{{finalliabilitiessum | number}}</td>
+											</tr>
+										 </table>
+
+										</div>		
+								 </td>
+								   <!--left-->
+								    <!--right-->
+								 <td class="h_n_w">
+										<div class="table_dis  container-example1 ">
+                                   
+                                        <table class="table table-hover table-bordered" style="margin-bottom:0px;">
+	                                        <tr>
+												<td class="size_font wiii"><b>Total</b></td>
+												<td class="size_font wiii">&nbsp;</td>
+												<td class="size_font wiii">{{finalassetssum | number}}</td>
+											</tr>
+										</table>
+
+										</div>		
+								 </td>
+								  <!--right-->
+								</tr>
+								
+							</table>
+							</div>
+							
+					
+					 </div>
+
+					 <input type="hidden" ng-model="currentassesttotal">
+					 <input type="hidden" ng-model="sundry_debit_amt">
+					
+					<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+		
+							<center>
+								<button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+							</center>	
+					</div>	
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+	<style>
+	@media(min-width: 768px)  and 	(max-width: 1023px){
+	.formessage_display {position: absolute;right: 0;width: 400px;top: 0;}
+	}
+	</style>
+				
+<script>
+
+    $('#from_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040'
+        // defaultDate: '2015-01-01',
+
+    });
+    $('#to_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040'
+        // defaultDate: '2015-01-01',
+
+    });
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+</script>

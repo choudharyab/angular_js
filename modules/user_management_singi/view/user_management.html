@@ -1,0 +1,230 @@
+ <style>
+ .minclassheight{height: 268px;overflow: hidden;overflow-y: auto;margin-bottom: 53px;padding:0px;}
+ 
+ </style>
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-x">Select Permission
+										<div style="color: green;font-size: 15px;" id="permissionSuccess">{{permission_success_msg}}</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text_d1">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d tpp">
+											<b>User :</b>
+										</div>
+
+										<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 padd_none tpp">
+											<select class="form-control border_none color_f" data-ng-model="user_id" ng-change="edit_user_management()">
+												<option value="">-- Select User --</option>
+
+												<option ng-repeat="users in users_listing" value="{{users.id}}">{{users.last_name}}&nbsp;{{users.first_name}}&nbsp;{{users.middle_name}}</option>
+											</select>
+										</div>
+									</div>
+
+									<!--<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+										<div class="search-block">
+											<div class="form-input-icon form-input-icon-right">
+												<i class="icmn-search"></i>
+												<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text">
+												<button class="search-block-submit " type="submit"></button>
+											</div>
+										</div>
+									</div>-->
+								
+									<!--<button class="btn btn-rounded btn-primary-outline margin-inline "  type="button"><i class="fa fa-retweet" aria-hidden="true"></i> Refresh</button>-->
+								</div>
+							</div>
+							<br>
+							<br>
+							<br>
+							 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+							 
+							 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 container-example1 minclassheight" ng-repeat="permission_list in permission_lists track by $index">
+								
+								<div class="table_dis" id="fixedheader">
+								<table class="table table-hover table-bordered">
+									<thead>
+										  <tr class="colorhead">
+											<th><input type="checkbox" id="selectAllModules_{{permission_list.id}}" ng-click="checkAllModules(permission_list)" ng-true-value="true" ng-false-value="false"></th>
+											<th>{{permission_list.menu}}</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										<tr ng-repeat="submenu in permission_list.submenu">
+
+											<td>&nbsp<input type="checkbox" id="selectedAll_{{submenu.id}}" ng-click="checkAll(permission_list,submenu)" ng-true-value="true" ng-false-value="false">
+											</td>
+
+											<td>
+												{{submenu.submenu}}
+											</td>
+											<td>
+												<span style="position: relative; top: 2px;" ng-repeat="action in submenu.action">											&nbsp;
+													<input type="checkbox" ng-model="action.Selected" ng-click="add_selected_privilege(permission_list,submenu,action.id)" id="selectedAllSubModule_{{action.id}}">&nbsp;<a><i class="font_six" ng-class="action.icon" aria-hidden="true"></i>&nbsp;&nbsp;</a>
+													<span ng-if="$index < submenu.action.length - 1">|</span></span>
+
+											<!--	<span style="position: relative; top: 2px;" >
+												&nbsp;<input  type="checkbox"   >&nbsp;<a><i class="fa fa-edit font_six" aria-hidden="true" title="Edit"></i> &nbsp;</a>
+												|</span>
+											
+												<span style="position: relative; top: 2px;"  >
+
+												&nbsp;<input  type="checkbox"  >&nbsp;<a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i>&nbsp;</a>
+
+												|</span>
+
+												<span style="position: relative; top: 2px;" >
+												&nbsp;<input  type="checkbox"  >&nbsp;<a><i class="fa fa-download font_six approve_color" title="Received" ></i>&nbsp;&nbsp;</a>
+												|</span>
+												<span style="position: relative; top: 2px;" >
+												&nbsp;<input  type="checkbox"   >&nbsp;<a><i class="fa fa-truck" aria-hidden="true" title="Dispatch" ></i> &nbsp;</a>
+												|</span>
+
+												<span style="position: relative; top: 2px;" >
+												&nbsp;<input  type="checkbox"   >&nbsp;<a><i class="fa fa-thumbs-up font_six approve_color" title="Received" ></i>&nbsp;&nbsp;</a>
+												</span>-->
+											</td>
+
+
+										
+
+
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+							</div>
+							
+							
+							
+							<div class="clearfix"></div>
+							<div>
+								<center>
+									<button type="submit" class="btn btn-success-outline margin-inline" ng-click="save_user_permission()">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+								</center>
+							
+							</div>
+							</div>
+							
+						
+							
+								
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<!-- End Dashboard -->
+	</div>
+</section>
+<!-- modal start -->
+
+<script>
+	$(function() {
+	    $('.summernote').summernote({
+	        height: 350
+	    });
+	});
+	
+</script>	
+<script>
+	$(document).ready(function(){
+	//alert("hii")
+	setTimeout(function(){
+		  $(".note-editable").removeAttr('style');
+	 },1000);
+		})
+</script>
+<!-- modal start -->
+
+
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        height: 100,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code'
+        ],
+        toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css']
+    });
+</script>
+
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+
+	<!-- header fixed -->
+		<!--<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>-->
+		<!--<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader2").tableHeadFixer(); 
+			});
+
+
+
+		</script>-->
+		<!-- header fixed End-->

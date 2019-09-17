@@ -1,0 +1,254 @@
+ <style>
+ .table thead th {
+    vertical-align: top;
+  
+}
+ </style>
+ <style>
+	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br{z-index: 999999 !important;}
+	
+	</style>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> -->
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+					<div class="panel-body">
+						<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 font_nw text_d1 right_a1"> <b>Ledger : </b>{{ledger_name}}</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+										<span class="font_nw">Wheels On Road</span><br/>
+										<span class="font_1"><b>CIN :</b>&nbsp; </span><br/>
+									<span class="font_1"><b>Period </b>{{from_date}} To {{to_date}}</span>
+									</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<b>Financial Year :</b> {{finance_year}} - {{finance_to_year}}
+									</div>
+								</div>
+							</div>
+							</div>
+					
+						
+					
+							<div class="clearfix"></div>
+							
+							<div class=" col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+								<div class="form-group">
+									<div class='input-group date' >
+										<input type='text' class="form-control border_none" id='datetimepicker1' placeholder="From" ng-model="from_date"/>
+										<label class="input-group-addon" for="datetimepicker1">
+										<i class="icmn-calendar"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class=" col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+								<div class="form-group">
+									<div class='input-group date' >
+										<input type='text' class="form-control border_none" id='datetimepicker2'  placeholder="To" ng-model="to_date"/>
+										<label class="input-group-addon" for="datetimepicker2">
+										<i class="icmn-calendar"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+				  <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-12 " align="left">
+								 <button  class="btn btn-success"><i class="fa fa-search"></i></button>
+							   </div>
+							
+								<!--<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none pull-right">
+								<button id="tblExport" style="float:right" class="btn btn-rounded btn-primary-outline margin-inline" class="fa fa-file-excel-o" aria-hidden="true"></i> Export to excel</button>
+								
+								<button id="cmd" style="float:right" class="btn btn-rounded btn-primary-outline margin-inline" class="fa fa-file-pdf-o" ></i> Export to PDF</button>
+								</div>-->
+								<br/>
+					
+							<!--<h4>
+							<b>Liabilities</b>
+							</h4>-->
+							<br/><br/>
+							<div id="content" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+								 <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered" id="table2excel">
+                            <thead>
+                               <tr class="colorhead">
+											
+											<th>Date</th>
+											<th>Particular</th>
+											<th>Voucher Type</th>
+											<th>Voucher No.</th>
+											<th class="width_7 right_a">Debit</th>
+											<th class="width_7 right_a">Credit</th>
+											<th class="width_7 right_a">Balance</th>
+										</tr>
+										
+									</thead>
+									<tbody>
+									<tr >
+
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>Opening Balance</td>
+											<td class="right_a">{{ledgerDateWise.opening_debit_balance}}</td>
+											<td class="right_a">{{ledgerDateWise.opening_credit_balance}}</td>
+											<td class="right_a"></td>
+										</tr>
+										<tr ng-repeat="data in ledgerDateWise.data">
+
+											<td>{{data.date}}</td>
+											<td>{{data.narration}}</td>
+											<td>{{data.voucher_type}}</td>
+											<td>{{data.voucher_no}}</td>
+											<td class="right_a">{{data.debit_amount}}</td>
+											<td class="right_a">{{data.credit_amount}}</td>
+											<td class="right_a">{{data.}}</td>
+										</tr>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td style="text-align:right;" colspan=""><strong>Opening Balance</strong></td>
+											<td class="right_a">{{ledgerDateWise.opening_debit_balance}}</td>
+											<td class="right_a">{{ledgerDateWise.opening_credit_balance}}</td>
+											<td></td>
+										</tr>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td style="text-align:right;" colspan=""><strong>Current Total</strong></td>
+											<td class="right_a">{{debit_total | number:2}}</td>
+											<td class="right_a">{{credit_total | number:2}}</td>
+											<td></td>
+										</tr>
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td style="text-align:right;" colspan=""><strong>Closing Balance</strong></td>
+											<td class="right_a">{{ledgerDateWise.total_debit_closing_balance | number: 2}}</td>
+											<td class="right_a">{{ledgerDateWise.total_credit_closing_balance |number: 2}}</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<div id="editor"></div>
+
+								
+							</div>
+							
+							</div>
+							 
+					</div>
+					  <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+					 
+                        <center>
+						<button id="tblExport"  class="btn btn-rounded btn-primary-outline margin-inline"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export To Excel</button>
+								
+								<button id="cmd"  class="btn btn-rounded btn-primary-outline margin-inline"> <i class="fa fa-file-pdf-o" style="color:#01a8fe;"></i> Export To PDF</button>
+						
+					
+                        </center>
+                     </div>
+               
+               <div class="clearfix"></div>
+			   
+					 </div>
+					
+					<!--<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+		
+							<center>
+								<button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+							</center>	
+					</div>	-->
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+														
+<script type="text/javascript">
+	$('#datetimepicker1').datepicker({
+   changeMonth: true,
+  changeYear: true,
+   yearRange: '2000:2040' ,
+	  // defaultDate: '2015-01-01',
+ 
+ });
+ $('#datetimepicker2').datepicker({
+   changeMonth: true,
+  changeYear: true,
+   yearRange: '2000:2040' ,
+	  // defaultDate: '2015-01-01',
+ 
+ });
+
+$.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+ </script>		
+											
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+<script>
+$("#tblExport").click(function(){
+
+  $("#table2excel").table2excel({
+    // exclude CSS class
+    //exclude: ".noExl",
+    name: "Worksheet Name",
+    //fileext: ".xlsx",
+    filename: "ledger_account_report" //do not include extension
+  }); 
+});
+$(document).ready(function() {
+	$("#table2excel").tableHeadFixer(); 
+});
+</script>	
+
+<!-- <script type="text/javascript">
+var doc = new jsPDF('p', 'pt', 'a4');
+var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+        return true;
+    }
+};
+
+$('#cmd').click(function () {  
+doc.fromHTML($('#content').html(), 15, 15, {
+        'width': 170,
+		 'elementHandlers': specialElementHandlers
+    });
+    doc.save('ledger-file.pdf');
+});
+
+</script> -->						
+		<!-- header fixed End-->

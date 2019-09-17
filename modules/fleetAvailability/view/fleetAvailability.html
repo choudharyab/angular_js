@@ -1,0 +1,458 @@
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+
+<section class="page-content">
+<div class="page-content-inner">
+   <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+       <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/stock-register.png">Fleet Availability
+
+							
+                        
+						
+						</div>
+						
+						<br/>
+                        </div>
+                        </div>
+
+						<br/>
+
+						<br/>
+						
+						<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left: 0px;padding-right: 0px;">
+
+                    <div class=" col-lg-12 col-md-12 col-sm-4 col-xs-12"  style="position: relative;top: 7px;"><h4><b>Available fleet</b></h4></div>
+                   <!-- <div class="search-block col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										
+										<span class="checkbox_alignment">
+										<i class=" font_six" aria-hidden="true" title="Location"></i><label>
+										<div class="top_t">
+												<div ng-class="{label_display : active_lable}" class="label_none">Location</div>
+									    	
+										<!-- <select class="form-control border_none color_f" data-ng-model="fleet_location" data-ng-change="get_locationwise_details(fleet_location)">
+											<option value="" ng-selected="selected">Select Location</option>
+											<option ng-repeat="data in location_details" value="{{data.id}}">{{data.company_address}},{{data.city}}</option>
+										</select> -->
+									
+									<!--	</div>
+									</label>
+										</span>
+									</div>
+                            </div>-->
+                            
+                            <div class="clearfix"></div>
+					 <div class="sb-container container-example1 hei1"><!--add after record  sb-container container-example1 hei  -->
+						<!--<div id="warehouseError">{{warehouse_error}}</div>-->
+						<div class="table_dis" id="fixedheader1">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                <th>Fleet Code</th>
+                                <th>Reg.No.</th>
+                                <th>Make</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="data in available_fleet_details">
+                                <td>{{data.fleet_code}}</td>
+                                 <td>{{data.fleet_reg_no}}</td>
+								 <td>{{data.make}}</td>
+                               
+                               
+                               <!-- <td>
+								<!-- <a data-toggle="modal" data-target="#example2" ng-click="get_warehouse_details($index,details.id)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> -->
+							    <!-- <a > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ></i></a> |
+								<!--<a ng-bootbox-confirm="Are you sure to delete this warehouse?"
+									   ng-bootbox-confirm-action="deleteWarehouse(details.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" aria-hidden="true"></i></a>-->
+									<!--   
+									<a > <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ></i></a>
+
+								</td>-->
+                            </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                     </div>
+                     </div>
+
+                        <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-right: 0px;"> 
+                    <div class=" col-lg-12 col-md-12 col-sm-4 col-xs-12"  style="position: relative;top: 7px;"><h4><b>Fleets Allocated</b></h4></div>
+                   <!-- <div class="search-block col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+										
+										<span class="checkbox_alignment">
+										<!-- <i class="fa fa-map-marker font_six" aria-hidden="true" title="Location"></i><label>
+										<div class="top_t">
+												<div ng-class="{label_display : active_lable}" class="label_none">Location</div>
+									    	
+										<select class="form-control border_none color_f" data-ng-model="allocated_fleet_location" data-ng-change="get_allocated_fleet_details(allocated_fleet_location)">
+											<option value="" ng-selected="selected">Select Location&nbsp;&nbsp;&nbsp;</option>
+											<option ng-repeat="data in location_details" value="{{data.id}}">{{data.location}}</option>
+										</select>
+									
+										</div> -->
+									<!--</label>
+										</span>
+									</div>
+                            </div>-->
+                            
+                            <div class="clearfix"></div> 
+
+					 <div class="sb-container container-example1 hei1"><!--add after record  sb-container container-example1 hei  -->
+						<!--<div id="warehouseError">{{warehouse_error}}</div>-->
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+								   <th>Sr. No.</th>
+                                <th>Fleet Code</th>
+                                <th>Reg. No.</th>
+                                <th>Make</th>
+                                <th>Case Id</th>
+								<th>Dealership City</th>
+                                <th>Dealership State</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="data in allocated_fleet_details">
+									<td>{{$index+1}}</td>
+                                <td>{{data.fleet_code}}</td>
+								<td>{{data.fleet_reg_no}}</td>
+								<td>{{data.make}}</td>
+								<td>{{data.case_no}}</td>
+                                <td>{{data.asp_location}}</td>
+                                <td>{{data.state_name}}</td>
+                                 <!-- <td>
+								<!-- <a data-toggle="modal" data-target="#example2" ng-click="get_warehouse_details($index,details.id)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> -->
+							    <!-- <a > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ></i></a> |
+								<!--<a ng-bootbox-confirm="Are you sure to delete this warehouse?"
+									   ng-bootbox-confirm-action="deleteWarehouse(details.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)"> <i class="fa fa-trash-o font_six" aria-hidden="true"></i></a>-->
+									<!--   
+									<a > <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ></i></a>
+
+								</td>-->
+                            </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                     </div>
+                     </div>
+
+                     	 
+                     <div class="clearfix"></div>
+                    </div>
+                   </div>
+                </div>
+                </div>
+            </div>
+        </div>
+	</div>
+<br/>
+    <!-- End Dashboard -->
+</div>
+</section>
+
+<!-- modal start -->
+
+  <div class="modal fade modal-size-middle" close-my-modal id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Rule Configuration</h4>
+								
+                            </div>
+                            <div class="modal-body">
+                             <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="formWarehouse">
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+											<div  ng-class="{label_display : active_lable}" class=" label_none">Client</div><!-- add for edit button click class 'label_display' -->
+											
+										<select class="form-control border_none color_f" >
+											<option value="" ng-selected="selected" >Select Client</option>
+											
+										</select>
+											
+											</div>
+											<div class="clearfix"></div>
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+										<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 newinfo">
+										<b>Charge For Initail :</b>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" capitalize>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo">
+											
+										KM
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo">
+											
+										=
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" capitalize>
+										</div>
+										</div>
+											
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+										<div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 newinfo">
+										<b>Charge Above Initail :</b>
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" capitalize>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo">
+											
+										KM
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 newinfo">
+											
+										=
+										</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+											
+										<input class="form-control border_none uppercase " type="text" capitalize>
+										</div>
+										<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 padd_none newinfo">
+											
+										/ KM
+										</div>
+										</div>
+									
+								
+							
+								
+
+								
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_save">
+											<center>
+											<button ng-click="save_warehouse()" class="btn btn-success-outline margin-inline" type="submit" data-dismiss="modal" ng-disabled="formWarehouse.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+											</center>
+									</div>
+									   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+										   <center>
+											   <button ng-click="edit_warehouse()" class="btn btn-success-outline margin-inline" type="button">
+												   <span class="top_p"><i class="icmn-share2"></i></span> Update
+											   </button>
+										   </center>
+									   </div>
+									  </form> 
+	                               </div>
+                                </div>
+
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+
+
+  <div class="modal fade modal-size-middle" close-my-modal id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Services Type</h4>
+								
+                            </div>
+                            <div class="modal-body">
+                             <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="formWarehouse">
+										
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+											<div  ng-class="{label_display : active_lable}" class=" label_none">Services Type</div><!-- add for edit button click class 'label_display' -->
+										
+											<input class="form-control border_none uppercase " placeholder="Services Type" type="text" capitalize>
+											
+											</div>
+											<div class="clearfix"></div>
+										
+										
+									
+								
+							
+								
+
+								
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="show_save">
+											<center>
+											<button ng-click="save_warehouse()" class="btn btn-success-outline margin-inline" type="submit" data-dismiss="modal" ng-disabled="formWarehouse.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+											</center>
+									</div>
+									   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+										   <center>
+											   <button ng-click="edit_warehouse()" class="btn btn-success-outline margin-inline" type="button">
+												   <span class="top_p"><i class="icmn-share2"></i></span> Update
+											   </button>
+										   </center>
+									   </div>
+									  </form> 
+	                               </div>
+                                </div>
+
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                           
+                        </div>
+                    </div>
+                </div>
+<!-- modal start -->
+
+
+
+<div class="modal fade" id="generate_password" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+			</div>
+			<div class="modal-body">
+				<!--<form name="form-validation">-->
+				<form name="formvalidation" novalidate>
+					<div class="form-group" ng-hide="gen_pass_div">
+						<label class="form-label">Comments</label>
+						<input class="form-control border_none uppercase"
+							   placeholder="Comment"
+							   type="text"
+							   ng-model="comment.comment" name="comments"  ng-required="true" capitalize>
+
+							   
+							  
+					</div>
+					<div class="form-group" ng-show="otp_div">
+						<label class="form-label">Enter OTP</label>
+						<input class="form-control border_none"
+							   placeholder="Enter OTP"
+							   type="text"
+							   ng-model="otp_object.otp">
+					</div>
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+							<div class="col-md-6">
+								<!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+								<button type="submit" ng-hide="gen_pass_btn" ng-click="generate_password_function()"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+								<button type="submit" ng-show="verify_otp_btn"  ng-click="verify_otp()" class="btn btn-primary" data-dismiss="modal">Verify OTP</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this ).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>

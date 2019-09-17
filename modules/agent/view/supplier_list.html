@@ -1,0 +1,867 @@
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-6 col-md-5 col-sm-6 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/supplier.png">Third Party Vendor
+                              <div style="font-size: 15px;color: green" id="addagentSuccess"  class="formessage_display">{{addagentSuccess}}</div>
+                              <div style="font-size: 15px;color: red" id="deleteagentSuccess"  class="formessage_display">{{deleteagentSuccess}}</div>
+                           </div>
+                           <div class="right serchlist margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_agent_details_list">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button" ng-click="add_agent_buttton()" ng-hide="current_module_rights.add_option=='no'"><i class="fa fa-plus" aria-hidden="true"></i> Add New Agent</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1 topupmm">
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                     <th>Sr. No.</th>
+                                    <th>Party Code</th>
+                                    <th>Party Name</th>
+                                    <th>City</th>
+                                    <th>Phone No.</th>
+                                    <th>Status</th>
+                                    <!--<th>Country</th>-->
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>agent Code</th>
+                                 <th>agent Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 <tr ng-repeat="agent in agent_details_list | filter: filter_agent_details_list">
+                                     <td>{{$index+1}}</td>
+                                    <td class="tblhover">{{agent.agent_code | uppercase}}</td>
+                                    <td class="tblhover">	
+                                       {{agent.agent_name | uppercase}}
+                                    </td>
+                                    <td>{{agent.city | uppercase}}</td>
+                                    <td>{{agent.mobile_number}}</td>
+                                    <td>{{agent.agent_status}}</td>
+                                    <!-- <td>{{agent.country | uppercase}}</td>-->
+                                    <td>
+                                       <!-- <a data-toggle="modal" data-target="#example2" ng-click="edit(agent.id)"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> -->
+                                       <a ng-show="current_module_rights[1].status" data-toggle="modal" data-target="#generate_password" ng-hide="current_module_rights.edit_option=='no'"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="agent_permission_popup(agent.id,agent.comment_status,'edit')"></i>|</a>
+                                       <!-- <a data-toggle="modal" data-target="#example2"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="edit(agent.id)"></i></a> -->
+                                       
+                                       <!--<a href=""> <i class="fa fa-trash-o font_six" aria-hidden="true"></i></a>-->
+                                       <a ng-show="current_module_rights[2].status" data-toggle="modal" data-target="#generate_password" ng-hide="current_module_rights.delete_option=='no'"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="agent_permission_popup(agent.id,agent.delete_status,'delete')"></i></a>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- hover Details  -->
+<div class="tblcontentnew">
+   <div class="stylenew">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_bb">
+            <b>Details :</b>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Party Code :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.agent_code}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Party Name :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.agent_name}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <!--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+            <b> Make Name :</b>
+            </div>	
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+            {{agent.make_name}}
+            </div>	
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+            	
+            </div>-->
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Pan No. :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.pan_no}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Bank Name :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.bank_name}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Bank Acc. No.:</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.bank_account_number}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Branch Name:</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.bank_branch}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>IFSC/RTGS :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.ifsc_rtgs_code}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none fontsize12">
+               <b>Bank City :</b>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 padd_none fontsize12">
+               {{agent.bank_city}}
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_b padd_none"></div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+   <div class="clearfix"></div>
+</div>
+<style type="text/css">
+   .stylenew{width: 53em;background-color: #fff;border:2px solid #BEB9B5 !important;padding: 10px;}
+   .tblhover{cursor: pointer;}
+   .fontsize12{font-size: 12px !important;}
+</style>
+<!-- hower details js -->
+<script type="text/javascript">
+   $.widget("ui.tooltip", $.ui.tooltip, {
+       options: {
+           content: function () {
+               return $(this).prop('title');
+           }
+       }
+   });
+   
+   $(function () {
+       $('.tblhover').attr('title', $('.tblcontentnew').remove('').html())
+       $(document).tooltip();
+   });
+</script>
+<script>
+   $(document).ready(function(){
+   //alert("hii")
+   
+   setTimeout(function(){
+     $(".tblhover").removeAttr('style');
+   },1000);
+   })
+</script>
+<!-- hower details js end-->
+<!-- modal start -->
+<div class="modal fade modal-size-large" id="example2" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{agent_title}}</h4>
+            <!-- <span style="color: green" id="addagentSuccess">{{addagentSuccess}}</span>
+               <span style="color: red" id="deleteagentSuccess">{{deleteagentSuccess}}</span>-->
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <ul class="nav nav-tabs" role="tablist">
+                  <li class=" nav-item"  role="presentation">
+                     <a class="nav-link active" role="tab" data-target="#home1" data-toggle="tab" id="1">Details</a>
+                  </li>
+                  <!--  <li class="nav-item">
+                     <a class="nav-link" ng-class="{active:tab_details}" href="javascript: void(0);" data-toggle="tab" data-target="#home1" role="tab">Details</a>
+                     </li>-->
+                  <li class="nav-item" >
+                     <a class="nav-link " role="tab" data-target="#profile1" data-toggle="tab" id="2">Address</a>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <a class="nav-link" ng-class="{active:tab_address}" href="javascript: void(0);" data-toggle="tab" data-target="#profile1" role="tab">Address</a>
+                     </li>-->
+                  <li class="nav-item" >
+                     <a class="nav-link" role="tab" data-target="#messages1" data-toggle="tab" id="3">Contacts</a>
+                  </li>
+                  <!-- <li class="nav-item">
+                     <a class="nav-link" ng-class="{active:tab_contact}" href="javascript: void(0);" data-toggle="tab" data-target="#messages1" role="tab">Contact</a>
+                     </li>-->
+                  <!--<li class="nav-item" >
+                     <a class="nav-link" role="tab" data-target="#settings1" data-toggle="tab" id="4">Products</a>
+                     </li>-->
+                  <!--<li class="nav-item">
+                     <a class="nav-link" ng-class="{active:tab_product}" href="javascript: void(0);" data-toggle="tab" data-target="#settings1" role="tab">Product</a>
+                     </li>-->
+               </ul>
+               <div class="tab-content padding-vertical-20">
+                  <div class="tab-pane active"  id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <form name="details">
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" ng-hide="hide_agent_code">
+                                 <div  ng-class="{label_display : active_lable}" class="label_display">Party Code</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Agent Code" ng-model="text_next_party_code"  disabled>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div class="star">*</div>
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Party Name</div>
+                                 <input class="form-control border_none" type="text" placeholder="Agent Name" name="agentname" ng-model="add_agent_info.details.agent_name" ng-required="true" capitalize>
+                                 <div ng-messages="details.agentname.$error" ng-show="details.agentname.$dirty" >
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                 </div>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Party Type</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <!-- <div class="star">*</div> -->
+                                 <input class="form-control border_none" type="text" placeholder="Agent Type" ng-model="add_agent_info.details.agent_type" name="makename" capitalize>
+                                 <!-- <div ng-messages="details.makename.$error" ng-show="details.makename.$dirty" >
+                                    <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    </div> -->
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Pan Number</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none " type="text" placeholder="Pan Number" ng-model="add_agent_info.details.pan_no" name="panno"  capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 10px;">
+                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    <b>Status:</b>
+                                 </div>
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <div class="form-group" style="margin-bottom: 0px;">
+                                       <div class="radio">
+                                          <label>
+                                          <input name="example1"  type="radio" value="active" ng-model="add_agent_info.details.agent_status">
+                                          Active
+                                          </label>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <div class="form-group" style="margin-bottom: 0px;">
+                                       <div class="radio">
+                                          <label>
+                                          <input name="example1" type="radio"  value="inactive" ng-model="add_agent_info.details.agent_status">
+                                          Inactive
+                                          </label>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Bank Name</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Bank Name" ng-model="add_agent_info.details.bank_name" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Bank Account No.</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Bank Account No." ng-model="add_agent_info.details.bank_account_number" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Branch Name</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Branch Name" ng-model="add_agent_info.details.bank_branch" capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">IFSC / RTGS Code</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none " type="text" placeholder="IFSC / RTGS Code" ng-model="add_agent_info.details.ifsc_rtgs_code"  capitalize>
+                              </div>
+                              <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Bank City</div>
+                                 <!-- add for edit button click class 'label_display' -->
+                                 <input class="form-control border_none" type="text" placeholder="Bank City" ng-model="add_agent_info.details.bank_city" capitalize>
+                              </div>
+                              <!--<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                 <div  ng-class="{label_display : active_lable}" class="label_none">Bank Country</div><!-- add for edit button click class 'label_display' -->
+                              <!--<input class="form-control border_none" id="country_id" type="text" placeholder="Bank Country" ng-model="add_agent_info.details.bank_country"  capitalize ng-keyup="searchBankCountry()" ng-mouseleave="searchBankCountry()">
+                                 </div>-->
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <center>
+                                 <!--<button class="btn btn-success-outline margin-inline" type="button">
+                                    <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                    </button>-->
+                                 <button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(2)" ng-disabled="details.$invalid">Next
+                                 <span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+                                 </button>	
+                              </center>
+                           </div>
+                           <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <center>
+                              <button class="btn btn-success-outline margin-inline" type="button">
+                              	<span class="top_p"><i class="icmn-share2"></i></span> Save
+                              </button>
+                              <button class="btn btn-primary-outline margin-inline" type="button">Next 
+                              	<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+                              </button>	
+                              </center>
+                              </div>-->
+                        </form>
+                     </div>
+                  </div>
+                  <!--------------ADDRESS------------>
+                  <div class="tab-pane" id="profile1" role="tabpanel">
+                     <form name="address">
+                        <div class="hh">
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none"  style="margin-top: 3px;">
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Address</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Address" ng-model="add_agent_info.main_address.address_name"  name="address" ng-required="true" capitalize>
+                                    <div ng-messages="address.address.$error" ng-show="address.address.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Street Address</div>
+                                    <input class="form-control border_none" type="text" placeholder="Street Address" name="street_address" ng-model="add_agent_info.main_address.street_address" ng-required="true" capitalize>
+                                    <!--<div ng-messages="address.street_address.$error" ng-show="address.street_address.$dirty" capitalize>
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    </div>-->
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">City</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none " type="text" placeholder="City" ng-model="add_agent_info.main_address.city" name="city" ng-required="true" capitalize>
+                                    <div ng-messages="address.city.$error" ng-show="address.city.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">State</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <select class="form-control border_none color_f" ng-model="add_agent_info.main_address.state_id" name="state" ng-required="true" >
+                                       <option value="" ng-selected="selected">Select State</option>
+                                       <option ng-repeat="state in state_list" value="{{state.id}}">{{state.state_with_code}}</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="margin-top: 3px;">
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Pin Code</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Pin Code" ng-model="add_agent_info.main_address.pincode" name="Pin code" ng-required="true" onkeypress="return isNumber(event)" capitalize>
+                                    <div ng-messages="address.pincode.$error" ng-show="address.pincode.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                       <p ng-message="minlength" class="color_font" class="color_font">Required 6 digit.</p>
+                                       <p ng-message="maxlength" class="color_font" class="color_font">Required 6 digit only.</p>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none"  >
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Country</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" id="main_country" type="text" placeholder="Country" ng-model="add_agent_info.main_address.country" name="country" ng-required="true" ng-keyup="searchMainCountry()" ng-mouseleave="searchMainCountry()" capitalize>
+                                    <div ng-messages="address.country.$error" ng-show="address.country.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">GST No.</div>
+                                    <input class="form-control border_none uppercase" type="text" placeholder="GST No." ng-model="add_agent_info.main_address.gst_no" name="gst" ng-minlength="15" maxlength="15" >
+                                    <div ng-messages="address.gst.$error" ng-show="address.gst.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                       <p ng-message="minlength" class="color_font" class="color_font">Required 15 digit.</p>
+                                       <p ng-message="maxlength" class="color_font" class="color_font">Required 15 digit only.</p>
+                                       <p ng-message="pattern" class="color_font" class="color_font">Must be Alphanumeric.</p>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="depot_address in  add_agent_info.depot_address">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+                                 <button class="btn btn-rounded btn-primary-outline margin-inline flt_d pull-right" type="button" ng-click="remove_address($index)">
+                                 <i class="fa fa-minus" aria-hidden="true"></i></button>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Address</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none" type="text" placeholder="Address" ng-model="add_agent_info.depot_address[$index].address_name" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Street Address</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none" type="text" placeholder="Street Address" ng-model="add_agent_info.depot_address[$index].street_address" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">City</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none" type="text" placeholder="City" ng-model="add_agent_info.depot_address[$index].city">
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">State</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <select class="form-control border_none color_f" ng-model="add_agent_info.depot_address[$index].state_id">
+                                       <option value="" ng-selected="selected">Select State</option>
+                                       <option ng-repeat="state in state_list" value="{{state.id}}">{{state.state_with_code}}</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Pin Code</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none" type="text" placeholder="Pin Code" ng-model="add_agent_info.depot_address[$index].pincode">
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Country</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none uppercase" type="text" placeholder="Country" ng-model="add_agent_info.depot_address[$index].country" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">GST No.</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none" type="text" placeholder="GST No." ng-model="add_agent_info.depot_address[$index].gst_no" capitalize>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <button class="btn btn-rounded btn-primary-outline margin-inline flt_d" type="button" ng-click="add_more_address()">
+                              <i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+                           </div>
+                           <div class="clearfix"></div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                           <center>
+                              <!--<button class="btn btn-success-outline margin-inline" type="button">
+                                 <span class="top_p"><i class="icmn-share2"></i></span> Save
+                                 </button>-->
+                              <button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(3)" ng-disabled="address.$invalid">Next
+                              <span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+                              </button>	
+                           </center>
+                        </div>
+                     </form>
+                  </div>
+                  <!--------------ADDRESS END------------>
+                  <!--------------CONTACT------------>
+                  <div class="tab-pane" id="messages1" role="tabpanel">
+                     <form name="contact">
+                        <div class="hh">
+                           <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none"  style="margin-top: 3px;">
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Full Name</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Full Name" ng-model="add_agent_info.main_contact.full_name" name="fullname" ng-required="true" capitalize>
+                                    <div ng-messages="contact.fullname.$error" ng-show="contact.fullname.$dirty">
+                                       <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Designation</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Designation" ng-model="add_agent_info.main_contact.designation" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div class="star">*</div>
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Email</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none homelower" type="email" placeholder="Email" ng-model="add_agent_info.main_contact.email" name="email" autocomplete="off">
+                                    <div ng-messages="contact.email.$error" ng-show="contact.email.$dirty">
+                                       <p ng-message="required" class="color_font">This field is required.</p>
+                                       <p ng-message="email" class="color_font">Please enter a valid email address.</p>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" >
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Website</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none homelower" type="text" placeholder="www.example.com" ng-model="add_agent_info.main_contact.website">
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none"  style="margin-top: 3px;">
+                                    
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div  ng-class="{label_display : active_lable}" class="label_display">Office Phone</div>	
+                                       <input class="form-control border_none" type="text" placeholder="Office Phone" ng-model="add_agent_info.main_contact.office_phone">
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div class="star">*</div>
+                                   
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div  ng-class="{label_display : active_lable}" class="label_display">Mobile Number</div>
+                                       <input class="form-control border_none" type="text" placeholder="Mobile Number" name="number" ng-model="add_agent_info.main_contact.mobile_number"   ng-required="true" onkeypress="return isNumber(event)" minlength="10">
+                                       <div ng-messages="contact.number.$error" ng-show="contact.number.$dirty">
+                                          <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+                                          <p ng-message="minlength" class="color_font" class="color_font">Required 10 digit.</p>
+                                          <p ng-message="maxlength" class="color_font" class="color_font">Required 10 digit only.</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Fax Number</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Fax Number" ng-model="add_agent_info.main_contact.fax_number" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_none">Location</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Location" ng-model="add_agent_info.main_contact.location" capitalize>
+                                 </div>
+                              </div>
+                           </div>
+                           <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="contact in add_agent_info.contacts">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+                                 <button class="btn btn-rounded btn-primary-outline margin-inline flt_d pull-right" type="button" ng-click="remove_contact($index)">
+                                 <i class="fa fa-minus" aria-hidden="true"></i></button>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Full Name</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none " type="text" placeholder="Full Name" ng-model="add_agent_info.contacts[$index].full_name" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Designation</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Designation" ng-model="add_agent_info.contacts[$index].designation" capitalize>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Email</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="star">*</div>
+                                    <input class="form-control border_none homelower" type="text" placeholder="Email" ng-model="add_agent_info.contacts[$index].email">
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Website</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none homelower" type="text" placeholder="WWW.example.com" ng-model="add_agent_info.contacts[$index].website">
+                                 </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Office Phone</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                       <input class="form-control border_none" placeholder="" type="text" value="+" name="number" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">	
+                                       <input class="form-control border_none" type="text" placeholder="Office Phone" ng-model="add_agent_info.contacts[$index].office_phone">
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Mobile Number</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                       <input class="form-control border_none" placeholder="" type="text" value="+" name="number" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">	
+                                       <input class="form-control border_none" type="text" placeholder="Mobile Number" ng-model="add_agent_info.contacts[$index].mobile_number">
+                                    </div>
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Fax Number</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Fax Number" ng-model="add_agent_info.contacts[$index].fax_number" >
+                                 </div>
+                                 <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                    <div  ng-class="{label_display : active_lable}" class="label_display">Location</div>
+                                    <!-- add for edit button click class 'label_display' -->
+                                    <input class="form-control border_none" type="text" placeholder="Location" ng-model="add_agent_info.contacts[$index].location" capitalize>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <button class="btn btn-rounded btn-primary-outline margin-inline flt_d" type="button" ng-click="add_more_contact()">
+                              <i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+                           </div>
+                           <div class="clearfix"></div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                           <center>
+                              <button class="btn btn-success-outline margin-inline" type="button" ng-click="save_agent()"  ng-hide="show_save">
+                              <span class="top_p"><i class="icmn-share2"></i></span> Save
+                              </button>
+                           </center>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+                           <center>
+                              <button class="btn btn-success-outline margin-inline" type="button" ng-click="edit_agent()" >
+                              <span class="top_p"><i class="icmn-share2"></i></span> Update
+                              </button>
+                           </center>
+                        </div>
+                        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                           <center>
+                           
+                           <button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(4)" ng-disabled="contact.$invalid">Next
+                           	<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+                           </button>	
+                           </center>
+                           </div>-->
+                     </form>
+                  </div>
+                  <!---------------------PRODUCT------------------>
+                  <!--<div class="tab-pane" id="settings1" role="tabpanel">
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <div class="sb-container container-example1 hei">
+                     <div class="table_dis" id="fixedheader1">
+                             <table class="table table-hover table-bordered">
+                                 <thead>
+                                     <tr class="colorhead">
+                                     <th class="widthff1">Product Code</th>
+                                     <th>Product Group</th>
+                                     
+                                     <th>Product Name</th>
+                                     <th>Grade</th>
+                                     <th>Unit Of Measure</th>
+                                     <th class="widthff1">HSN Code</th>
+                                     <th>Action</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                          
+                     
+                                   <tr ng-repeat="products in selected_product_array">
+                     
+                                     <td><input class="form-control border_none" type="text" placeholder="Product Code" id="{{'product_code'+$index}}" ng-model="selected_product_array[$index].product_code" ng-keydown="get_product_text($index)"></td>
+                     
+                                     <td>
+                     <span>
+                     {{selected_product_array[$index].group_name.group_name}}
+                     </span>
+                     <span>
+                     {{selected_product_array[$index].productgroup.group_name}}
+                     </span>
+                     </td>
+                                     <td>{{selected_product_array[$index].product_name}}</td>
+                                     <td>{{selected_product_array[$index].grade}}</td>
+                                      <td><span>{{selected_product_array[$index].measurement.measurement_name}}</span>
+                     
+                                     <span>{{selected_product_array[$index].editmeasurement.measurement_name}}</span>
+                     
+                                     </td>
+                                     <td>
+                     <input class="form-control border_none" type="text" placeholder="HSN Code" ng-model="selected_product_array[$index].hsn_code"  maxlength="8"  ng-required="true">
+                     </td>
+                     <td><a ng-click="remove_product($index)"><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true"></i></a></td>
+                     
+                     
+                                   </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         </div>
+                     </div>
+                     
+                     
+                     
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <button class="btn btn-rounded btn-primary-outline margin-inline flt_d" type="button" ng-click="add_more_products()">
+                     <i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+                     </div>
+                     
+                     <div class="clearfix"></div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                     <center>
+                     <button class="btn btn-success-outline margin-inline" type="button" ng-click="save_agent()"  ng-hide="show_save">
+                     <span class="top_p"><i class="icmn-share2"></i></span> Save
+                     </button>
+                     
+                     </center>
+                     </div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+                     <center>
+                     <button class="btn btn-success-outline margin-inline" type="button" ng-click="edit_agent()" >
+                     <span class="top_p"><i class="icmn-share2"></i></span> Update
+                     </button>
+                     </center>
+                     </div>
+                     </div>-->
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+         <!--<div class="modal-footer bgcolor">
+            <button type="button" class="btn" data-dismiss="modal">Close</button>
+            
+            </div>-->
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="generate_password" close-modal-two tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+         </div>
+         <div class="modal-body">
+            <!--<form name="form-validation" ng-submit="generateOTP ? generate_password_function() : verify_otp()">-->
+            <form name="formvalidation" ng-submit="generateOTP ? generate_password_function() : verify_otp()" novalidate>
+               <div class="form-group" ng-hide="gen_pass_div">
+                  <!--<label class="form-label">Comments</label>-->
+                  <input class="form-control border_none"
+                     placeholder="Comment"
+                     type="text"
+                     ng-model="comment.comment" name="comments" ng-required="true" capitalize>
+               </div>
+               <div class="form-group" ng-show="otp_div">
+                  <!--<label class="form-label">Enter OTP</label>-->
+                  <input class="form-control border_none"
+                     placeholder="OTP"
+                     type="text"
+                     ng-model="otp_object.otp">
+               </div>
+               <div class="modal-footer">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <h5>{{pending_msg}}</h5>
+                     </div>
+                     <div class="col-md-6">
+                        <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                        <button type="submit" ng-hide="gen_pass_btn"  class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                        <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- modal start -->
+<!--<input class="form-control border_none" type="text" placeholder="Product Code" id="product_code_11" ng-model="auto_product_text">-->
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<script>
+   $(".uppercase").bind('keyup', function (e) {
+      $(this).val(($(this).val()).toUpperCase());
+   });
+</script>
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+   //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader1").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<script type="text/javascript">
+   $('select').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>

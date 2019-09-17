@@ -1,0 +1,761 @@
+
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-2 col-md-12 col-sm-2 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/balancesheet.png">  Ledgers <br>
+						<div id="ledger_add_success" style="color: green;font-size: 15px;" class="formessage_display">{{led_success}}</div>
+						<div id="ledger_delete_success" style="color: red;font-size: 15px;" class="formessage_display">{{led_del_success}}</div>
+						</div>
+						<div class="col-lg-2 col-md-3 col-sm-2 col-xs-12 text_d1">
+										<input class="form-control border_none" placeholder="Enter Subgroup" type="text" ng-model="ledger_name">
+									</div>
+						<div class="col-lg-1 col-md-3 col-sm-1 col-xs-12 text_d1">
+										<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padd_none text_d">
+											<b>Type :</b>
+										</div> -->
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<!--<select class="form-control border_none color_f" data-ng-options="o.ledger_type for o in ledgerTypeList" data-ng-model="acc_ledger_type">
+												<option value="">&#45;&#45;Select Type&#45;&#45; &nbsp;&nbsp;&nbsp;</option>
+											</select>-->
+
+											<select class="form-control border_none color_f" data-ng-model="acc_ledger_type" disabled="disabled">
+												<option value="">Select Type</option>
+												
+											<!--	<option ng-selected="acc_ledger_type==a.ledger_type" ng-repeat="a in ledgerTypeList" value="{{a.ledger_type}}">{{a.ledger_type}}</option>-->
+											<option ng-selected="acc_ledger_type=='Group'"  value="Group">Subgroup</option>
+												<option ng-selected="acc_ledger_type=='Ledger'"  value="Ledger">Ledger</option>
+												
+											</select>
+										</div>
+						</div>
+						<div class="col-lg-2 col-md-3 col-sm-2 col-xs-12 text_d1">
+							<!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 padd_none text_d">
+								<b>Under :</b>
+							</div> -->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+								<!--<select class="form-control border_none color_f" data-ng-options="o.ledger_group_name for o in ledgerGroupList" ng-model="ledger_group" ng-init="ledger_group==o.id">
+									<option value="">&#45;&#45;Select Group&#45;&#45; &nbsp;&nbsp;&nbsp;</option>
+								</select>-->
+
+								<select class="form-control border_none color_f" ng-model="ledger_group_id">
+									<option value="">Select Under</option>
+									<option ng-repeat="lg in ledgerGroupList" ng-selected="lg.id==ledger_group_id" value="{{lg.id}}">{{lg.ledger_group_name}}</option>
+								</select>
+
+							</div>
+						</div>
+
+						<!--<div class="col-lg-1 col-md-2 col-sm-1 col-xs-12 text_d1">
+										<input  class="form-control border_none" placeholder="Opening Balance" type="number" ng-model="opening_balance">
+						</div>-->
+						<div>
+						<div class="col-lg-1 col-md-1 col-sm-3 col-xs-12 text_d1">
+						<button class="btn btn-rounded btn-primary-outline margin-inline"type="button" ng-click="save_ledger()" ng-hide="show_save" ng-hide="current_module_rights.add_option=='no'">Save</button>
+							<button class="btn btn-rounded btn-primary-outline margin-inline"type="button" ng-click="update_ledger()" ng-show="show_edit">Update ledger</button>
+						</div>
+						</div>
+						<div class="right hidden-md-down margin-left-40 col-lg-2 col-md-2 col-sm-2 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_ledgerList">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+							<button class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example2" type="button" ng-click="add_ledger_buttton()" ng-hide="current_module_rights.add_option=='no'"><i class="fa fa-plus" aria-hidden="true"></i> Add Ledger</button>
+				
+                        </div>
+                        </div>
+						<div class="clearfix"></div>
+						<br/><br/>
+                    <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+                                	<th class="width_ad">Sr. No.</th>
+                                	<th>Ledger Name</th>
+                                	<th>Under</th>
+                                	<th>Ledger Type</th>
+                                	<!--<th>Opening Balance</th>-->
+                                	<th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr ng-repeat="led in  ledgerList | filter:filter_ledgerList">
+                               		 <td>{{$index+1}}</td>
+                                	 <td>{{led.ledger_name}}</td>
+                                     <td>{{led.ledger_group_name}}</td>
+                                     <td>{{led.ledger_type}}</td>
+                                     <!--<td>{{led.opening_balance}}</td>-->
+                                     <td>
+										 <a ng-if="led.ledger_type == 'Group'" ng-click="edit_ledger(led.id)" ng-hide="current_module_rights.edit_option=='no'"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> 
+                                     <a ng-if="led.ledger_type == 'Ledger'" ng-click="ledger_details_by_id(led.id)" ng-hide="current_module_rights.edit_option=='no'"  data-toggle="modal" data-target="#example2" > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true"></i></a> 
+
+|
+										 <a ng-click="deleteLedgerById(led.id)" ng-hide="current_module_rights.delete_option=='no'"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ></i></a>
+									 </td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+
+</section>	
+
+
+<!-- modal start -->
+
+  
+ 
+  <div class="modal fade modal-size-large" id="example2" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">{{supplier_title}}</h4>
+                               <!-- <span style="color: green" id="addSupplierSuccess">{{addSupplierSuccess}}</span>
+                                <span style="color: red" id="deleteSupplierSuccess">{{deleteSupplierSuccess}}</span>-->
+                            </div> 
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                            <ul class="nav nav-tabs" role="tablist">
+								<li class=" nav-item"  role="presentation">
+									<a class="nav-link active" role="tab" data-target="#home1" data-toggle="tab" id="1">Details</a>
+								</li>
+                              <!--  <li class="nav-item">
+                                    <a class="nav-link" ng-class="{active:tab_details}" href="javascript: void(0);" data-toggle="tab" data-target="#home1" role="tab">Details</a>
+                                </li>-->
+								<li class="nav-item" >
+									<a class="nav-link " role="tab" data-target="#profile1" data-toggle="tab" id="2">Statutory Details</a>
+								</li>
+                               <!-- <li class="nav-item">
+                                    <a class="nav-link" ng-class="{active:tab_address}" href="javascript: void(0);" data-toggle="tab" data-target="#profile1" role="tab">Address</a>
+                                </li>-->
+								<li class="nav-item" >
+									<a class="nav-link" role="tab" data-target="#messages1" data-toggle="tab" id="3">Contacts</a>
+								</li>
+                               <!-- <li class="nav-item">
+                                    <a class="nav-link" ng-class="{active:tab_contact}" href="javascript: void(0);" data-toggle="tab" data-target="#messages1" role="tab">Contact</a>
+                                </li>-->
+								<li class="nav-item" >
+									<a class="nav-link" role="tab" data-target="#settings1" data-toggle="tab" id="4">Tax Information</a>
+								</li>
+                                <!--<li class="nav-item">
+                                    <a class="nav-link" ng-class="{active:tab_product}" href="javascript: void(0);" data-toggle="tab" data-target="#settings1" role="tab">Product</a>
+                                </li>-->
+                            </ul>
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active"  id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								   <form name="details">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+											
+										<!--<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Supplier Code</div>
+											
+										<input class="form-control border_none" type="text" placeholder="Supplier Code" ng-model="text_next_supplier_code"  disabled>
+										</div>-->
+											
+											
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Name</div><!-- add for edit button click class 'label_display' -->
+											<div class="star">*</div>
+										<input class="form-control border_none uppercase" type="text" placeholder="Name" ng-model="add_ledger_info.details.ledger_name" name="ledgername" ng-required="true">
+										<div ng-messages="details.ledgername.$error" ng-show="details.ledgername.$dirty" >
+										  <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Under</div><!-- add for edit button click class 'label_display' -->
+											<div class="star">*</div>
+											<select class="form-control border_none color_f" ng-model="add_ledger_info.details.ledger_group_id" name="ledger_id">
+									<option value="">Select Under</option>
+									<option ng-repeat="lg in ledgerGroupList" ng-selected="lg.id==ledger_group_id" value="{{lg.id}}">{{lg.ledger_group_name}}</option>
+								   </select>
+										<div class="error-container" ng-show="details.ledger_id.$dirty && details.ledger_id.$invalid" ng-messages="details.ledger_id.$error">
+																	<div class="error color_font" ng-message="required">This field is required.</div>
+										</div>
+									  </div>
+											
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Type Of Ledger</div><!-- add for edit button click class 'label_display' -->
+											
+										<select class="form-control border_none color_f"  ng-model="add_ledger_info.details.ledger_type"  name="ledger_type" ng-required="true">
+													
+													<option value="Ledger" >Ledger</option> 
+													<!--<option value="Group" >Subgroup</option> -->
+													
+											</select>
+										
+									</div>	
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Type </div><!-- add for edit button click class 'label_display' -->
+											
+										<select class="form-control border_none color_f"  ng-model="add_ledger_info.details.type_of_category"  name="type_of_category" ng-required="true">
+													<option value="" >-Select-</option> 
+													<option value="Goods" >Goods</option> 
+													<option value="Services" >Services</option> 
+											</select>
+										<div ng-messages="details.type_of_category.$error" ng-show="details.type_of_category.$dirty" >
+										  <p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+									</div>	
+											
+									
+											
+								
+									</div>
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+								<div >
+								   <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Address</div><input class="form-control border_none" type="text" placeholder="Address" ng-model="add_ledger_info.details.address_name"  name="address" ng-required="true">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Street Address</div><input class="form-control border_none" type="text" placeholder="Street Address" ng-model="add_ledger_info.details.street_address"  name="street_address" ng-required="true">
+										</div>
+
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">City/Location</div><!-- add for edit button click class 'label_display' -->
+											
+									<input class="form-control border_none uppercase" type="text" placeholder="City" ng-model="add_ledger_info.details.city" name="city" ng-required="true">
+										</div>	
+
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">State</div><!-- add for edit button click class 'label_display' -->
+											<select class="form-control border_none color_f" ng-model="add_ledger_info.details.state_id"  name="state" ng-required="true" >
+													<option value="" ng-selected="selected">Select State</option> 
+													<option ng-selected="st.id==add_ledger_info.details.state_id" ng-repeat="st in state_list" value="{{st.id}}">{{st.state_with_code}}</option>
+													
+											</select>
+										
+										</div>
+											
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Country</div><!-- add for edit button click class 'label_display' -->
+											<input class="form-control border_none" type="text" placeholder="Country" ng-model="add_ledger_info.details.country" value="India">
+									
+										</div>
+
+											
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Pincode</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="Pincode" ng-model="add_ledger_info.details.pincode">
+										</div>
+                                    </div>
+<!-- multiple addres -->
+                                         <div ng-repeat="depot_address in  add_ledger_info.depot_address">
+										 
+										  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+							    	<button class="btn btn-rounded btn-primary-outline margin-inline flt_d pull-right" type="button" ng-click="remove_address($index)">
+									<i class="fa fa-minus" aria-hidden="true"></i></button>
+									</div>
+								
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Address</div><input class="form-control border_none" type="text" placeholder="Address" ng-model="add_ledger_info.depot_address[$index].address_name"  name="address" ng-required="true">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Street Address</div><input class="form-control border_none" type="text" placeholder="Street Address" ng-model="add_ledger_info.depot_address[$index].street_address"  name="street_address" ng-required="true">
+										</div>
+
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">City/Location</div><!-- add for edit button click class 'label_display' -->
+									<input class="form-control border_none uppercase" type="text" placeholder="City" ng-model="add_ledger_info.depot_address[$index].city" name="city" ng-required="true">
+									</div>	
+
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">State</div><!-- add for edit button click class 'label_display' -->
+										<select class="form-control border_none color_f" ng-model="add_ledger_info.depot_address[$index].state_id" name="state" ng-required="true" >
+													<option value="" ng-selected="selected">Select State</option> 
+                        <option ng-selected="st.id==add_ledger_info.depot_address[$index].state_id" ng-repeat="st in state_list" value="{{st.id}}">{{st.state_with_code}}</option>
+
+							
+									</select>
+										</div>
+									<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Country</div><input class="form-control border_none" type="text" placeholder="Country" ng-model="add_ledger_info.depot_address[$index].country" value="India">
+										</div>
+                               <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Pincode</div><input class="form-control border_none uppercase" type="text" placeholder="Pincode" ng-model="add_ledger_info.depot_address[$index].pincode">
+										</div>
+                                         
+										 
+										 
+										 
+										 
+										 
+</div>										 
+										 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<button class="btn btn-rounded btn-primary-outline margin-inline flt_d" type="button" ng-click="add_more_address()">
+											<i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+
+									    </div>
+										 
+										 
+										
+									</div>
+									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<!--<button class="btn btn-success-outline margin-inline" type="button">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>-->
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(2)" ng-disabled="details.$invalid">Next
+												<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+											</button>	
+											</center>
+									</div>
+									<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="button">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+											<button class="btn btn-primary-outline margin-inline" type="button">Next 
+												<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+											</button>	
+											</center>
+									</div>-->
+								</form>
+                                </div>
+                                </div>
+
+						<!--------------ADDRESS------------>
+
+
+                                <div class="tab-pane" id="profile1" role="tabpanel">
+								 <form name="address">
+								  <div class="hh">
+                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">									  
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">PAN</div><!-- add for edit button click class 'label_display' -->
+											<div class="star">*</div>
+										<input class="form-control border_none" type="text" placeholder="PAN" ng-model="add_ledger_info.details.pan_no"  name="pan_no" ng-required="true">
+										<div ng-messages="details.pan_no.$error" ng-show="details.pan_no.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+										</div>
+											
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">TAN</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="TAN" ng-model="add_ledger_info.details.tan_no"  name="tan_no" >
+										
+										</div>
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">GST</div><!-- add for edit button click class 'label_display' -->
+											<div class="star">*</div>
+										<input class="form-control border_none uppercase" type="text" placeholder="GST" ng-model="add_ledger_info.details.gst_no" name="GST" ng-required="true">
+										<div ng-messages="details.gst_no.$error" ng-show="details.gst_no.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+										</div>	
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">DL No</div><!-- add for edit button click class 'label_display' -->
+											
+											<input class="form-control border_none uppercase" type="text" placeholder="DL No" ng-model="add_ledger_info.details.dl_no" name="GST" >
+											
+										
+										</div>
+											
+									</div>
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Bank Account No</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="Account No" ng-model="add_ledger_info.details.bank_account_no" name="bank_account_no" ng-required="true">
+										
+										</div>
+											
+											<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Bank Name</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="Bank Name" ng-model="add_ledger_info.details.bank_name" name="bank_name"   >
+										
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">IFSC No</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="IFSC" ng-model="add_ledger_info.details.ifsc_no"  name="ifsc_no" >
+										
+										</div>	
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Branch</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="Branch" ng-model="add_ledger_info.details.bank_branch"  name="bank_branch" >
+										
+										</div>	
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Address</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="Address" ng-model="add_ledger_info.details.bank_address"  name="bank_address" >
+										
+										</div>	
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">City</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none uppercase" type="text" placeholder="City" ng-model="add_ledger_info.details.bank_city"  name="bank_city" >
+										
+										</div>	
+										
+									</div>
+
+						          </div>
+
+								
+									<div class="clearfix"></div>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<!--<button class="btn btn-success-outline margin-inline" type="button">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>-->
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(3)" ng-disabled="address.$invalid">Next
+												<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+											</button>	
+											</center>
+									</div>
+									</form>
+                                </div>
+								
+								<!--------------ADDRESS END------------>
+
+								<!--------------CONTACT------------>
+
+								<div class="tab-pane" id="messages1" role="tabpanel">
+								<form name="contact">
+								 <div class="hh">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Email ID</div><!-- add for edit button click class 'label_display' -->
+											<div class="star">*</div>
+										<input class="form-control border_none" type="text" placeholder="Email id" ng-model=
+"add_ledger_info.details.email_id" name="email_id" ng-required="true">
+										<div ng-messages="details.email_id.$error" ng-show="details.email_id.$dirty">
+												<p ng-message="required" class="color_font" class="color_font">This field is required.</p>
+										  </div>
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Website</div><!-- add for edit button click class 'label_display' -->
+										
+									<input class="form-control border_none" type="text" placeholder="Website" ng-model=
+"add_ledger_info.details.website" name="website" >
+										</div>
+											
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Mobile No</div><!-- add for edit button click class 'label_display' -->
+											<input class="form-control border_none" type="text" placeholder="mobile" ng-model=
+"add_ledger_info.details.mobile" name="mobile" ng-required="true">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Telephone</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Telephone" ng-model=
+"add_ledger_info.details.telephone_no" name="telephone_no" >
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">FAX</div><input class="form-control border_none" type="text" placeholder="Fax" ng-model=
+"add_ledger_info.details.fax_number" name="fax" >
+										</div>
+										
+									</div>
+
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                               <div >
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contact Person Name</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Name" ng-model="add_ledger_info.details.full_name">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Designation</div><!-- add for edit button click class 'label_display' -->
+												<input class="form-control border_none" type="text" placeholder="Designation" ng-model="add_ledger_info.details.designation">
+										
+										</div>	
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Department</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Department" ng-model="add_ledger_info.details.department">
+ 										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Mobile No</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="mobile" ng-model="add_ledger_info.details.mobile_number">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Alternate Mobile No</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Alternet Mobile No" ng-model="add_ledger_info.details.alternet_mobile_no">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Skype Id</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="skype_id" ng-model="add_ledger_info.details.skype_id">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Location</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Location" ng-model="add_ledger_info.details.location">
+										</div>
+                                     </div>
+					<!--  multiple contact -->				 
+									  <div ng-repeat="contact in add_ledger_info.contacts">
+									  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+											<button class="btn btn-rounded btn-primary-outline margin-inline flt_d pull-right" type="button" ng-click="remove_contact($index)">
+												<i class="fa fa-minus" aria-hidden="true"></i></button>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Contact Person Name</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Name" ng-model="add_ledger_info.contacts[$index].full_name">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Designation</div><!-- add for edit button click class 'label_display' -->
+												<input class="form-control border_none" type="text" placeholder="Designation" ng-model="add_ledger_info.contacts[$index].designation">
+										
+										</div>	
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Department</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Department" ng-model="add_ledger_info.contacts[$index].department">
+ 										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Mobile No</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="mobile" ng-model="add_ledger_info.contacts[$index].mobile_number">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Alternate Mobile No</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Alternet Mobile No" ng-model="add_ledger_info.contacts[$index].alternet_mobile_no">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Skype Id</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="skype_id" ng-model="add_ledger_info.contacts[$index].skype_id">
+										</div>
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_none">Location</div><!-- add for edit button click class 'label_display' -->
+											
+										<input class="form-control border_none" type="text" placeholder="Location" ng-model="add_ledger_info.contacts[$index].location">
+										</div>
+                                     </div>
+									
+									</div>
+                                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<button class="btn btn-rounded btn-primary-outline margin-inline flt_d" type="button" ng-click="add_more_contact()">
+											<i class="fa fa-plus" aria-hidden="true"></i>Add More</button>
+
+									  </div>
+								
+                                </div>
+
+									
+									
+									<div class="clearfix"></div>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<!--<button class="btn btn-success-outline margin-inline" type="button">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>-->
+											<button class="btn btn-primary-outline margin-inline" type="button" ng-click="ShowTab(4)" ng-disabled="contact.$invalid">Next
+												<span class="top_p"> <i class="icmn-arrow-right15"></i></span>
+											</button>	
+										</center>
+									</div>
+									</form>
+                                </div>
+				<!---------------------PRODUCT------------------>
+                        <div class="tab-pane" id="settings1" role="tabpanel">
+						
+              		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	 				 <div class="sb-container container-example1 ">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+						   GST Applicable :&nbsp;
+						 
+						   <label>Yes <input type="radio" value="Yes" name="gst_applicable" ng-model="add_ledger_info.details.gst_applicable" ng-change="checkGST()" /></label> &nbsp;&nbsp;
+						   <label>No <input type="radio" value="No" name="gst_applicable" ng-model="add_ledger_info.details.gst_applicable" ng-change="checkGST()" /></label>
+						   </div>
+						     <div ng_show="showGst">
+						      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+							 	<div  ng-class="{label_display : active_lable}" class="label_none">HSN Code</div>
+							  <input class="form-control border_none" type="text" placeholder="HSN Code" ng-model="add_ledger_info.details.hsn_code">
+							     </div>
+								  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+							 	<div  ng-class="{label_display : active_lable}" class="label_none">SAC Code</div>
+							  <input class="form-control border_none" type="text" placeholder="SAC Code" ng-model="add_ledger_info.details.sac_code">
+							     </div>
+							 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" >
+								<div  ng-class="{label_display : active_lable}" class="label_none">Rate</div>
+							<select class="form-control border_none select" ng-model="add_ledger_info.details.gst_rate_id"  name="taxrate" ng-required="true">
+														<option value="" ng-selected="selected">Tax Rate</option> 
+													<option ng-repeat="tax in tax_rate_list" value="{{tax.id}}"> {{tax.tax_rate}} %</option>
+												</select>
+							     </div>	 
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> &nbsp;</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<section style="">
+						   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+						   TDS Applicable :&nbsp;
+						 
+						   <label>Yes <input type="radio" value="Yes" name="tds_applicable" ng-model="add_ledger_info.details.tds_applicable"  ng-change="checkTds()"  /></label> &nbsp;&nbsp;
+						   <label>No <input type="radio" value="No" name="tds_applicable" ng-model="add_ledger_info.details.tds_applicable" ng-change="checkTds()" /></label>
+						   </div>
+						   <div ng_show="showTds">
+						      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" >
+							 	<div  ng-class="{label_display : active_lable}" class="label_none">Nature Of Payment</div>
+							 <select class="form-control border_none select" ng-model="add_ledger_info.details.tds_nature_of_payment" ng-change="getnpdetails()" name="taxrate" ng-required="true">
+														<option value="" ng-selected="selected">-Select-</option> 
+													<option ng-repeat="tds_tax in tds_rate_chart_list" value="{{tds_tax.id}}">{{tds_tax.nature_of_payment}} </option>
+												</select>
+							     </div>
+								  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+							 	<div  ng-class="{label_display : active_lable}" class="label_none">Deductive Type</div>
+								
+							 	<select  class="form-control border_none select"  name="tds_deductive_type" ng-required="true" ng-model="add_ledger_info.details.tds_deductive_type" ng-change="get_tds_deductive_type()">
+							    <option  value="">-Select-</option>
+							    <option  value="Individuals">Individuals</option>
+							    <option  value="Company">Company</option>
+							
+							</select>
+							     </div>
+							 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" >
+								<div  ng-class="{label_display : active_lable}" class="label_none">Rate</div>
+								 <input class="form-control border_none" type="text" placeholder="Rate" ng-model="add_ledger_info.details.tds_rate" readonly>
+							     
+							     </div>	 
+								 
+								  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >&nbsp; </div>	 
+								 
+								 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="margin-top:20px" >
+								<div  ng-class="{label_display : active_lable}" class="label_none">Section</div>
+								 <input class="form-control border_none" type="text" placeholder="Section" ng-model="add_ledger_info.details.section_code" readonly >
+							     
+							     </div>	 
+								  
+								 </div>
+								</section>	 
+							</div>	 
+								 
+				
+					
+                    </div>
+                </div>
+
+
+
+						
+
+							<div class="clearfix"></div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<br />
+								<center>
+									<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_new_ledger()"  ng-hide="show_save">
+										<span class="top_p"><i class="icmn-share2"></i></span> Save
+									</button>
+
+								</center>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="show_edit">
+								<center>
+									<button class="btn btn-success-outline margin-inline" type="button" ng-click="update_new_ledger()" >
+										<span class="top_p"><i class="icmn-share2"></i></span> Update
+									</button>
+								</center>
+							</div>
+								</div>
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                            <!--<div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+
+	<style>
+	@media(min-width: 768px)  and 	(max-width: 1023px){
+	.formessage_display {position: absolute;right: 0;width: 400px;top: 0;}
+	}
+	</style>
+				
+<!-- modal start -->
+												<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+												
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+		<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

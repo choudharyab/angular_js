@@ -1,0 +1,310 @@
+<style>
+.backcolor{background-color:#F2F4F8;}
+.buttonnew{position: absolute;right: 0;bottom: 5px;}
+.buttonwidth{width:150px;}
+</style>
+<section class="page-content">
+
+   <div class="page-content-inner">
+   <div style="display:none" class="loading">Loading&#8230;</div>
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/voucher.png" style=" width: 37px;margin: -7px 2px 0px 0px"> GSTR-1 Summary
+                           </div>
+                           <div class="top_t right serchlist margin-left-40 col-lg-2 col-md-3 col-sm-2 col-xs-12" align="right" style="padding-right:0px;">
+                              <!--<div ng-class="{label_display : active_lable}" class="label_display">Month</div>-->
+                              <select ng-model="month" ng-change="changeAllData()" class="form-control border_none color_f">
+                                 <option value="" ng-selected="selected">Select Month</option>
+                                 <option value="01">January</option>
+								 <option value="02">Febraury</option>
+								 <option value="03">March</option>
+								 <option value="04">April</option>
+								 <option value="05">May</option>
+								 <option value="06">June</option>
+								 <option value="07">July</option>
+								 <option value="08">August</option>
+								 <option value="09">September</option>
+								 <option value="10">October</option>
+								 <option value="11">November</option>
+								 <option value="12">December</option>
+                              </select>
+                           </div>
+						     <div class="top_t right serchlist margin-left-40 col-lg-2 col-md-3 col-sm-2 col-xs-12" align="right" style="padding-left:0px;">
+                              <!--<div ng-class="{label_display : active_lable}" class="label_display">Year</div>-->
+                              <select ng-model="year" ng-change="changeAllData()" class="form-control border_none color_f">
+                                 <option value="" ng-selected="selected">Select Year</option>
+                                 <!--<option ng-repeat="data in yearlist" value="{{data.yearCount}}">{{data.yearCount}}</option>-->
+								 <option value="2017">2017</option>
+								 <option value="2018">2018</option>
+								 <option value="2019">2019</option>
+								 <option value="2020">2020</option>
+								 <option value="2021">2021</option>
+								 <option value="2022">2022</option>
+								 <option value="2023">2023</option>
+								 <option value="2024">2024</option>
+								 <option value="2025">2025</option>
+                              </select>
+                           </div>
+                           <button id="genrJson" class="btn btn-rounded btn-primary-outline margin-inline" ng-click="generate_json_gstr1()"><i class="fa fa-file-text-o" aria-hidden="true"></i> Generate JSON file</button>
+                           <a id="dowJson" style="display:none" class="btn btn-rounded btn-success-outline margin-inline" href="wheelsonroadserver/public/json_files/{{jsonfileName}}" id="clickJson" download> Downolad JSON file </a>
+						   <button class="btn btn-rounded btn-primary-outline margin-inline" ng-click="generate_excel_gstr1()"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export to excel</button>
+                        </div>
+                     </div>
+                     <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12 padd_none">
+                        <!--<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12"  style="position: relative;top: 7px;">
+                           <h4><b>Test</b></h4>
+                        </div>-->
+                      
+                      
+                        <div>
+                           <!--add after record  sb-container container-example1 hei  -->
+                           <div>
+                              <table class="table table-hover table-bordered">
+                                
+                                 <tbody>
+                                    <tr>
+                                       <td class="backcolor"><b>Warehouse Name</b></td>
+                                       <td>
+											<select class="form-control border_none select" ng-model="warehouse_id" ng-change="get_po_warehouse()">
+												<option value="" ng-selected="selected">Select Warehouse</option>
+												<option ng-repeat="warehouse in warehouse_list" value="{{warehouse.id}}" ng-selected="{{warehouse.id==selected_warehouse}}">{{warehouse.company_name}}</option>
+											</select>
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor"><b>GSTIN</b></td>
+                                       <td>
+											{{warehouse_gst_no}}
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor"><b>State</b></td>
+                                       <td>
+											{{warehouse_state_name}}
+									   </td>
+                                       
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+					 
+					  <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="border:1px solid #e5e5e5;padding:5px !important;margin-bottom:10px;">
+                        <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12"  style="position: relative;top: 7px;">
+                           <h4><b>B2B Invoices</b></h4>
+                        </div>
+                      
+                        <div class=" col-lg-6 col-md-6 col-sm-6  col-xs-12"  style="position: relative;top: 7px;text-align:right;">
+                           <p>Tables:4A</9>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                           <!--add after record  sb-container container-example1 hei  -->
+						   <div class="col-lg-4 col-md-4 col-sm-4  col-xs-12">
+								Taxable outward supplies made to registered persons, SEZ supplies and deemed exports.
+						   
+						   </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+                              <table class="table table-hover table-bordered">
+                                
+                                 <tbody>
+                                    <tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Invoice Count</b></td>
+                                       <td>
+											{{total_invoice_count}}
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Invoice Value</b></td>
+                                       <td>
+											{{total_invoice_value}}
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Taxable Value</b></td>
+                                       <td>
+											{{total_taxable_value}}
+									   </td>
+                                       
+                                    </tr>
+									
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Tax Liability</b></td>
+                                       <td>
+											{{tax_liability}}
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Reverse Charge</b></td>
+                                       <td>
+											{{reverse_charge}}
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Tax Liability</b></td>
+                                       <td>
+											{{total_tax_liability}}
+									   </td>
+                                       
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+						   <!-- <div class="col-lg-2 col-md-2 col-sm-2  col-xs-12 buttonnew" align="bottom">
+						   
+						     <button class="btn btn-rounded btn-primary-outline margin-inline buttonwidth">B2B Summary <i class="fa fa-angle-right" aria-hidden="true"></i> </button>
+						   </div> -->
+						   
+                        </div>
+                     </div>
+					 
+					 
+					  <!-- <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none" style="border:1px solid #e5e5e5;padding:5px !important;">
+                        <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12"  style="position: relative;top: 7px;">
+                           <h4><b>Credit / Debit Notes, Refund Vouchers - Registered</b></h4>
+                        </div>
+                      
+                      <div class=" col-lg-6 col-md-6 col-sm-6  col-xs-12"  style="position: relative;top: 7px;text-align:right;">
+                           <p>Tables:4A</9>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                           
+						   <div class="col-lg-4 col-md-4 col-sm-4  col-xs-12">
+								Details of Credit/Debit notes & Refund vouchers issued to registered tax payers.
+						   
+						   </div>
+                           <div class="col-lg-6 col-md-6 col-sm-6  col-xs-12">
+                              <table class="table table-hover table-bordered">
+                                
+                                 <tbody>
+                                    <tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Voucher Count</b></td>
+                                       <td>
+											1
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Taxable Value</b></td>
+                                       <td>
+											1
+									   </td>
+                                       
+                                    </tr>
+									
+									
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Total Tax Liability</b></td>
+                                       <td>
+											1
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Net Taxable Value</b></td>
+                                       <td>
+											1
+									   </td>
+                                       
+                                    </tr>
+									<tr>
+                                       <td class="backcolor" style="width:50%;"><b>Net Tax Liability</b></td>
+                                       <td>
+											1
+									   </td>
+                                       
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+						   <div class="col-lg-2 col-md-2 col-sm-2  col-xs-12 buttonnew" align="bottom">
+						   <div>
+						     <button class="btn btn-rounded btn-primary-outline margin-inline buttonwidth">Credit Notes <i class="fa fa-angle-right" aria-hidden="true"></i> </button>
+						   
+						   </div>
+						   <div>
+						     <button class="btn btn-rounded btn-primary-outline margin-inline buttonwidth">Debit Notes <i class="fa fa-angle-right" aria-hidden="true"></i> </button>
+						   
+						   </div>
+						   <div>
+						     <button class="btn btn-rounded btn-primary-outline margin-inline buttonwidth">Refund Vouchers <i class="fa fa-angle-right" aria-hidden="true"></i> </button>
+						   
+						   </div>
+						   </div>
+						   
+                        </div>
+                     </div> -->
+                     <div class="clearfix"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+
+<!-- modal start -->
+<script>
+   function isNumber(evt) {
+       evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+           return false;
+       }
+       return true;
+   }		  
+</script>
+<!-- modal start -->
+<script>
+   $(document).ready(function()
+   {
+       if (screen.width < 767)
+       {
+               //alert('More than 960');
+           $('.table_dis').attr('class','table-responsive table_dis');
+   
+       }
+       else
+       {
+           $('.table_dis').removeAttr('class');
+           // alert('More than 960');
+       }
+   });
+</script>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+       $("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<script>
+   $(document).ready(function() {
+       $("#fixedheader1").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+<script type="text/javascript">
+   $('input').on('blur', function(){
+      $(this).prev('div').removeClass('label_none').addClass('label_display');
+   }).on('focus', function(){
+     $(this).prev('div').removeClass('label_none').addClass('label_display');
+   });
+   
+</script>
+<style>
+   .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>

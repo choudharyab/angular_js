@@ -1,0 +1,146 @@
+ <style>
+ .table thead th {
+    vertical-align: top;
+  
+}
+ </style>
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+							<h4>Sale Date Wise</h4>
+							<div class="nav-tabs-horizontal margin-bottom-5">
+								
+							</div>
+							<br/>
+							<div class="clearfix"></div>
+							
+								<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+					
+							
+							<!--<h4>
+							<b>Liabilities</b>
+							</h4>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							
+								<div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                               <tr class="colorhead">
+											
+											<th>Date</th>
+											<th>Particular</th>
+											<th>Voucher Type</th>
+											<th>Voucher No.</th>
+											<th>Debit</th>
+										
+											<th>Credit</th>
+											
+											
+										</tr>
+										
+									</thead>
+									<!--<tfoot>
+										<tr>
+										  <th>Supplier Code</th>
+										<th>Supplier Name</th>
+										
+										<th>City</th>
+										<th>Country</th>
+										<th>Action</th>
+										</tr>
+										</tfoot>-->
+									<tbody>
+										<tr ng-repeat="item in saleAccDateWiseList">
+											<td>{{item.sale_invoice_date}}</td>
+											<td>{{item.customer_name}}</td>
+											<td>Sales</td>
+											<td>{{item.sale_invoice_no}}</td>
+											<td>{{item.debit_amount}}</td>
+											<td>{{item.credit_amount}}</td>
+
+										</tr>
+
+										<tr>
+											<td style="text-align:right;" colspan="4"><strong>Opening Balance</strong></td>
+											<td >{{opening_balance
+}}</td>
+											<td></td>
+										</tr>
+
+										<tr>
+											<td style="text-align:right;" colspan="4"><strong>Current Total</strong></td>
+											<td>{{debit_total}}</td>
+											<td>{{credit_total}}</td>
+										</tr>
+
+										<tr>
+											<td style="text-align:right;" colspan="4"><strong>Closing Balance</strong></td>
+											<td>{{closing_balance}}</td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							</div>
+							 
+					</div>
+					
+               
+               
+			   
+					 </div>
+					
+					<!--<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+		
+							<center>
+								<button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
+							</center>	
+					</div>	-->
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+											
+
+	<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		
+		<!-- header fixed End-->

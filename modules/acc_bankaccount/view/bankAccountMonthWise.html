@@ -1,0 +1,177 @@
+ <style>
+ .table thead th {
+    vertical-align: top;
+  
+}
+ </style>
+
+
+<section class="page-content">
+	<div class="page-content-inner">
+		<!-- Dashboard -->
+		<div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="panel panel-with-borders m-b-0">
+						<div class="panel-body">
+						<div class="nav-tabs-horizontal margin-bottom-5">
+								<div align="right">
+									<div class="col-lg-3 col-md-12 col-sm-3 col-xs-12 font_nw text_d1 right_a1">Bank Account Month Wise</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text_d1 t_center">
+										<span class="font_nw">Wheels On Road Pvt. Ltd.</span><br/>
+											<span class="font_1"><b>CIN : U74999MP2018PTC044976</b>&nbsp; </span><br/>
+									<span class="font_1"><b>Period </b>{{from_date}} To {{to_date}}</span>
+									</div>
+									<div class="col-lg-3 col-md-4 col-sm-3 col-xs-12 text_d1">
+										<b>Financial Year :</b> {{finance_year}}-{{finance_year+1}}
+									</div>
+								</div>
+							</div>
+							
+							<div class="clearfix"></div>
+							
+								<div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+								<br/>
+					
+							
+							<!--<h4>
+							<b>Liabilities</b>
+							</h4>-->
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							
+								<div class="table_dis sb-container container-example1 hei1">
+								<!--add after record  sb-container container-example1 hei  -->
+								<table class="table table-hover table-bordered">
+									<thead>
+										 <tr class="colorhead">
+											
+											<th rowspan="2" valign="top" class="width_3">Particular</th>
+											<th colspan="2" class="width_4"><center>Transaction</center></th>
+										
+											<th rowspan="2" valign="top" class="width_5"><center> Balance </center></th>
+											
+											
+										</tr>
+										<tr class="colorhead">
+											
+											
+											<th class="width_6 right_a">Debit</th>
+											<th class="width_6 right_a">Credit</th>
+											
+										</tr>
+									</thead>
+
+									<tbody>
+											<tr>
+											<td>Opening Balance</td>
+											<td class="right_a">{{acc_month_data.opening_debit_balance}}</td>
+											<td class="right_a">{{acc_month_data.opening_credit_balance}}</td>
+											<td class="right_a"></td>
+												 </tr>
+										<tr ng-repeat="item in bankAccountMonthWiseList" ng-click="bankAccountDateWise('/bankaccountdatewise/'+item.month_no)">
+											<td class="cur" ng-click="bankAccountDateWise('/bankaccountdatewise/'+item.month_no)">{{item.month}}</td>
+											<td  class="right_a">{{item.debit | number : 2}}</td>
+											<td  class="right_a">{{item.credit | number : 2}}</td>
+											<td  class="right_a">{{item.closing_amount | number : 2}}</td>
+
+										</tr>
+										<tr>
+											<td class="right_a"><strong>Opening Balance</strong></td>
+											<td class="right_a">{{acc_month_data.opening_debit_balance}}</td>
+											<td class="right_a">{{acc_month_data.opening_credit_balance}}</td>
+											<td class="right_a"></td>
+										</tr>
+										<tr>
+											<td class="right_a"><strong>Current Total</strong></td>
+											<td class="right_a">{{debit_amount_total}}</td>
+											<td class="right_a">{{credit_amount_total}}</td>
+											<td class="right_a"></td>
+										</tr>
+										<tr>
+											<td class="right_a"><strong>Closing Balance</strong></td>
+											<td class="right_a">{{acc_month_data.total_debit_closing_balance}}</td>
+											<td class="right_a">{{acc_month_data.total_credit_closing_balance}}</td>
+											<td class="right_a"></td>
+										</tr>
+										</tr>
+										</tr>
+										<!--<tr>
+												<td><strong>Grand Total</strong></td>
+											
+												<td>{{debit_amount_total}}</td>
+												<td>{{credit_amount_total}}</td>
+												<td>{{closing_balance_total}}</td>
+											 </tr>-->
+									</tbody>
+								</table>
+							</div>
+							 
+					</div>
+					
+               
+               
+			   
+					 </div>
+					
+					 
+               
+			     <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+					 
+                        <center>
+						<button  class="btn btn-rounded btn-primary-outline margin-inline " type="button"><i class="fa fa-file-excel-o" aria-hidden="true"></i>
+ Export To Excel</button>
+                           <button class="btn btn-rounded btn-primary-outline margin-inline  " type="button"><i class="fa fa-file-pdf-o " aria-hidden="true" style="color:#01a8fe;"></i> Export To PDF</button>
+                        </center>
+                     </div>
+
+					 
+					<div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+											<script type="text/javascript">
+												 $(function () {
+															$('#datetimepicker1').datetimepicker({
+																icons: {
+																	time: "fa fa-clock-o",
+																	date: "fa fa-calendar",
+																	up: "fa fa-arrow-up",
+																	down: "fa fa-arrow-down"
+																}
+															});
+														});
+												</script>
+
+ <script>
+     $('#from_date').datepicker({
+         changeMonth: true,
+         changeYear: true,
+         yearRange: '1970:2020'
+         // defaultDate: '2015-01-01',
+
+     });
+     $('#to_date').datepicker({
+         changeMonth: true,
+         changeYear: true,
+         yearRange: '1970:2020'
+         // defaultDate: '2015-01-01',
+
+     });
+     $.datepicker.setDefaults({
+         dateFormat: 'yy-mm-dd'
+     });
+ </script>
+											
+

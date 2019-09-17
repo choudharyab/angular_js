@@ -1,0 +1,240 @@
+<style>
+    .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+<section class="page-content">
+<div class="page-content-inner">
+
+
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 text-x">Feedback
+                            <span id="feedbackSuccess" style="color: green;font-size: 15px">{{feedback_success}}</span>
+                        </div>
+						<div class="right hidden-md-down margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+											<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="feedback_list_filter">
+												<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>	
+				<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button"><i class="fa fa-plus" aria-hidden="true"></i> Add Feedback</button>
+                        </div>
+                        </div>
+						
+                    <div class="table_dis sb-container container-example1 hei1"><!--sb-container container-example1 hei-->
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Date</th>
+                                <th>Customer / Supplier Code</th>
+                                <th>Name</th>
+                                
+                                <th>Feedback For</th>
+                                <th>Feedback</th>
+                                <th>Comment</th>
+                                
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                 <tr ng-repeat='feedback in feedback_list | filter: feedback_list_filter'>
+                                <td>{{feedback.date}}</td>
+                                <td>{{feedback.supplier_or_customer_code.code}}</td>
+                               
+                                <td>{{feedback.supplier_or_customer_code.name}}</td>
+                                <td>{{feedback.crm_feedback.crm_feedback}}</td>
+                                <td>{{feedback.crm_description}}</td>
+                                <td>{{feedback.comment}}</td>
+                                <td>
+									<a ng-click="getFeedbackId(feedback.id)" data-toggle="modal" data-target="#example3"> <i class="fa fa-file-text-o" aria-hidden="true" title="Comment"></i></a> |
+                                    <a ng-bootbox-confirm="Are you sure to delete this feedback?"
+                                            ng-bootbox-confirm-action="deleteCrmFeedbackList(feedback.id)" ng-bootbox-confirm-action-cancel="confirmCallbackCancel(attr1, attr2)">
+                                        <i class="fa fa-trash-o font_six"  title="Delete"></i>
+                                    </a>
+								</td>
+                                
+                            </tr>
+                           
+                           
+							
+                            </tbody>
+                        </table>
+                    </div>
+               
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		 
+    </div>
+<br/>
+
+
+    <!-- End Dashboard -->
+
+</div>
+</section>	
+
+
+<!-- modal start -->
+
+  <div class="modal fade modal-size-large" close-my-modal id="example2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Feedback</h4>
+                                <span id="feedbackError">{{feedback_error}}</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="">
+                            <div class="input-group date">
+                                <input type="text" placeholder="Date" class="form-control border_none" ng-model="customer_feedback.date" id="feedback_date">
+                                <span class="input-group-addon">
+                                <i class="icmn-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+
+										</div>
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<select class="form-control border_none select" data-ng-model="customer_feedback.type">
+											   <option value="">Select Type</option>
+											   <option value="supplier">Supplier</option>
+											   <option value="customer">Customer</option>
+											</select>
+
+										</div>
+
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<input type="text" class="form-control border_none select" id="auto_cust_id" ng-model="auto_customer_id" placeholder="Select Name">
+										</div>
+										<div class="top_t col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<select class="form-control border_none select" data-ng-model="customer_feedback.crm_feedback_id">
+											   <option value="">Select Feedback For</option>
+											   <option ng-repeat=" feedback_list in feedback_for_list" value="{{feedback_list.id}}">{{feedback_list.crm_feedback}}</option>
+											</select>
+										</div>
+
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<textarea class="form-control"  placeholder="Feedback" rows="3" data-ng-model="customer_feedback.crm_description"></textarea>
+										</div>
+
+
+									</div>
+
+
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="save_feedback()">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+
+											</center>
+									</div>
+
+                                </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+<!-- modal start -->
+
+ <div class="modal fade modal-size-small" close-modal-two id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Comment</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+                          
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+										
+											<textarea class="form-control"  placeholder="Comment" rows="3" data-ng-model="comment"></textarea>
+										
+									<br/>
+											
+										
+									</div>
+
+								
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<center>
+											<button class="btn btn-success-outline margin-inline" type="button" ng-click="add_comment()">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+										
+											</center>
+									</div>	
+								
+                                </div>
+                                </div>
+                               
+                               
+                                
+                            </div>
+                        </div>
+                            </div>
+						<div class="clearfix"></div>
+                          
+                        </div>
+                    </div>
+                </div>
+<script>
+    $('#feedback_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '2000:2040'
+        // defaultDate: '2015-01-01',
+
+    });
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+</script>
+
+<style>
+    #feedback_date{
+        z-index:99999;
+    }
+
+</style>

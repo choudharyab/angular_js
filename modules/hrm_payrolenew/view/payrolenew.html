@@ -1,0 +1,214 @@
+
+
+<section class="page-content">
+   <div class="page-content-inner">
+      <!-- Dashboard -->
+      <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+         <div class="row">
+            <div class="col-xl-12">
+               <div class="panel panel-with-borders m-b-0">
+                  <div class="panel-body">
+                     <div class="nav-tabs-horizontal margin-bottom-5">
+                        <div align="right">
+                           <div class="col-lg-7 col-md-6 col-sm-7 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/customer sevice bill.png"> Payroll</div>
+                           <div class="right  margin-left-40 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+                              <div class="search-block">
+                                 <div class="form-input-icon form-input-icon-right">
+                                    <i class="icmn-search"></i>
+                                    <input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_payroll">
+                                    <button class="search-block-submit " type="submit"></button>
+                                 </div>
+                              </div>
+                           </div>
+                           <button ng-show="current_module_rights[0].status" class="btn btn-rounded btn-primary-outline margin-inline" data-toggle="modal" data-target="#example1" type="button" ng-click="check_payroll_status()"><i class="fa fa-plus" aria-hidden="true"></i>Process Payroll</button>
+                        </div>
+                     </div>
+                     <div class="sb-container container-example1 hei1">
+                        <div class="table_dis" id="fixedheader">
+                           <table class="table table-hover table-bordered">
+                              <thead>
+                                 <tr class="colorhead">
+                                    <th>Period</th>
+                                    <th>Processing Date</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Processed</th>
+                                 </tr>
+                              </thead>
+                              <!--<tfoot>
+                                 <tr>
+                                   <th>Supplier Code</th>
+                                 <th>Supplier Name</th>
+                                 
+                                 <th>City</th>
+                                 <th>Country</th>
+                                 <th>Action</th>
+                                 </tr>
+                                 </tfoot>-->
+                              <tbody>
+                                 <tr ng-repeat="data in payroll_listing | filter: filter_payroll">
+                                    <td>{{data.period}}</td>
+                                    <td ng-click="next_payroll_page(data.processed_date,data.period)"><a style="color: #514d6a;">{{data.processed_date}}</a></td>
+                                    <td>{{data.start_date}}</td>
+                                    <td>{{data.end_date}}</td>
+                                    <td>{{data.processed}}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
+      <!-- End Dashboard -->
+   </div>
+</section>
+<!-- modal start -->
+<div class="modal fade modal-size-large" close-modal-two id="example1" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header bgcolor">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Payroll</h4>
+         </div>
+         <div class="modal-body">
+            <div class="nav-tabs-horizontal">
+               <div class="tab-content padding-vertical-20">
+                  <div class="tab-pane active" id="home1" role="tabpanel">
+                     <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                             
+                              <!-- add for edit button click class 'label_display' -->
+                              <div class="">
+                                 <div class='input-group date'>
+                                  <div class="label_none">From Date</div>
+                                    <input type='text' class="form-control border_none" id='datetimepicker1' placeholder="From Date" ng-model="from_date"/>
+                                    <span class="input-group-addon">
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                           <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                             
+                              <!-- add for edit button click class 'label_display' -->
+                              <div class="">
+                                 <div class='input-group date'>
+                                  <div class="label_none">To Date</div>
+                                    <input type='text' class="form-control border_none" id='datetimepicker2' placeholder="To Date" ng-model="to_date"/>
+                                    <span class="input-group-addon">
+                                    <i class="icmn-calendar"></i>
+                                    </span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="clearfix"></div>
+                     </div>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <center>
+                           <button class="btn btn-success-outline margin-inline" type="button" ng-click="process_payroll()">
+                           <span class="top_p"><i class="icmn-share2"></i></span> Process
+                           </button>
+                        </center>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+      <!--   <div class="modal-footer bgcolor">
+         <button type="button" class="btn" data-dismiss="modal">Close</button>
+         
+         </div>-->
+   </div>
+</div>
+<!-- modal start -->
+<!-- <script type="text/javascript">
+   $(function () {
+   		$('#datetimepicker1').datetimepicker({
+   			icons: {
+   				time: "fa fa-clock-o",
+   				date: "fa fa-calendar",
+   				up: "fa fa-arrow-up",
+   				down: "fa fa-arrow-down"
+   			}
+   		});
+   	});
+</script> -->
+<script type="text/javascript">
+$('#datetimepicker1').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  yearRange: '2000:2040' ,
+});
+</script>
+<script type="text/javascript">
+$('#datetimepicker2').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  yearRange: '2000:2040' ,
+});
+</script>
+<script type="text/javascript">
+ $.datepicker.setDefaults({
+          dateFormat: 'yy-mm-dd',
+          /*dateFormat: 'dd-mm-yy',*/
+ });
+</script>
+<style type="text/css">
+   #datetimepicker1{z-index: 9999;}
+   #datetimepicker2{z-index: 9999;}
+</style>
+<!-- header fixed -->
+<script>
+   $(document).ready(function() {
+   	$("#fixedheader").tableHeadFixer(); 
+   });
+</script>
+<!-- header fixed End-->
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!-- header fixed -->

@@ -1,0 +1,426 @@
+<section class="page-content">
+<div class="page-content-inner">
+
+    <!-- Dashboard -->
+    <div class="dashboard-container col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+      
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="panel panel-with-borders m-b-0">
+                    <div class="panel-body">
+                        <div class="nav-tabs-horizontal margin-bottom-5">
+                          
+					<div align="right">
+						<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-x"><img class="headsectionimages" src="assets/headerimages/product.png"> Expense Supplier
+                            <span id="delete" style="color: red;font-size: 15px">{{delete_msg}}</span>
+                            <span id="suc_msg" style="color: green;font-size: 15px">{{suc_msg}}</span>
+                        </div>
+
+						<div class="right serchlist margin-left-50 col-lg-3 col-md-3 col-sm-3 col-xs-12" align="right">
+							<div class="search-block">
+								<div class="form-input-icon form-input-icon-right">
+									<i class="icmn-search"></i>
+									<input class="form-control form-control-sm form-control-rounded" placeholder="Search..." type="text" ng-model="filter_supp_list">
+									<button class="search-block-submit " type="submit"></button>
+								</div>
+							</div>
+						</div>
+
+				<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example3" type="button" ng-click="add_exp_supp_clicked()" ng-hide="current_module_rights.add_option=='no'"><i class="fa fa-plus" aria-hidden="true"></i> Add Expense Supplier</button>
+
+				<!--<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#example2" type="button" ng-click="click_group()"><i class="fa fa-plus" aria-hidden="true"></i> Add Group</button>-->
+
+                        <!--<button class="btn btn-rounded btn-primary-outline margin-inline " data-toggle="modal" data-target="#exampleuom" type="button" ng-click="click_group()"><i class="fa fa-plus" aria-hidden="true"></i> Add UOM</button>-->
+
+                        </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+						
+                     <div class="sb-container container-example1 hei1">
+						<div class="table_dis" id="fixedheader">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr class="colorhead">
+                                <th>Supplier code</th>
+                                <th>Supplier Name</th>
+                                <th>GST No</th>
+                                <th>Mobile No</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="e in expense_supplier_listing_data | filter:filter_supp_list">
+                                    <td>{{e.supplier_code}}</td>
+                                    <td>{{e.supplier_name}}</td>
+                                    <td>{{e.gst_no}}</td>
+                                    <td>{{e.mobile_number}}</td>
+                                    <td>
+                                        <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="expSupplier_permission(e.id,e.comment_status,'edit')"></i></a>|
+
+                                        <a data-toggle="modal" data-target="#generate_password"> <i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="expSupplier_permission(e.id,e.delete_status,'delete')"></i></a>
+
+                                       <!-- <a > <i class="fa fa-edit font_six" title="Edit" aria-hidden="true" ng-click="expSupplier_get(e.id,e.comment_status,'edit')"></i></a>|
+
+                                        <a > <i class="fa fa-trash-o font_six" title="Edit" aria-hidden="true" ng-click="expSupplier_get(e.id,e.comment_status,'delete')"></i></a>-->
+
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div></div>
+</section>	
+
+
+<!---------------------------------------------------Add supplier------------------------------------------------>
+
+
+				<div class="modal fade modal-size-large" close-modal-two id="example3" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bgcolor">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add Expense Supplier</h4>
+                                <!--<span id="productSuccess">{{product_success}}</span>-->
+                                <span id="productError">{{product_error}}</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="nav-tabs-horizontal">
+
+                            <div class="tab-content padding-vertical-20">
+                                <div class="tab-pane active" id="home1" role="tabpanel">
+                                   <div	class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								    <form name="expenseSupplier">
+
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+										<!--<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<div  ng-class="{label_display : active_lable}" class="label_display">Supplier Code</div>
+
+										    <input class="form-control border_none" placeholder="Supplier Code" type="text" ng-model="add_supplier.supplier_code" disabled>
+
+										</div>-->
+											
+										<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+											<!-- add for edit button click class 'label_display' -->
+											<div class="star">*</div>
+											 <div  ng-class="{label_display : active_lable}" class="label_none">Supplier Name</div>
+                      <input class="form-control border_none uppercase" placeholder="Supplier Name" type="text" ng-model="add_supplier.supplier_name" name="suppliername" ng-required="true" capitalize>
+											<div ng-messages="expenseSupplier.suppliername.$error" ng-show="expenseSupplier.suppliername.$dirty">
+												<p ng-message="required" class="color_font">This field is required.</p>
+										    </div>
+
+										</div>
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                                <div class="star">*</div>
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">GST No.</div><!-- add for edit button click class 'label_display' -->
+
+                                                <input class="form-control border_none" placeholder="GST No" type="text" ng-model="add_supplier.gst_no" ng-minlength="15" maxlength="15" ng-pattern="/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/"  ng-required="true" name="gst" capitalize>
+
+                                                <div ng-messages="expenseSupplier.gst.$error" ng-show="expenseSupplier.gst.$dirty">
+                                                    <p ng-message="required" class="color_font">This field is required.</p>
+                                                    <p ng-message="minlength" class="color_font">Required 15 digit.</p>
+                                                    <p ng-message="maxlength" class="color_font">Required 15 digit only.</p>
+                                                    <p ng-message="pattern" class="color_font">Must be Alphanumeric.</p>
+                                                </div>
+
+                                            </div>
+
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+
+
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Mobile No.</div><!-- add for edit button click class 'label_display' -->
+
+                                                <input class="form-control border_none" placeholder="Mobile No" type="text" ng-model="add_supplier.mobile_number" ng-minlength="10" maxlength="10"  ng-required="true" onkeypress="return isNumber(event)" name="number">
+
+                                                <div ng-messages="expenseSupplier.number.$error" ng-show="expenseSupplier.number.$dirty">
+                                                    <p ng-message="required" class="color_font">This field is required.</p>
+                                                    <p ng-message="minlength" class="color_font">Required 10 digit.</p>
+                                                    <p ng-message="maxlength" class="color_font">Required 10 digit only.</p>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Address</div><!-- add for edit button click class 'label_display' -->
+
+                                                <input class="form-control border_none" placeholder="Address" type="text" ng-model="add_supplier.address_name"   >
+
+                                              <!--   <div ng-messages="expenseSupplier.number.$error" ng-show="expenseSupplier.number.$dirty">
+                                                    <p ng-message="required" class="color_font">This field is required.</p>
+                                                    <p ng-message="minlength" class="color_font">Required 10 digit.</p>
+                                                    <p ng-message="maxlength" class="color_font">Required 10 digit only.</p>
+                                                </div> -->
+
+                                            </div>
+                                             <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                                <div  ng-class="{label_display : active_lable}" class="label_none">Pan card</div><!-- add for edit button click class 'label_display' -->
+
+                                                <input class="form-control border_none" placeholder="Pan card" type="text" ng-model="add_supplier.pan_no">
+
+                                                <div ng-messages="expenseSupplier.number.$error" ng-show="expenseSupplier.number.$dirty">
+                                                    <p ng-message="required" class="color_font">This field is required.</p>
+                                                    <p ng-message="minlength" class="color_font">Required 10 digit.</p>
+                                                    <p ng-message="maxlength" class="color_font">Required 10 digit only.</p>
+                                                </div>
+
+                                            </div>
+
+                                            <!--<div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+                                            <div class="star">*</div>
+                                            <div  ng-class="{label_display : active_lable}" class="label_none">State </div>
+
+                                            <select class="form-control border_none color_f" data-ng-options="o.state_with_code for o in state_list" data-ng-model="state_id" data-ng-change="get_state()" name="state" ng-required="true" >
+                                                <option value="">Select State</option>
+                                            </select>
+                                            <div class="error-container" ng-show="expenseSupplier.state.$dirty && expenseSupplier.state.$invalid" ng-messages="expenseSupplier.state.$error">
+                                                <div class="error color_font" ng-message="required">This field is required.</div>
+                                            </div>
+                                            </div>-->
+                                       
+
+                                            <div>
+                                                <button class="btn btn-rounded btn-primary-outline margin-inline pull-right" type="button" ng-click="add_more_product()"><i class="fa fa-plus" aria-hidden="true"></i>Add Product</button>
+                                            </div>
+
+										</div>
+
+
+                                        <div class="top_t col-lg-12 col-md-12 col-sm-12 col-xs-12 padd_none">
+
+                                            <div class="sb-container container-example1 hei">
+                                                <div class="table_dis" id="fixedheader1">
+                                                    <table class="table table-hover table-bordered">
+                                                        <thead>
+                                                        <tr class="colorhead">
+                                                            <th>Product Code</th>
+                                                            <th>Product Name</th>
+                                                            <th>Unit Of Measure</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                        <tr ng-repeat="products in selected_product_array">
+
+                                                            <td><input class="form-control border_none" type="text" placeholder="Product Code" id="{{'product_code'+$index}}" ng-model="selected_product_array[$index].product_code" ng-keyup="get_product_text($index)"></td>
+
+                                                            <td>{{products.product_name}}</td>
+                                                            <td>{{products.measurement.measurement_name}}</td>
+                                                            <td>
+                                                                <a><i class="fa fa-trash-o font_six" title="Delete" aria-hidden="true" ng-click="removeProduct($index)"></i></a>
+                                                            </td>
+
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+	    							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<center>
+											<button class="btn btn-success-outline margin-inline" type="submit" ng-click="save_exp_supplier()" ng-hide="show_save" ng-disabled="expenseSupplier.$invalid">
+												<span class="top_p"><i class="icmn-share2"></i></span> Save
+											</button>
+		    							</center>
+									</div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <center>
+                                                <button class="btn btn-success-outline margin-inline" type="submit" ng-click="update_exp_supplier()" ng-show="show_save" ng-disabled="expenseSupplier.$invalid">
+                                                    <span class="top_p"><i class="icmn-share2"></i></span> Update
+                                                </button>
+                                            </center>
+                                        </div>
+
+									   </form>
+			                       </div>
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+						<div class="clearfix"></div>
+                           <!-- <div class="modal-footer bgcolor">
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+<!-- modal start -->
+
+<div class="modal fade modal-size-large" id="succ_error_popup" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bgcolor">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{popup_title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="nav-tabs-horizontal">
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <ul>
+                                  <li ng-repeat="error in product_error_array">
+                                      <div>{{$index+1}} ) </div>
+                                      <div>{{error}}</div>
+                                      <br>
+                                  </li>
+                              </ul>
+                              <div>{{product_success}}</div>
+                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                 <center>
+                                   <button class="btn btn-success-outline margin-inline" type="button" data-dismiss="modal">    OK
+                                   </button>
+                                 </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="generate_password" close-my-modal tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{title_text}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--<form name="form-validation" ng-submit="generateOTP ? product_generate_password() : product_verify_otp()">-->
+				<form name="formvalidation" ng-submit="generateOTP ? expSupplier_generate_password() : expSupplier_verify_otp()" novalidate>
+                    <div class="form-group" ng-hide="gen_pass_div">
+                        <label class="form-label">Comments</label>
+                        <input class="form-control border_none"
+                               placeholder="Comment"
+                               type="text"
+                               ng-model="comment.comment" name="comments" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true">
+							   <div ng-messages="formvalidation.comments.$error" ng-show="formvalidation.comments.$dirty">
+												
+												<p ng-message="pattern" class="color_font" class="color_font">Enter Alphabet only.</p>
+								</div>
+                    </div>
+                    <div class="form-group" ng-show="otp_div">
+                        <label class="form-label ">Enter OTP</label>
+                        <input class="form-control border_none"
+                               placeholder="OTP"
+                               type="text"
+                               ng-model="otp_object.otp">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6"><h5>{{pending_msg}}</h5></div>
+                            <div class="col-md-6">
+                                <!--<button type="button" class="btn" data-dismiss="modal">Close</button>-->
+                                <button type="submit" ng-hide="gen_pass_btn" class="btn btn-primary" ng-disabled="formvalidation.$invalid">Generate</button>
+                                <button type="submit" ng-show="verify_otp_btn"  class="btn btn-primary">Verify OTP</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .ui-autocomplete, ui-autocomplete-input {z-index:2147483647}
+</style>
+
+<script>
+$(".uppercase").bind('keyup', function (e) {
+   $(this).val(($(this).val()).toUpperCase());
+});
+</script>
+<script>
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}		  
+</script>
+<script>
+
+    $(document).ready(function()
+    {
+        if (screen.width < 767)
+        {
+				//alert('More than 960');
+            $('.table_dis').attr('class','table-responsive table_dis');
+
+        }
+        else
+        {
+            $('.table_dis').removeAttr('class');
+            // alert('More than 960');
+        }
+    });
+</script>
+<!-- header fixed -->
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader1").tableHeadFixer(); 
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fixedheader2").tableHeadFixer(); 
+			});
+		</script>
+		<!-- header fixed End-->
+
+<script type="text/javascript">
+$('input').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
+<script type="text/javascript">
+$('select').on('blur', function(){
+   $(this).prev('div').removeClass('label_none').addClass('label_display');
+}).on('focus', function(){
+  $(this).prev('div').removeClass('label_none').addClass('label_display');
+});
+
+</script>
